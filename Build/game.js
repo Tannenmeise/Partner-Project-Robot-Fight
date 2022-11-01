@@ -38,13 +38,39 @@ var Game;
             pose: {
                 lily: "Assets/Graphics/Characters/Lily/lily_silhouette.png",
                 louis: "Assets/Graphics/Characters/Louis/louis_silhouette.png",
-            },
+            }
         },
         lily: {
-            name: "Lily"
+            name: "Lily",
+            origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
+            pose: {
+                excited1: "Assets/Graphics/Characters/Lily/lily_excited_1.png",
+                excited2: "Assets/Graphics/Characters/Lily/lily_excited_2.png",
+                happy1: "Assets/Graphics/Characters/Lily/lily_happy_1.png",
+                happy2: "Assets/Graphics/Characters/Lily/lily_happy_2.png",
+                joyful1: "Assets/Graphics/Characters/Lily/lily_joyful_1.png",
+                joyful2: "Assets/Graphics/Characters/Lily/lily_joyful_2.png",
+                neutral1: "Assets/Graphics/Characters/Lily/lily_neutral_1.png",
+                neutral2: "Assets/Graphics/Characters/Lily/lily_neutral_2.png",
+                sad1: "Assets/Graphics/Characters/Lily/lily_sad_1.png",
+                sad2: "Assets/Graphics/Characters/Lily/lily_sad_2.png"
+            }
         },
         louis: {
-            name: "Louis"
+            name: "Louis",
+            origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
+            pose: {
+                angry1: "Assets/Graphics/Characters/Louis/louis_angry_1.png",
+                angry2: "Assets/Graphics/Characters/Louis/louis_angry_2.png",
+                happy1: "Assets/Graphics/Characters/Louis/louis_happy_1.png",
+                happy2: "Assets/Graphics/Characters/Louis/louis_happy_2.png",
+                joyful1: "Assets/Graphics/Characters/Louis/louis_joyful_1.png",
+                joyful2: "Assets/Graphics/Characters/Louis/louis_joyful_2.png",
+                neutral1: "Assets/Graphics/Characters/Louis/louis_neutral_1.png",
+                neutral2: "Assets/Graphics/Characters/Louis/louis_neutral_2.png",
+                sad1: "Assets/Graphics/Characters/Louis/louis_sad_1.png",
+                sad2: "Assets/Graphics/Characters/Louis/louis_sad_2.png",
+            }
         },
         luisa: {
             name: "Luisa"
@@ -53,7 +79,11 @@ var Game;
             name: "Geschichtslehrer"
         },
         roboticsTeacher: {
-            name: "Robotiklehrerin"
+            name: "Robotiklehrerin",
+            origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
+            pose: {
+                neutral: "Assets/Graphics/Characters/Teacher/teacher.png"
+            }
         }
     };
     window.addEventListener("load", start);
@@ -168,7 +198,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0015);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0016);
         // TODO: screen shake
-        await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.lily, Game.ƒS.positionPercent(70, 110));
+        await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.lily, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0000);
         await Game.ƒS.Speech.tell(Game.characters.student, text.student.T0000);
@@ -208,7 +238,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0034);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0035);
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0005);
-        await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.louis, Game.ƒS.positionPercent(70, 110));
+        await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.louis, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.student, text.student.T0001);
         studentRemark = await Game.ƒS.Menu.getInput(studentRemarkAnswer, "decisionClass");

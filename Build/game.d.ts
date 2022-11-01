@@ -41,9 +41,35 @@ declare namespace Game {
         };
         lily: {
             name: string;
+            origin: ƒ.ORIGIN2D;
+            pose: {
+                excited1: string;
+                excited2: string;
+                happy1: string;
+                happy2: string;
+                joyful1: string;
+                joyful2: string;
+                neutral1: string;
+                neutral2: string;
+                sad1: string;
+                sad2: string;
+            };
         };
         louis: {
             name: string;
+            origin: ƒ.ORIGIN2D;
+            pose: {
+                angry1: string;
+                angry2: string;
+                happy1: string;
+                happy2: string;
+                joyful1: string;
+                joyful2: string;
+                neutral1: string;
+                neutral2: string;
+                sad1: string;
+                sad2: string;
+            };
         };
         luisa: {
             name: string;
@@ -53,6 +79,10 @@ declare namespace Game {
         };
         roboticsTeacher: {
             name: string;
+            origin: ƒ.ORIGIN2D;
+            pose: {
+                neutral: string;
+            };
         };
     };
 }

@@ -78,6 +78,7 @@ namespace Game {
             ignore: "Ignorieren"
         }
         // #endregion (Decision)
+        
 
         // #region (Play)
         ƒS.Speech.hide();
@@ -105,7 +106,7 @@ namespace Game {
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0015);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0016);
         // TODO: screen shake
-        await ƒS.Character.show(characters.student, characters.student.pose.lily, ƒS.positionPercent(70, 110));
+        await ƒS.Character.show(characters.student, characters.student.pose.lily, ƒS.positionPercent(50, 100));
         await ƒS.update();
 
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T0000);
@@ -156,7 +157,7 @@ namespace Game {
 
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T0005);
 
-        await ƒS.Character.show(characters.student, characters.student.pose.louis, ƒS.positionPercent(70, 110));
+        await ƒS.Character.show(characters.student, characters.student.pose.louis, ƒS.positionPercent(50, 100));
         await ƒS.update();
 
         await ƒS.Speech.tell(characters.student, text.student.T0001);
