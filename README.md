@@ -7,7 +7,7 @@ ___
 
 ## Abgabe
 
-- [Lauffähige Anwendung](https://tannenmeise.github.io/Partner-Project-Robot_Fight/Build/game.html)
-- [Quellcode](https://github.com/Tannenmeise/Partner-Project-Robot_Fight/Build/tree/main/Source)
-- [Konzept](https://github.com/Tannenmeise/Missys-Teddy-Assembly/tree/main/Documents)
-- [Archiv](https://github.com/Tannenmeise/Missys-Teddy-Assembly/tree/main/Archive)
+- [Lauffähige Anwendung](https://tannenmeise.github.io/Partner-Project-Robot-Fight/game.html)
+- [Quellcode](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/tree/main/Source)
+- [Konzept](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/tree/main/Documents)
+- [Archiv](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/tree/main/Archive)
