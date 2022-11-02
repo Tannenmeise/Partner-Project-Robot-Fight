@@ -89,3 +89,9 @@ declare namespace Game {
 declare namespace Game {
     function scene_0_intro(): ƒS.SceneReturn;
 }
+declare namespace Game {
+    function scene_1_pinboards(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_2_history_lesson(): ƒS.SceneReturn;
+}
