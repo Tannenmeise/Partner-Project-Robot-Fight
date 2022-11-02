@@ -15,13 +15,26 @@ namespace Game {
     };
 
     export let sound = {
-        background: "PATH"
+        // music
+        background: "PATH",
+        // sounds
+        sparrows: "Assets/Audio/Sounds/sparrows.wav", // TODO: make ambient sound instead (mix of sparrows, wind and students)
+        enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
+        // TODO: bumping sound
+        bigCrowd: "Assets/Audio/Sounds/big_crowd.wav",
+        smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
+        footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav"
+        // TODO: chair squeaking sound when you sit down on your seat
     };
 
     export let locations = {
-        placeholder: {
-            name: "Placeholder",
-            background: "Assets/Graphics/Backgrounds/placeholder.png"
+        schoolBuilding: {
+            name: "School Building",
+            background: "Assets/Graphics/Backgrounds/school_building.png"
+        },
+        pinboards: {
+            name: "Pinboards",
+            background: "Assets/Graphics/Backgrounds/pinboards.png"
         },
         classroom: {
             name: "Classroom",

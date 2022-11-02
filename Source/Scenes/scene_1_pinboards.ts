@@ -74,7 +74,7 @@ namespace Game {
 
         // #region (Play)
         ƒS.Speech.hide();
-        await ƒS.Location.show(locations.placeholder);
+        await ƒS.Location.show(locations.pinboards);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
         await ƒS.update();
 
@@ -108,6 +108,8 @@ namespace Game {
 
         await ƒS.Character.hide(characters.student);
         await ƒS.update();
+
+        await ƒS.Sound.fade(sound.bigCrowd, 1, 5, true);
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0003);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0004);
@@ -167,6 +169,8 @@ namespace Game {
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0028);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0029);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0030);
+
+        await ƒS.Sound.fade(sound.bigCrowd, 0, 1, true);
         // #endregion (Play)
     }
 }

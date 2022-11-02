@@ -22,6 +22,9 @@ namespace Game {
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
         await ƒS.update();
 
+        ƒS.Sound.play(sound.footstepsTiles, 1, false);
+        await ƒS.Sound.fade(sound.smallCrowd, 1, 5, true);
+
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0000);
         // #endregion (Play)
     }

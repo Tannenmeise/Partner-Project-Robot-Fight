@@ -13,9 +13,18 @@ declare namespace Game {
     };
     let sound: {
         background: string;
+        sparrows: string;
+        enterSchoolBuilding: string;
+        bigCrowd: string;
+        smallCrowd: string;
+        footstepsTiles: string;
     };
     let locations: {
-        placeholder: {
+        schoolBuilding: {
+            name: string;
+            background: string;
+        };
+        pinboards: {
             name: string;
             background: string;
         };

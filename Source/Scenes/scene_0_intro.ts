@@ -41,9 +41,11 @@ namespace Game {
         
         // #region (Play)
         ƒS.Speech.hide();
-        await ƒS.Location.show(locations.placeholder);
+        await ƒS.Location.show(locations.schoolBuilding);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
         await ƒS.update();
+
+        ƒS.Sound.play(sound.sparrows, 1, true);
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0000);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0001);
@@ -60,6 +62,8 @@ namespace Game {
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0012);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0013);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0014);
+
+        ƒS.Sound.play(sound.enterSchoolBuilding, 1, false);
         // #endregion (Play)
     }
 }

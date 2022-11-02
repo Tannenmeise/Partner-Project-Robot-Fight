@@ -13,12 +13,25 @@ var Game;
         }
     };
     Game.sound = {
-        background: "PATH"
+        // music
+        background: "PATH",
+        // sounds
+        sparrows: "Assets/Audio/Sounds/sparrows.wav",
+        enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
+        // TODO: bumping sound
+        bigCrowd: "Assets/Audio/Sounds/big_crowd.wav",
+        smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
+        footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav"
+        // TODO: chair squeaking sound when you sit down on your seat
     };
     Game.locations = {
-        placeholder: {
-            name: "Placeholder",
-            background: "Assets/Graphics/Backgrounds/placeholder.png"
+        schoolBuilding: {
+            name: "School Building",
+            background: "Assets/Graphics/Backgrounds/school_building.png"
+        },
+        pinboards: {
+            name: "Pinboards",
+            background: "Assets/Graphics/Backgrounds/pinboards.png"
         },
         classroom: {
             name: "Classroom",
@@ -140,9 +153,10 @@ var Game;
         // #endregion (Text)
         // #region (Play)
         Game.ƒS.Speech.hide();
-        await Game.ƒS.Location.show(Game.locations.placeholder);
+        await Game.ƒS.Location.show(Game.locations.schoolBuilding);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         await Game.ƒS.update();
+        Game.ƒS.Sound.play(Game.sound.sparrows, 1, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0001);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0002);
@@ -158,6 +172,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0012);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0013);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0014);
+        Game.ƒS.Sound.play(Game.sound.enterSchoolBuilding, 1, false);
         // #endregion (Play)
     }
     Game.scene_0_intro = scene_0_intro;
@@ -234,7 +249,7 @@ var Game;
         // #endregion (Decision)
         // #region (Play)
         Game.ƒS.Speech.hide();
-        await Game.ƒS.Location.show(Game.locations.placeholder);
+        await Game.ƒS.Location.show(Game.locations.pinboards);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         await Game.ƒS.update();
         // TODO: transition to entry building
@@ -260,6 +275,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0002);
         await Game.ƒS.Character.hide(Game.characters.student);
         await Game.ƒS.update();
+        await Game.ƒS.Sound.fade(Game.sound.bigCrowd, 1, 5, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0003);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0004);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0005);
@@ -307,6 +323,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0028);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0029);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0030);
+        await Game.ƒS.Sound.fade(Game.sound.bigCrowd, 0, 1, true);
         // #endregion (Play)
     }
     Game.scene_1_pinboards = scene_1_pinboards;
@@ -332,6 +349,8 @@ var Game;
         await Game.ƒS.Location.show(Game.locations.classroom);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         await Game.ƒS.update();
+        Game.ƒS.Sound.play(Game.sound.footstepsTiles, 1, false);
+        await Game.ƒS.Sound.fade(Game.sound.smallCrowd, 1, 5, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
         // #endregion (Play)
     }
