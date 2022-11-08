@@ -10,21 +10,22 @@ namespace Game {
         binaryCode: {
             duration: 3,
             alpha: "Assets/Graphics/Transitions/binary_code.png",
-            edge: 1
+            edge: 0.5
         }
     };
 
-    export let sound = {
+    export let sounds = {
         // music
         background: "PATH",
         // sounds
         sparrows: "Assets/Audio/Sounds/sparrows.wav", // TODO: make ambient sound instead (mix of sparrows, wind and students)
         enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
-        // TODO: bumping sound
+        bump: "Assets/Audio/Sounds/bump.wav",
         bigCrowd: "Assets/Audio/Sounds/big_crowd.wav",
         smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
-        footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav"
-        // TODO: chair squeaking sound when you sit down on your seat
+        footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
+        automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
+        cloth: "Assets/Audio/Sounds/cloth.wav"
     };
 
     export let locations = {
@@ -54,7 +55,7 @@ namespace Game {
             origin: ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
                 lily: "Assets/Graphics/Characters/Lily/lily_silhouette.png",
-                louis: "Assets/Graphics/Characters/Louis/louis_silhouette.png",
+                louis: "Assets/Graphics/Characters/Louis/louis_silhouette.png"
             }
         },
         lily: {
@@ -86,7 +87,7 @@ namespace Game {
                 neutral1: "Assets/Graphics/Characters/Louis/louis_neutral_1.png",
                 neutral2: "Assets/Graphics/Characters/Louis/louis_neutral_2.png",
                 sad1: "Assets/Graphics/Characters/Louis/louis_sad_1.png",
-                sad2: "Assets/Graphics/Characters/Louis/louis_sad_2.png",
+                sad2: "Assets/Graphics/Characters/Louis/louis_sad_2.png"
             }
         },
         luisa: {

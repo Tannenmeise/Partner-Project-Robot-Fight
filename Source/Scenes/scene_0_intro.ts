@@ -19,7 +19,7 @@ namespace Game {
                 T0011: "Als wäre es manchmal nicht schwer genug seine Beine zum Unterricht zu bringen.",
                 T0012: "Aber heute ist ein guter Tag.",
                 T0013: "Der Wind ist dir wohl gesonnen.",
-                T0014: "Du trittst in das Eingangsgebäude ein.",
+                T0014: "Du trittst in das Eingangsgebäude ein."
             },
             protagonist: {
                 T0000: "Huch!",
@@ -45,7 +45,7 @@ namespace Game {
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
         await ƒS.update();
 
-        ƒS.Sound.play(sound.sparrows, 1, true);
+        ƒS.Sound.play(sounds.sparrows, 1, true); // TODO: cut or use different audio. this one has mic bump sounds in it
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0000);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0001);
@@ -63,7 +63,7 @@ namespace Game {
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0013);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0014);
 
-        ƒS.Sound.play(sound.enterSchoolBuilding, 1, false);
+        ƒS.Sound.play(sounds.enterSchoolBuilding, 1, false);
         // #endregion (Play)
     }
 }

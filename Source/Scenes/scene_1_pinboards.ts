@@ -68,7 +68,7 @@ namespace Game {
             argue: "Gereizt reagieren",
             apologize: "Entschuldigen",
             ignore: "Ignorieren"
-        }
+        };
         // #endregion (Decision)
         
 
@@ -78,11 +78,15 @@ namespace Game {
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
         await ƒS.update();
 
+        await ƒS.Sound.fade(sounds.sparrows, 0, 1, true);
 
-        // TODO: transition to entry building
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0000);
-        await ƒS.Speech.tell(characters.narrator, text.narrator.T0001);
+
+        ƒS.Sound.play(sounds.bump, 1, false);
         // TODO: screen shake
+
+        await ƒS.Speech.tell(characters.narrator, text.narrator.T0001);
+
         await ƒS.Character.show(characters.student, characters.student.pose.lily, ƒS.positionPercent(50, 100));
         await ƒS.update();
 
@@ -109,7 +113,7 @@ namespace Game {
         await ƒS.Character.hide(characters.student);
         await ƒS.update();
 
-        await ƒS.Sound.fade(sound.bigCrowd, 1, 5, true);
+        await ƒS.Sound.fade(sounds.bigCrowd, 1, 5, true);
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0003);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0004);
@@ -170,7 +174,7 @@ namespace Game {
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0029);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0030);
 
-        await ƒS.Sound.fade(sound.bigCrowd, 0, 1, true);
+        await ƒS.Sound.fade(sounds.bigCrowd, 0, 1, true);
         // #endregion (Play)
     }
 }

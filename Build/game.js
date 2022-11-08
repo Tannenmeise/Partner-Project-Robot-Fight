@@ -9,20 +9,21 @@ var Game;
         binaryCode: {
             duration: 3,
             alpha: "Assets/Graphics/Transitions/binary_code.png",
-            edge: 1
+            edge: 0.5
         }
     };
-    Game.sound = {
+    Game.sounds = {
         // music
         background: "PATH",
         // sounds
         sparrows: "Assets/Audio/Sounds/sparrows.wav",
         enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
-        // TODO: bumping sound
+        bump: "Assets/Audio/Sounds/bump.wav",
         bigCrowd: "Assets/Audio/Sounds/big_crowd.wav",
         smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
-        footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav"
-        // TODO: chair squeaking sound when you sit down on your seat
+        footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
+        automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
+        cloth: "Assets/Audio/Sounds/cloth.wav"
     };
     Game.locations = {
         schoolBuilding: {
@@ -50,7 +51,7 @@ var Game;
             origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
                 lily: "Assets/Graphics/Characters/Lily/lily_silhouette.png",
-                louis: "Assets/Graphics/Characters/Louis/louis_silhouette.png",
+                louis: "Assets/Graphics/Characters/Louis/louis_silhouette.png"
             }
         },
         lily: {
@@ -82,7 +83,7 @@ var Game;
                 neutral1: "Assets/Graphics/Characters/Louis/louis_neutral_1.png",
                 neutral2: "Assets/Graphics/Characters/Louis/louis_neutral_2.png",
                 sad1: "Assets/Graphics/Characters/Louis/louis_sad_1.png",
-                sad2: "Assets/Graphics/Characters/Louis/louis_sad_2.png",
+                sad2: "Assets/Graphics/Characters/Louis/louis_sad_2.png"
             }
         },
         luisa: {
@@ -132,7 +133,7 @@ var Game;
                 T0011: "Als wäre es manchmal nicht schwer genug seine Beine zum Unterricht zu bringen.",
                 T0012: "Aber heute ist ein guter Tag.",
                 T0013: "Der Wind ist dir wohl gesonnen.",
-                T0014: "Du trittst in das Eingangsgebäude ein.",
+                T0014: "Du trittst in das Eingangsgebäude ein."
             },
             protagonist: {
                 T0000: "Huch!",
@@ -156,7 +157,7 @@ var Game;
         await Game.ƒS.Location.show(Game.locations.schoolBuilding);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         await Game.ƒS.update();
-        Game.ƒS.Sound.play(Game.sound.sparrows, 1, true);
+        Game.ƒS.Sound.play(Game.sounds.sparrows, 1, true); // TODO: cut or use different audio. this one has mic bump sounds in it
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0001);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0002);
@@ -172,7 +173,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0012);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0013);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0014);
-        Game.ƒS.Sound.play(Game.sound.enterSchoolBuilding, 1, false);
+        Game.ƒS.Sound.play(Game.sounds.enterSchoolBuilding, 1, false);
         // #endregion (Play)
     }
     Game.scene_0_intro = scene_0_intro;
@@ -252,10 +253,11 @@ var Game;
         await Game.ƒS.Location.show(Game.locations.pinboards);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         await Game.ƒS.update();
-        // TODO: transition to entry building
+        await Game.ƒS.Sound.fade(Game.sounds.sparrows, 0, 1, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0001);
+        Game.ƒS.Sound.play(Game.sounds.bump, 1, false);
         // TODO: screen shake
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0001);
         await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.lily, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0000);
@@ -275,7 +277,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0002);
         await Game.ƒS.Character.hide(Game.characters.student);
         await Game.ƒS.update();
-        await Game.ƒS.Sound.fade(Game.sound.bigCrowd, 1, 5, true);
+        await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 1, 5, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0003);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0004);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0005);
@@ -323,7 +325,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0028);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0029);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0030);
-        await Game.ƒS.Sound.fade(Game.sound.bigCrowd, 0, 1, true);
+        await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 0, 1, true);
         // #endregion (Play)
     }
     Game.scene_1_pinboards = scene_1_pinboards;
@@ -335,7 +337,12 @@ var Game;
         // #region (Text) 
         let text = {
             narrator: {
-                T0000: "..."
+                T0000: "Du bist im Vorlesungsraum für die Geschichtsstunde angekommen.",
+                T0001: "Zielgerichtet gehst du auf deinen Platz zu.",
+                T0002: "Ein Platz in der vorletzten Reihe und direkt neben dem Fenster.",
+                T0003: "Mit erhobener Brust setzt du dich auf deinen Stuhl.",
+                T0004: "Pünktlich zum Gong, betritt der Geschichtsprofessor den Raum.",
+                T0005: "...",
             },
             protagonist: {
                 T0000: "..."
@@ -349,9 +356,14 @@ var Game;
         await Game.ƒS.Location.show(Game.locations.classroom);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         await Game.ƒS.update();
-        Game.ƒS.Sound.play(Game.sound.footstepsTiles, 1, false);
-        await Game.ƒS.Sound.fade(Game.sound.smallCrowd, 1, 5, true);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 1, 5, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0001);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0002);
+        Game.ƒS.Sound.play(Game.sounds.cloth, 1, false); // TODO: you can barely hear it because of the crowd
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0003);
         // #endregion (Play)
     }
     Game.scene_2_history_lesson = scene_2_history_lesson;

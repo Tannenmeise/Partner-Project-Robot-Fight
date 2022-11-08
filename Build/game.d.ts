@@ -11,13 +11,16 @@ declare namespace Game {
             edge: number;
         };
     };
-    let sound: {
+    let sounds: {
         background: string;
         sparrows: string;
         enterSchoolBuilding: string;
+        bump: string;
         bigCrowd: string;
         smallCrowd: string;
         footstepsTiles: string;
+        automaticDoor: string;
+        cloth: string;
     };
     let locations: {
         schoolBuilding: {
