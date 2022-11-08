@@ -7,7 +7,7 @@ namespace Game {
             narrator: {
                 T0000: "Kühle erfrischende Luft umhüllt dich.",
                 T0001: "Es drängt sich eine junge Frau an dir vorbei.",
-                T0002: "Schnellen Schrittes geht Sie auf die Pinnwände zu.",
+                T0002: "Schnellen Schrittes geht sie auf die Pinnwände zu.",
                 T0003: "Nun fällt dir die ungewöhnlich große Menschenmenge auf, die sich um die Pinnwände versammelt hat.",
                 T0004: "Neugierig bahnst du dir deinen Weg durch den Trubel, um einen besseren Blick erhaschen zu können.",
                 T0005: "Das größte und auffälligste Poster verkündet feierlich: 'Das diesjährige Robotik-Fest der Robert Robotik Hochschule findet am Freitag, den 22.07. statt.'",
@@ -74,9 +74,12 @@ namespace Game {
 
         // #region (Play)
         ƒS.Speech.hide();
-        await ƒS.Location.show(locations.pinboards);
+        await ƒS.Location.show(locations.white);
+        await ƒS.update(1);
+
+        await ƒS.Location.show(locations.pinboards1);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
-        await ƒS.update();
+
 
         await ƒS.Sound.fade(sounds.sparrows, 0, 1, true);
 
@@ -113,7 +116,10 @@ namespace Game {
         await ƒS.Character.hide(characters.student);
         await ƒS.update();
 
-        await ƒS.Sound.fade(sounds.bigCrowd, 1, 5, true);
+        await ƒS.Sound.fade(sounds.bigCrowd, 1, 1, true);
+
+        await ƒS.Location.show(locations.pinboards2);
+        await ƒS.update(2);
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0003);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0004);

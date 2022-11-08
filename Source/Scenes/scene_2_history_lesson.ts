@@ -10,7 +10,7 @@ namespace Game {
                 T0002: "Ein Platz in der vorletzten Reihe und direkt neben dem Fenster.",
                 T0003: "Mit erhobener Brust setzt du dich auf deinen Stuhl.",
                 T0004: "Pünktlich zum Gong, betritt der Geschichtsprofessor den Raum.",
-                T0005: "...",
+                T0005: "..."
             },
             protagonist: {
                 T0000: "..."
@@ -23,9 +23,12 @@ namespace Game {
         
         // #region (Play)
         ƒS.Speech.hide();
+        await ƒS.Location.show(locations.white);
+        await ƒS.update(1);
+
         await ƒS.Location.show(locations.classroom);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
-        await ƒS.update();
+
 
         ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         await ƒS.Sound.fade(sounds.smallCrowd, 1, 5, true);
@@ -37,7 +40,7 @@ namespace Game {
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0002);
 
-        ƒS.Sound.play(sounds.cloth, 1, false); // TODO: you can barely hear it because of the crowd
+        ƒS.Sound.play(sounds.chairScreeching, 1, false);
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0003);
 

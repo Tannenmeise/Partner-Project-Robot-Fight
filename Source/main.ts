@@ -25,17 +25,30 @@ namespace Game {
         smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
         footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
         automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
-        cloth: "Assets/Audio/Sounds/cloth.wav"
+        cloth: "Assets/Audio/Sounds/cloth.wav", // TODO: delete if not used. it's very quiet
+        chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav"
     };
 
     export let locations = {
+        black: {
+            name: "Black",
+            background: "Assets/Graphics/Backgrounds/black.png"
+        },
+        white: {
+            name: "White",
+            background: "Assets/Graphics/Backgrounds/white.png"
+        },
         schoolBuilding: {
             name: "School Building",
             background: "Assets/Graphics/Backgrounds/school_building.png"
         },
-        pinboards: {
-            name: "Pinboards",
-            background: "Assets/Graphics/Backgrounds/pinboards.png"
+        pinboards1: {
+            name: "Pinboards 1",
+            background: "Assets/Graphics/Backgrounds/pinboards_1.png"
+        },
+        pinboards2: {
+            name: "Pinboards 2",
+            background: "Assets/Graphics/Backgrounds/pinboards_2.png"
         },
         classroom: {
             name: "Classroom",

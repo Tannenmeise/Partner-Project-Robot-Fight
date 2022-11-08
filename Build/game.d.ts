@@ -21,13 +21,26 @@ declare namespace Game {
         footstepsTiles: string;
         automaticDoor: string;
         cloth: string;
+        chairScreeching: string;
     };
     let locations: {
+        black: {
+            name: string;
+            background: string;
+        };
+        white: {
+            name: string;
+            background: string;
+        };
         schoolBuilding: {
             name: string;
             background: string;
         };
-        pinboards: {
+        pinboards1: {
+            name: string;
+            background: string;
+        };
+        pinboards2: {
             name: string;
             background: string;
         };

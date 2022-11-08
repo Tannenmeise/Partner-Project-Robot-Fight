@@ -23,16 +23,29 @@ var Game;
         smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
         footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
         automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
-        cloth: "Assets/Audio/Sounds/cloth.wav"
+        cloth: "Assets/Audio/Sounds/cloth.wav",
+        chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav"
     };
     Game.locations = {
+        black: {
+            name: "Black",
+            background: "Assets/Graphics/Backgrounds/black.png"
+        },
+        white: {
+            name: "White",
+            background: "Assets/Graphics/Backgrounds/white.png"
+        },
         schoolBuilding: {
             name: "School Building",
             background: "Assets/Graphics/Backgrounds/school_building.png"
         },
-        pinboards: {
-            name: "Pinboards",
-            background: "Assets/Graphics/Backgrounds/pinboards.png"
+        pinboards1: {
+            name: "Pinboards 1",
+            background: "Assets/Graphics/Backgrounds/pinboards_1.png"
+        },
+        pinboards2: {
+            name: "Pinboards 2",
+            background: "Assets/Graphics/Backgrounds/pinboards_2.png"
         },
         classroom: {
             name: "Classroom",
@@ -187,7 +200,7 @@ var Game;
             narrator: {
                 T0000: "Kühle erfrischende Luft umhüllt dich.",
                 T0001: "Es drängt sich eine junge Frau an dir vorbei.",
-                T0002: "Schnellen Schrittes geht Sie auf die Pinnwände zu.",
+                T0002: "Schnellen Schrittes geht sie auf die Pinnwände zu.",
                 T0003: "Nun fällt dir die ungewöhnlich große Menschenmenge auf, die sich um die Pinnwände versammelt hat.",
                 T0004: "Neugierig bahnst du dir deinen Weg durch den Trubel, um einen besseren Blick erhaschen zu können.",
                 T0005: "Das größte und auffälligste Poster verkündet feierlich: 'Das diesjährige Robotik-Fest der Robert Robotik Hochschule findet am Freitag, den 22.07. statt.'",
@@ -250,9 +263,10 @@ var Game;
         // #endregion (Decision)
         // #region (Play)
         Game.ƒS.Speech.hide();
-        await Game.ƒS.Location.show(Game.locations.pinboards);
+        await Game.ƒS.Location.show(Game.locations.white);
+        await Game.ƒS.update(1);
+        await Game.ƒS.Location.show(Game.locations.pinboards1);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
-        await Game.ƒS.update();
         await Game.ƒS.Sound.fade(Game.sounds.sparrows, 0, 1, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
         Game.ƒS.Sound.play(Game.sounds.bump, 1, false);
@@ -277,7 +291,9 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0002);
         await Game.ƒS.Character.hide(Game.characters.student);
         await Game.ƒS.update();
-        await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 1, 5, true);
+        await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 1, 1, true);
+        await Game.ƒS.Location.show(Game.locations.pinboards2);
+        await Game.ƒS.update(2);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0003);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0004);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0005);
@@ -342,7 +358,7 @@ var Game;
                 T0002: "Ein Platz in der vorletzten Reihe und direkt neben dem Fenster.",
                 T0003: "Mit erhobener Brust setzt du dich auf deinen Stuhl.",
                 T0004: "Pünktlich zum Gong, betritt der Geschichtsprofessor den Raum.",
-                T0005: "...",
+                T0005: "..."
             },
             protagonist: {
                 T0000: "..."
@@ -353,16 +369,17 @@ var Game;
         // #endregion (Decision)
         // #region (Play)
         Game.ƒS.Speech.hide();
+        await Game.ƒS.Location.show(Game.locations.white);
+        await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroom);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
-        await Game.ƒS.update();
         Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 1, 5, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0001);
         Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0002);
-        Game.ƒS.Sound.play(Game.sounds.cloth, 1, false); // TODO: you can barely hear it because of the crowd
+        Game.ƒS.Sound.play(Game.sounds.chairScreeching, 1, false);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0003);
         // #endregion (Play)
     }
