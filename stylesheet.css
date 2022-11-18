@@ -27,7 +27,7 @@ canvas {
 /* SPLASH SCREEN */
 
 dialog[type=splash] {
-    background-image: url("Assets/Graphics/Logo/title.PNG");
+    background-image: url("Assets/Graphics/Splash/splash.PNG");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -56,16 +56,14 @@ dialog[type="splash"] > div > div {
 }
 
 #FudgeStoryLogo {
-    width: 50%;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-    border-radius: 15px;
+    width: 25%;
+    margin-left: 74vw;
 }
 
 /* SPEECH */
 
 speech {
+    visibility: hidden;
     position: absolute;
     display: block;
     padding: 20px;
@@ -89,6 +87,48 @@ speech name {
     font-size: 2vmin;
     font-family: 'DePixel', sans-serif;
     display: block;
-    color: rgb(164, 119, 190);
+    color: rgb(161, 195, 255);
     margin-bottom: 10px;
+}
+
+.gameMenuCSSClass {
+    margin-top: -9vh;
+    margin-right: 0vw;
+    background-color: rgb(0, 0, 0);
+    color: rgb(208, 201, 211);
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.gameMenuCSSClass button {
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(208, 201, 211);
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.gameMenuCSSClass button:hover {
+    color: rgb(240, 240, 240);
+}
+
+.decisionClass {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.decisionClass button {
+    text-align: center;
+    color: rgb(208, 201, 211);
+    background-color: rgba(0, 0, 0, 0.744);
+    width: 100%;
+    margin-top: 1vh;
+    padding: 0.5vh;
+    font-size: 2.5vh;
+}
+
+.decisionClass button:hover {
+    color: rgb(240, 240, 240);
+    background-color: rgba(0, 0, 0, 0.863);
 }

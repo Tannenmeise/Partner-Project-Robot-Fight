@@ -6,6 +6,68 @@ namespace Game {
 
     export let dataForSave = { nameProtagonist: "" };
 
+    // #region (MENU)
+    // menu shortcuts
+    let inGameMenuButtons = {
+        save: "Save",
+        load: "Load",
+        close: "Close",
+        credits: "Credits"
+    };
+
+    let gameMenu: ƒS.Menu;
+
+    let menuIsOpen: boolean = true;
+
+    async function buttonFunctionalities(_option: string): Promise<void> {
+        console.log(_option);
+        switch (_option) {
+            case inGameMenuButtons.save:
+                await ƒS.Progress.save(); // always saves, so that you start at the beginning of the scene you saved in
+                break;
+            case inGameMenuButtons.load:
+                await ƒS.Progress.load();
+                break;
+            case inGameMenuButtons.close:
+                gameMenu.close();
+                menuIsOpen = false;
+                break;
+            case inGameMenuButtons.credits:
+                break;
+            // inventory can be added this way too!!!
+        }
+    }
+
+    // menu shortcuts
+    document.addEventListener("keydown", handleKeyPress);
+    async function handleKeyPress(_event: KeyboardEvent): Promise<void> {
+        switch (_event.code) {
+            case ƒ.KEYBOARD_CODE.F8:
+                console.log("Save");
+                await ƒS.Progress.save();
+                break;
+            case ƒ.KEYBOARD_CODE.F9:
+                console.log("Load");
+                await ƒS.Progress.load();
+                break;
+            case ƒ.KEYBOARD_CODE.M:
+                if (menuIsOpen) {
+                    console.log("Close");
+                    gameMenu.close();
+                    menuIsOpen = false;
+                } else {
+                    console.log("Open");
+                    gameMenu.open();
+                    menuIsOpen = true;
+                }
+                break;
+            case ƒ.KEYBOARD_CODE.C:
+                console.log("Credits");
+                break;
+        }
+    }
+    // #endregion (MENU)
+
     export let transitions = {
         binaryCode: {
             duration: 3,
@@ -25,7 +87,7 @@ namespace Game {
         smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
         footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
         automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
-        cloth: "Assets/Audio/Sounds/cloth.wav", // TODO: delete if not used. it's very quiet
+        cloth: "Assets/Audio/Sounds/cloth.wav", // TODO: delete if not used. it's very quiet compared to crowd
         chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav"
     };
 
@@ -121,10 +183,15 @@ namespace Game {
     window.addEventListener("load", start);
 
     function start(_event: Event): void {
+        // menu
+        gameMenu = ƒS.Menu.create(inGameMenuButtons, buttonFunctionalities, "gameMenuCSSClass");
+        buttonFunctionalities("Close");
+
         let scenes: ƒS.Scenes = [
-            { scene: scene_0_intro, name: "Scene 0: Intro" },
-            { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
-            { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" }
+            //{ scene: scene_0_intro, name: "Scene 0: Intro" },
+            //{ scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
+            { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
+            { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" }
         ];
 
         let uiElement: HTMLElement = document.querySelector("[type=interface]");

@@ -120,3 +120,6 @@ declare namespace Game {
 declare namespace Game {
     function scene_2_history_lesson(): ƒS.SceneReturn;
 }
+declare namespace Game {
+    function scene_3_robotics_lesson(): ƒS.SceneReturn;
+}
