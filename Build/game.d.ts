@@ -22,6 +22,7 @@ declare namespace Game {
         automaticDoor: string;
         cloth: string;
         chairScreeching: string;
+        schoolBell: string;
     };
     let locations: {
         black: {
@@ -44,7 +45,11 @@ declare namespace Game {
             name: string;
             background: string;
         };
-        classroom: {
+        classroomHistory: {
+            name: string;
+            background: string;
+        };
+        classroomRobotics: {
             name: string;
             background: string;
         };
@@ -110,6 +115,10 @@ declare namespace Game {
             };
         };
     };
+    function slideFromLeftToMiddleAnimation(): ƒS.AnimationDefinition;
+    function slideFromRightToMiddleAnimation(): ƒS.AnimationDefinition;
+    function slideFromMiddleToLeftAnimation(): ƒS.AnimationDefinition;
+    function slideFromMiddleToRightAnimation(): ƒS.AnimationDefinition;
 }
 declare namespace Game {
     function scene_0_intro(): ƒS.SceneReturn;

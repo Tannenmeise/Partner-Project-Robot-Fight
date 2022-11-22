@@ -78,7 +78,7 @@ namespace Game {
         await ƒS.Location.show(locations.white);
         await ƒS.update(1);
 
-        await ƒS.Location.show(locations.classroom);
+        await ƒS.Location.show(locations.classroomHistory);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
 
 
@@ -96,9 +96,10 @@ namespace Game {
         ƒS.Sound.play(sounds.chairScreeching, 1, false);
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_003);
-        // TODO: gong/bell rings
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_004);
+
+        ƒS.Sound.play(sounds.schoolBell, 1, false);
 
         await ƒS.Speech.tell(characters.historyTeacher, text.historyTeacher.T00_00_000);
 
@@ -122,7 +123,7 @@ namespace Game {
                 ƒS.Speech.hide();
                 await ƒS.Location.show(locations.white);
                 await ƒS.update(1);
-                await ƒS.Location.show(locations.classroom);
+                await ƒS.Location.show(locations.classroomHistory);
                 await ƒS.update(1);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T01_00_000);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T01_00_001);
@@ -140,7 +141,7 @@ namespace Game {
                 await ƒS.update(1);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_003);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_004);
-                await ƒS.Location.show(locations.classroom);
+                await ƒS.Location.show(locations.classroomHistory);
                 await ƒS.update(1);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_005);
                 await ƒS.Speech.tell(characters.historyTeacher, text.historyTeacher.T02_00_000);
@@ -159,7 +160,7 @@ namespace Game {
                 ƒS.Speech.hide();
                 await ƒS.Location.show(locations.white);
                 await ƒS.update(1);
-                await ƒS.Location.show(locations.classroom);
+                await ƒS.Location.show(locations.classroomHistory);
                 await ƒS.update(1);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T03_00_007);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T03_00_008);

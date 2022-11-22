@@ -88,7 +88,8 @@ namespace Game {
         footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
         automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
         cloth: "Assets/Audio/Sounds/cloth.wav", // TODO: delete if not used. it's very quiet compared to crowd
-        chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav"
+        chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav",
+        schoolBell: "Assets/Audio/Sounds/school_bell.wav"
     };
 
     export let locations = {
@@ -112,9 +113,13 @@ namespace Game {
             name: "Pinboards 2",
             background: "Assets/Graphics/Backgrounds/pinboards_2.png"
         },
-        classroom: {
-            name: "Classroom",
-            background: "Assets/Graphics/Backgrounds/classroom.png"
+        classroomHistory: {
+            name: "Classroom History",
+            background: "Assets/Graphics/Backgrounds/classroom_history.png"
+        },
+        classroomRobotics: {
+            name: "Classroom Robotics",
+            background: "Assets/Graphics/Backgrounds/classroom_robotics.png"
         }
     };
 
@@ -126,7 +131,7 @@ namespace Game {
             name: "Du"
         },
         student: {
-            name: "Studierende",
+            name: "Student",
             origin: ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
                 lily: "Assets/Graphics/Characters/Lily/lily_silhouette.png",
@@ -180,6 +185,43 @@ namespace Game {
         }
     };
 
+    export function slideFromLeftToMiddleAnimation(): ƒS.AnimationDefinition {
+        return {
+        start: { translation: ƒS.positionPercent(20, 100) },
+        end: { translation: ƒS.positionPercent(50, 100) },
+        duration: 1,
+        playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+
+    export function slideFromRightToMiddleAnimation(): ƒS.AnimationDefinition {
+        return {
+        start: { translation: ƒS.positionPercent(80, 100) },
+        end: { translation: ƒS.positionPercent(50, 100) },
+        duration: 1,
+        playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+
+    export function slideFromMiddleToLeftAnimation(): ƒS.AnimationDefinition {
+        return {
+        start: { translation: ƒS.positionPercent(50, 100) },
+        end: { translation: ƒS.positionPercent(20, 100) },
+        duration: 1,
+        playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+
+    export function slideFromMiddleToRightAnimation(): ƒS.AnimationDefinition {
+        return {
+        start: { translation: ƒS.positionPercent(50, 100) },
+        end: { translation: ƒS.positionPercent(80, 100) },
+        duration: 1,
+        playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+
+
     window.addEventListener("load", start);
 
     function start(_event: Event): void {
@@ -190,7 +232,7 @@ namespace Game {
         let scenes: ƒS.Scenes = [
             //{ scene: scene_0_intro, name: "Scene 0: Intro" },
             //{ scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
-            { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
+            //{ scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" }
         ];
 
