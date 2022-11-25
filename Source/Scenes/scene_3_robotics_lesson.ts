@@ -55,7 +55,7 @@ namespace Game {
             lily: "Die Studentin rechts"
         };
         // #endregion (Decision)
-        
+
         // #region (Play)
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.white);
@@ -131,7 +131,7 @@ namespace Game {
                 await ƒS.update(0.5);
 
                 await ƒS.Character.animate(characters.lily, characters.lily.pose.neutral1, slideFromRightToMiddleAnimation());
-                
+
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_000);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_001);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_002);
@@ -161,7 +161,7 @@ namespace Game {
 
                 break;
             case partnerChoiceAnswer.lily:
-                
+
                 break;
         }
 

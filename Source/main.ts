@@ -185,39 +185,41 @@ namespace Game {
         }
     };
 
+    // TODO: Idee: jumpy (excited) animation for character
+
     export function slideFromLeftToMiddleAnimation(): ƒS.AnimationDefinition {
         return {
-        start: { translation: ƒS.positionPercent(20, 100) },
-        end: { translation: ƒS.positionPercent(50, 100) },
-        duration: 1,
-        playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
+            start: { translation: ƒS.positionPercent(20, 100) },
+            end: { translation: ƒS.positionPercent(50, 100) },
+            duration: 1,
+            playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
         };
     }
 
     export function slideFromRightToMiddleAnimation(): ƒS.AnimationDefinition {
         return {
-        start: { translation: ƒS.positionPercent(80, 100) },
-        end: { translation: ƒS.positionPercent(50, 100) },
-        duration: 1,
-        playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
+            start: { translation: ƒS.positionPercent(80, 100) },
+            end: { translation: ƒS.positionPercent(50, 100) },
+            duration: 1,
+            playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
         };
     }
 
     export function slideFromMiddleToLeftAnimation(): ƒS.AnimationDefinition {
         return {
-        start: { translation: ƒS.positionPercent(50, 100) },
-        end: { translation: ƒS.positionPercent(20, 100) },
-        duration: 1,
-        playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
+            start: { translation: ƒS.positionPercent(50, 100) },
+            end: { translation: ƒS.positionPercent(20, 100) },
+            duration: 1,
+            playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
         };
     }
 
     export function slideFromMiddleToRightAnimation(): ƒS.AnimationDefinition {
         return {
-        start: { translation: ƒS.positionPercent(50, 100) },
-        end: { translation: ƒS.positionPercent(80, 100) },
-        duration: 1,
-        playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
+            start: { translation: ƒS.positionPercent(50, 100) },
+            end: { translation: ƒS.positionPercent(80, 100) },
+            duration: 1,
+            playmode: ƒS.ANIMATION_PLAYMODE.PLAYONCE
         };
     }
 
@@ -231,8 +233,8 @@ namespace Game {
 
         let scenes: ƒS.Scenes = [
             //{ scene: scene_0_intro, name: "Scene 0: Intro" },
-            //{ scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
-            //{ scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
+            { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
+            { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" }
         ];
 

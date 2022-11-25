@@ -176,6 +176,7 @@ var Game;
             }
         }
     };
+    // TODO: Idee: jumpy (excited) animation for character
     function slideFromLeftToMiddleAnimation() {
         return {
             start: { translation: Game.ƒS.positionPercent(20, 100) },
@@ -219,8 +220,8 @@ var Game;
         buttonFunctionalities("Close");
         let scenes = [
             //{ scene: scene_0_intro, name: "Scene 0: Intro" },
-            //{ scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
-            //{ scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
+            { scene: Game.scene_1_pinboards, name: "Scene 1: Pinboards" },
+            { scene: Game.scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" }
         ];
         let uiElement = document.querySelector("[type=interface]");
@@ -373,7 +374,28 @@ var Game;
         await Game.ƒS.Sound.fade(Game.sounds.sparrows, 0, 1, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
         Game.ƒS.Sound.play(Game.sounds.bump, 1, false);
-        // TODO: screen shake
+        // #region (screen shake)
+        let graph = Game.ƒS.Base.getGraph();
+        graph.addComponent(new Game.ƒ.ComponentTransform());
+        let t = 0;
+        function jitter() {
+            let posX = 0;
+            posX = (Number(6 * Math.sin(0.15 * t + 1.6)));
+            t++;
+            if (t <= 64) {
+                graph.mtxLocal.translateX(posX);
+                Game.ƒS.update();
+            }
+        }
+        // start jitter
+        Game.ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, jitter);
+        await Game.ƒS.Progress.delay(2);
+        // stop jitter
+        Game.ƒ.Loop.removeEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, jitter);
+        // reset graph to original location
+        graph.mtxLocal.translateX(-1 * (graph.mtxLocal.translation.x));
+        await Game.ƒS.update();
+        // #endregion (screen shake)
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0001);
         await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.lily, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();

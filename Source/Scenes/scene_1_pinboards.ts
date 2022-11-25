@@ -80,13 +80,36 @@ namespace Game {
         await ƒS.Location.show(locations.pinboards1);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
 
-
         await ƒS.Sound.fade(sounds.sparrows, 0, 1, true);
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0000);
 
         ƒS.Sound.play(sounds.bump, 1, false);
-        // TODO: screen shake
+
+
+        // #region (screen shake)
+        let graph: ƒ.Node = ƒS.Base.getGraph();
+        graph.addComponent(new ƒ.ComponentTransform());
+        let t: number = 0;
+        function jitter(): void {
+            let posX: number = 0;
+            posX = (Number(6 * Math.sin(0.15 * t + 1.6)));
+            t++;
+            if (t <= 64) {
+                graph.mtxLocal.translateX(posX);
+                ƒS.update();
+            }
+        }
+        // start jitter
+        ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, jitter);
+        await ƒS.Progress.delay(2);
+        // stop jitter
+        ƒ.Loop.removeEventListener(ƒ.EVENT.LOOP_FRAME, jitter);
+        // reset graph to original location
+        graph.mtxLocal.translateX(-1 * (graph.mtxLocal.translation.x));
+        await ƒS.update();
+        // #endregion (screen shake)
+        
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T0001);
 
