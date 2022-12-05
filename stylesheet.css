@@ -67,12 +67,12 @@ speech {
     position: absolute;
     display: block;
     padding: 20px;
-    margin: 2vw;
+    margin-bottom: 4.3vh;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.863);
-    height: 15%;
+    height: 12%;
 }
 
 speech content {
@@ -92,10 +92,13 @@ speech name {
 }
 
 .gameMenuCSSClass {
-    margin-top: -9vh;
+    width: 100vw;
+    margin-top: -4.8vh;
     margin-right: 0vw;
-    background-color: rgb(0, 0, 0);
+    text-align: right;
+    background-color: rgba(0, 0, 0, 0.863);
     color: rgb(208, 201, 211);
+    padding: 0vh;
     border-color: rgba(0, 0, 0, 0);
 }
 
@@ -122,6 +125,7 @@ speech name {
     text-align: center;
     color: rgb(208, 201, 211);
     background-color: rgba(0, 0, 0, 0.744);
+    border-color: rgba(0, 0, 0, 0);
     width: 100%;
     margin-top: 1vh;
     padding: 0.5vh;
@@ -131,4 +135,9 @@ speech name {
 .decisionClass button:hover {
     color: rgb(240, 240, 240);
     background-color: rgba(0, 0, 0, 0.863);
+}
+
+#love-o-meter {
+    margin-top: -97vh;
+    margin-left: 92vw;
 }

@@ -2,7 +2,18 @@ declare namespace Game {
     export import ƒ = FudgeCore;
     export import ƒS = FudgeStory;
     let dataForSave: {
-        nameProtagonist: string;
+        protagonistName: string;
+        louisPoints: number;
+        lilyPoints: number;
+        bullyPoints: number;
+    };
+    let items: {
+        item1: {
+            name: string;
+            description: string;
+            image: string;
+            static: boolean;
+        };
     };
     let transitions: {
         binaryCode: {

@@ -1,6 +1,6 @@
 namespace Game {
     export async function scene_2_history_lesson(): ƒS.SceneReturn {
-        console.log("'scene_2_history_lesson' started");
+        console.log("scene_2_history_lesson started");
 
         // #region (Text) 
         let text = {

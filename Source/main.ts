@@ -4,15 +4,35 @@ namespace Game {
 
     console.log("'main.ts' started");
 
-    export let dataForSave = { nameProtagonist: "" };
+    export let dataForSave = {
+        protagonistName: "",
+        louisPoints: 0,
+        lilyPoints: 0,
+        bullyPoints: 0
+    };
+
+    function credits(): void {
+        ƒS.Text.print("");
+    }
+
+    export let items = {
+        item1: {
+            name: "Item-Name",
+            description: "Item-Beschreibung",
+            image: "Assets/Graphics/Items/item1.png",
+            static: true
+        }
+    };
 
     // #region (MENU)
     // menu shortcuts
     let inGameMenuButtons = {
         save: "Save",
         load: "Load",
-        close: "Close",
-        credits: "Credits"
+        inventory: "Inventory",
+        gallery: "Gallery",
+        credits: "Credits",
+        close: "Close"
     };
 
     let gameMenu: ƒS.Menu;
@@ -28,13 +48,18 @@ namespace Game {
             case inGameMenuButtons.load:
                 await ƒS.Progress.load();
                 break;
+            case inGameMenuButtons.inventory:
+                await ƒS.Inventory.open();
+                break;
+            case inGameMenuButtons.gallery:
+                break;
+            case inGameMenuButtons.credits:
+                credits();
+                break;
             case inGameMenuButtons.close:
                 gameMenu.close();
                 menuIsOpen = false;
                 break;
-            case inGameMenuButtons.credits:
-                break;
-            // inventory can be added this way too!!!
         }
     }
 
@@ -50,6 +75,16 @@ namespace Game {
                 console.log("Load");
                 await ƒS.Progress.load();
                 break;
+            case ƒ.KEYBOARD_CODE.I:
+                console.log("Inventory");
+                await ƒS.Inventory.open();
+                break;
+            case ƒ.KEYBOARD_CODE.G:
+                break;
+            case ƒ.KEYBOARD_CODE.C:
+                console.log("Credits");
+                credits();
+                break;
             case ƒ.KEYBOARD_CODE.M:
                 if (menuIsOpen) {
                     console.log("Close");
@@ -60,9 +95,6 @@ namespace Game {
                     gameMenu.open();
                     menuIsOpen = true;
                 }
-                break;
-            case ƒ.KEYBOARD_CODE.C:
-                console.log("Credits");
                 break;
         }
     }
@@ -232,7 +264,7 @@ namespace Game {
         buttonFunctionalities("Close");
 
         let scenes: ƒS.Scenes = [
-            //{ scene: scene_0_intro, name: "Scene 0: Intro" },
+            { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" }

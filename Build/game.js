@@ -4,14 +4,32 @@ var Game;
     Game.ƒ = FudgeCore;
     Game.ƒS = FudgeStory;
     console.log("'main.ts' started");
-    Game.dataForSave = { nameProtagonist: "" };
+    Game.dataForSave = {
+        protagonistName: "",
+        louisPoints: 0,
+        lilyPoints: 0,
+        bullyPoints: 0
+    };
+    function credits() {
+        Game.ƒS.Text.print("");
+    }
+    Game.items = {
+        item1: {
+            name: "Item-Name",
+            description: "Item-Beschreibung",
+            image: "Assets/Graphics/Items/item1.png",
+            static: true
+        }
+    };
     // #region (MENU)
     // menu shortcuts
     let inGameMenuButtons = {
         save: "Save",
         load: "Load",
-        close: "Close",
-        credits: "Credits"
+        inventory: "Inventory",
+        gallery: "Gallery",
+        credits: "Credits",
+        close: "Close"
     };
     let gameMenu;
     let menuIsOpen = true;
@@ -24,13 +42,18 @@ var Game;
             case inGameMenuButtons.load:
                 await Game.ƒS.Progress.load();
                 break;
+            case inGameMenuButtons.inventory:
+                await Game.ƒS.Inventory.open();
+                break;
+            case inGameMenuButtons.gallery:
+                break;
+            case inGameMenuButtons.credits:
+                credits();
+                break;
             case inGameMenuButtons.close:
                 gameMenu.close();
                 menuIsOpen = false;
                 break;
-            case inGameMenuButtons.credits:
-                break;
-            // inventory can be added this way too!!!
         }
     }
     // menu shortcuts
@@ -45,6 +68,16 @@ var Game;
                 console.log("Load");
                 await Game.ƒS.Progress.load();
                 break;
+            case Game.ƒ.KEYBOARD_CODE.I:
+                console.log("Inventory");
+                await Game.ƒS.Inventory.open();
+                break;
+            case Game.ƒ.KEYBOARD_CODE.G:
+                break;
+            case Game.ƒ.KEYBOARD_CODE.C:
+                console.log("Credits");
+                credits();
+                break;
             case Game.ƒ.KEYBOARD_CODE.M:
                 if (menuIsOpen) {
                     console.log("Close");
@@ -56,9 +89,6 @@ var Game;
                     gameMenu.open();
                     menuIsOpen = true;
                 }
-                break;
-            case Game.ƒ.KEYBOARD_CODE.C:
-                console.log("Credits");
                 break;
         }
     }
@@ -219,7 +249,7 @@ var Game;
         gameMenu = Game.ƒS.Menu.create(inGameMenuButtons, buttonFunctionalities, "gameMenuCSSClass");
         buttonFunctionalities("Close");
         let scenes = [
-            //{ scene: scene_0_intro, name: "Scene 0: Intro" },
+            { scene: Game.scene_0_intro, name: "Scene 0: Intro" },
             { scene: Game.scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: Game.scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" }
@@ -232,64 +262,39 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_0_intro() {
-        console.log("'scene_0_intro' started");
+        console.log("scene_0_intro started");
         // #region (Text) 
         let text = {
             narrator: {
-                T0000: "Ein neuer Tag an der Robert Robotik Hochschule.",
-                T0001: "Nach 4 Semestern hat sich das Gefühl von Gewohnheit endgültig eingenistet.",
-                T0002: "Nun bist du bereits Nahe des Endes des 5. Semesters angelangt.",
-                T0003: "Das Laufen zur Hochschule gleicht immer mehr einer gedankenlosen Trance.",
-                T0004: "Es ist immer der gleiche gewohnte Ablauf.",
-                T0005: "Beruhigend, aber auch etwas langweilig.",
-                T0006: "Die Stimmen der anderen Studierenden füllt die Luft.",
-                T0007: "Im Hintergund tönt das Zwitschern der Singvögel.",
-                T0008: "Der Wind bläst sanft durch Gestrüpp und Bäume.",
-                T0009: "Flora und Fauna in der Vormittagssonne erwachend.",
-                T0010: "An guten Tagen schiebt der Wind einen auch mal vorwärts statt rückwärts.",
-                T0011: "Als wäre es manchmal nicht schwer genug seine Beine zum Unterricht zu bringen.",
-                T0012: "Aber heute ist ein guter Tag.",
-                T0013: "Der Wind ist dir wohl gesonnen.",
-                T0014: "Du trittst in das Eingangsgebäude ein."
-            },
-            protagonist: {
-                T0000: "Huch!",
-                T0001: "Hey! Pass doch auf!",
-                T0002: "Nichts passiert.",
-                T0003: "...",
-                T0004: "Oh. Ich hatte völlig vergessen, dass es das gibt.",
-                T0005: "Fernbedienbare Robotik? Da bin ich ja drin. So ein Pech...",
-                T0006: "Ah, vielen Dank, Mister Besserwisser. Wie konnte ich nur so dumm sein!",
-                T0007: "Sorry...",
-                T0008: "..."
-            },
-            student: {
-                T0000: "Sorry!",
-                T0001: "Dieser Kurs steht doch jedes Mal auf dem Plan. Kein Grund sich zu wundern."
+                T00_00_000: "Ein neuer Tag an der Robert Robotik Hochschule.",
+                T00_00_001: "Nach 4 Semestern hat sich das Gefühl von Gewohnheit endgültig eingenistet. Nun bist du bereits Nahe des Endes des 5. Semesters angelangt.",
+                T00_00_002: "Das Laufen zur Hochschule gleicht immer mehr einer gedankenlosen Trance. Es ist immer der gleiche gewohnte Ablauf. Beruhigend, aber auch etwas langweilig.",
+                T00_00_003: "Das Zwitschern der Singvögel füllt die Luft. Der Wind bläst sanft durch Gestrüpp und Bäume. Flora und Fauna in der Vormittagssonne erwachend.",
+                T00_00_004: "An guten Tagen schiebt der Wind einen auch mal vorwärts statt rückwärts. Als wäre es manchmal nicht schwer genug seine Beine zum Unterricht zu bringen.",
+                T00_00_005: "Aber heute ist ein guter Tag. Der Wind ist dir wohl gesonnen.",
+                T00_00_006: "Du trittst in das Eingangsgebäude ein."
             }
         };
         // #endregion (Text)
         // #region (Play)
+        Game.ƒS.Inventory.add(Game.items.item1);
+        await Game.ƒS.Inventory.open();
+        // transition
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.schoolBuilding);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         await Game.ƒS.update();
-        Game.ƒS.Sound.play(Game.sounds.sparrows, 1, true); // TODO: cut or use different audio. this one has mic bump sounds in it
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0001);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0002);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0003);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0004);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0005);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0006);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0007);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0008);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0009);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0010);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0011);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0012);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0013);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0014);
+        // sound
+        Game.ƒS.Sound.play(Game.sounds.sparrows, 1, true);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_005);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_006);
+        // sound
         Game.ƒS.Sound.play(Game.sounds.enterSchoolBuilding, 1, false);
         // #endregion (Play)
     }
@@ -298,52 +303,45 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_1_pinboards() {
-        console.log("'scene_1_pinboards' started");
+        console.log("scene_1_pinboards started");
         // #region (Text) 
         let text = {
             narrator: {
-                T0000: "Kühle erfrischende Luft umhüllt dich.",
-                T0001: "Es drängt sich eine junge Frau an dir vorbei.",
-                T0002: "Schnellen Schrittes geht sie auf die Pinnwände zu.",
-                T0003: "Nun fällt dir die ungewöhnlich große Menschenmenge auf, die sich um die Pinnwände versammelt hat.",
-                T0004: "Neugierig bahnst du dir deinen Weg durch den Trubel, um einen besseren Blick erhaschen zu können.",
-                T0005: "Das größte und auffälligste Poster verkündet feierlich: 'Das diesjährige Robotik-Fest der Robert Robotik Hochschule findet am Freitag, den 22.07. statt.'",
-                T0006: "Deine Augen überfliegen das Poster nach weiteren wichtigen Informationen",
-                T0007: "'Von 10:00 bis 18:00 Uhr', steht geschrieben.",
-                T0008: "Gequetscht von links und rechts, versuchst du so schnell wie möglich hier fertig zu werden.",
-                T0009: "'Teilnehmer bestimmter Kurse haben am Schulfest teilzunehmen. Die betroffenen Kurse sind ersichtbar an allen großen Pinnwänden samt Matrikelnumern der Teilnehmer. Für mehr Informationen oder bei Problemen wenden Sie Sich an Ihre Dozenten.', steht es schwarz auf weiß.",
-                T0010: "Du kannst dich noch daran erinnern, wie du letztes Jahr mit Glück diesem Schicksal entkommen bist.",
-                T0011: "Es soll schonmal Studierende gegeben haben, die es ganz schlimm erwischt hat: Sie sollten zwei Projekte innerhalb von zwei Wochen fertigstellen.",
-                T0012: "Viel Kopfschmerzen und Burnout waren die Folge.",
-                T0013: "Diese wiederum gefolgt von einer Besauf-Party der Superlative. Aber das sei mal so dahingestellt.",
-                T0014: "Nach genügend Beschwerden über seelisches und körperliches Leid, wurde diese Art der Folterung zum Glück verboten.",
-                T0015: "Jetzt darf nur noch ein Projekt als Qual genügen.",
-                T0016: "Letztendlich gleitet dein Blick über den letzten Absatz des Posters.",
-                T0017: "'Betroffene Veranstaltungen:'",
-                T0018: "'- Installation von Licht und Sound'",
-                T0019: "'- Fortgeschrittene Sprachsimulation'",
-                T0020: "'- Fernbedienbare Robotik'",
-                T0021: "Und da war es. Ein Kurs, den du besuchst.",
-                T0022: "Da erklingt ein verärgerte Murmeln eines jungen Mannes.",
-                T0023: "Das darauffolgende stoßartige Ausatmen von ihm klang als müsste er erstmal durch das Ärgernis Dampf ablassen, das du in ihm erzeugt hast.",
-                T0024: "Du lenkst deine Aufmerksamkeit auf die an dem Kurs angeheftete Teilnehmerliste.",
-                T0025: "Jap, da steht auch deine Matrikelnummer.",
-                T0026: "Es steht fest.",
-                T0027: "Nun gibt es kein Entkommen.",
-                T0028: "Aber vorerst geht es zu deiner ersten Vorlesung für den Tag.",
-                T0029: "'Geschichte der Robotik'",
-                T0030: "Die perfekte Vorlesung, um die Gedanken schweifen zu lassen oder etwas Schlaf nachzuholen."
+                T00_00_000: "Kühle erfrischende Luft umhüllt dich.",
+                T00_00_001: "Es drängt sich eine junge Frau an dir vorbei.",
+                T00_00_002: "Schnellen Schrittes geht sie auf die Pinnwände zu.",
+                T00_00_003: "Nun fällt dir die ungewöhnlich große Menschenmenge auf, die sich um die Pinnwände versammelt hat.",
+                T00_00_004: "Neugierig bahnst du dir deinen Weg durch den Trubel, um einen besseren Blick erhaschen zu können.",
+                T00_00_005: "Das größte und auffälligste Poster verkündet feierlich: 'Das diesjährige Robotik-Fest der Robert Robotik Hochschule findet am Freitag, den 22.07. statt.'",
+                T00_00_006: "Deine Augen überfliegen das Poster nach weiteren wichtigen Informationen",
+                T00_00_007: "'Von 10:00 bis 18:00 Uhr', steht geschrieben.",
+                T00_00_008: "Gequetscht von links und rechts, versuchst du so schnell wie möglich hier fertig zu werden.",
+                T00_00_009: "'Teilnehmer bestimmter Kurse haben am Schulfest teilzunehmen. Die betroffenen Kurse sind ersichtbar an allen großen Pinnwänden samt Matrikelnumern der Teilnehmer. Für mehr Informationen oder bei Problemen wenden Sie Sich an Ihre Dozenten.', steht es schwarz auf weiß.",
+                T00_00_010: "Du kannst dich noch daran erinnern, wie du letztes Jahr mit Glück diesem Schicksal entkommen bist.",
+                T00_00_011: "Es soll schonmal Studierende gegeben haben, die es ganz schlimm erwischt hat: Sie sollten zwei Projekte innerhalb von zwei Wochen fertigstellen.",
+                T00_00_012: "Viel Kopfschmerzen und Burnout waren die Folge.",
+                T00_00_013: "Diese wiederum gefolgt von einer Besauf-Party der Superlative. Aber das sei mal so dahingestellt.",
+                T00_00_014: "Nach genügend Beschwerden über seelisches und körperliches Leid, wurde diese Art der Folterung zum Glück verboten.",
+                T00_00_015: "Jetzt darf nur noch ein Projekt als Qual genügen.",
+                T00_00_016: "Letztendlich gleitet dein Blick über den letzten Absatz des Posters.",
+                T00_00_017: "'Betroffene Veranstaltungen: Installation von Licht und Sound, Fortgeschrittene Sprachsimulation und Fernbedienbare Robotik.'",
+                T00_00_018: "Und da war es. Ein Kurs, den du besuchst.",
+                T00_00_019: "Da erklingt ein verärgerte Murmeln eines jungen Mannes.",
+                T00_00_020: "Das darauffolgende stoßartige Ausatmen von ihm klang als müsste er erstmal durch das Ärgernis Dampf ablassen, das du in ihm erzeugt hast.",
+                T00_00_021: "Du lenkst deine Aufmerksamkeit auf die an dem Kurs angeheftete Teilnehmerliste.",
+                T00_00_022: "Jap, da steht auch deine Matrikelnummer. Es steht fest. Nun gibt es kein Entkommen.",
+                T00_00_023: "Aber vorerst geht es zu deiner ersten Vorlesung für den Tag: 'Geschichte der Robotik'. Die perfekte Vorlesung, um die Gedanken schweifen zu lassen oder etwas Schlaf nachzuholen."
             },
             protagonist: {
-                T0000: "Huch!",
-                T0001: "Hey! Pass doch auf!",
-                T0002: "Nichts passiert.",
-                T0003: "...",
-                T0004: "Oh. Ich hatte völlig vergessen, dass es das gibt.",
-                T0005: "Fernbedienbare Robotik? Da bin ich ja drin. So ein Pech...",
-                T0006: "Ah, vielen Dank, Mister Besserwisser. Wie konnte ich nur so dumm sein!",
-                T0007: "Sorry...",
-                T0008: "..."
+                T00_00_000: "Huch!",
+                T01_00_000: "Hey! Pass doch auf!",
+                T02_00_000: "Nichts passiert.",
+                T03_00_000: "...",
+                T00_00_001: "Oh. Ich hatte völlig vergessen, dass es das gibt.",
+                T00_00_002: "Fernbedienbare Robotik? Da bin ich ja drin. So ein Pech...",
+                T04_00_000: "Ah, vielen Dank, Mister Besserwisser. Wie konnte ich nur so dumm sein!",
+                T05_00_000: "Sorry...",
+                T06_00_000: "..."
             },
             student: {
                 T0000: "Sorry!",
@@ -366,13 +364,18 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
+        // transition
+        Game.ƒS.Speech.clear();
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.white);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.pinboards1);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        // sound
         await Game.ƒS.Sound.fade(Game.sounds.sparrows, 0, 1, true);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0000);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
+        // sound
         Game.ƒS.Sound.play(Game.sounds.bump, 1, false);
         // #region (screen shake)
         let graph = Game.ƒS.Base.getGraph();
@@ -396,76 +399,89 @@ var Game;
         graph.mtxLocal.translateX(-1 * (graph.mtxLocal.translation.x));
         await Game.ƒS.update();
         // #endregion (screen shake)
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0001);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
+        // show character
         await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.lily, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
-        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0000);
+        // text
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.student, text.student.T0000);
+        // decision
         bumpIntoStudent = await Game.ƒS.Menu.getInput(bumpIntoStudentAnswer, "decisionClass");
         switch (bumpIntoStudent) {
             case bumpIntoStudentAnswer.complain:
-                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0001);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
                 break;
             case bumpIntoStudentAnswer.soothe:
-                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0002);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
                 break;
             case bumpIntoStudentAnswer.ignore:
-                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0003);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T03_00_000);
                 break;
         }
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0002);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
+        // hide character
         await Game.ƒS.Character.hide(Game.characters.student);
         await Game.ƒS.update();
+        // sound
         await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 1, 1, true);
+        // show crowd
         await Game.ƒS.Location.show(Game.locations.pinboards2);
         await Game.ƒS.update(2);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0003);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0004);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0005);
-        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0004);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0006);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0007);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0008);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0009);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0010);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0011);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0012);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0013);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0014);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0015);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0016);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0017);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0018);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0019);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0020);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0021);
-        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0005);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0022);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_005);
+        // text
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_001);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_006);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_007);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_008);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_009);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_010);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_011);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_012);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_013);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_014);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_015);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_016);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_017);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_018);
+        // text
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_002);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_019);
+        // show character
         await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.louis, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
+        // text
         await Game.ƒS.Speech.tell(Game.characters.student, text.student.T0001);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0023);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_020);
+        // decision
         studentRemark = await Game.ƒS.Menu.getInput(studentRemarkAnswer, "decisionClass");
         switch (studentRemark) {
             case studentRemarkAnswer.argue:
-                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0006);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_000);
                 break;
             case studentRemarkAnswer.apologize:
-                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0007);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T05_00_000);
                 break;
             case studentRemarkAnswer.ignore:
-                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T0008);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T06_00_000);
                 break;
         }
+        // hide character
         await Game.ƒS.Character.hide(Game.characters.student);
         await Game.ƒS.update();
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0024);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0025);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0026);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0027);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0028);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0029);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T0030);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_021);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_022);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_023);
+        // sound fade
         await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 0, 1, true);
         // #endregion (Play)
     }
@@ -474,7 +490,7 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_2_history_lesson() {
-        console.log("'scene_2_history_lesson' started");
+        console.log("scene_2_history_lesson started");
         // #region (Text) 
         let text = {
             narrator: {
@@ -626,7 +642,7 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_3_robotics_lesson() {
-        console.log("'scene_3_robotics_lesson' started");
+        console.log("scene_3_robotics_lesson started");
         // #region (Text) 
         let text = {
             narrator: {
