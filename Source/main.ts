@@ -30,7 +30,6 @@ namespace Game {
         save: "Save",
         load: "Load",
         inventory: "Inventory",
-        gallery: "Gallery",
         credits: "Credits",
         close: "Close"
     };
@@ -50,8 +49,6 @@ namespace Game {
                 break;
             case inGameMenuButtons.inventory:
                 await ƒS.Inventory.open();
-                break;
-            case inGameMenuButtons.gallery:
                 break;
             case inGameMenuButtons.credits:
                 credits();
@@ -78,8 +75,6 @@ namespace Game {
             case ƒ.KEYBOARD_CODE.I:
                 console.log("Inventory");
                 await ƒS.Inventory.open();
-                break;
-            case ƒ.KEYBOARD_CODE.G:
                 break;
             case ƒ.KEYBOARD_CODE.C:
                 console.log("Credits");
@@ -152,6 +147,14 @@ namespace Game {
         classroomRobotics: {
             name: "Classroom Robotics",
             background: "Assets/Graphics/Backgrounds/classroom_robotics.png"
+        },
+        classroomFest: {
+            name: "Classroom Fest",
+            background: "Assets/Graphics/Backgrounds/classroom_fest.png"
+        },
+        schoolBuildingFest: {
+            name: "Classroom Fest",
+            background: "Assets/Graphics/Backgrounds/school_building_fest.png"
         }
     };
 

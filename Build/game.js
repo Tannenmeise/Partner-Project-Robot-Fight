@@ -27,7 +27,6 @@ var Game;
         save: "Save",
         load: "Load",
         inventory: "Inventory",
-        gallery: "Gallery",
         credits: "Credits",
         close: "Close"
     };
@@ -44,8 +43,6 @@ var Game;
                 break;
             case inGameMenuButtons.inventory:
                 await Game.ƒS.Inventory.open();
-                break;
-            case inGameMenuButtons.gallery:
                 break;
             case inGameMenuButtons.credits:
                 credits();
@@ -71,8 +68,6 @@ var Game;
             case Game.ƒ.KEYBOARD_CODE.I:
                 console.log("Inventory");
                 await Game.ƒS.Inventory.open();
-                break;
-            case Game.ƒ.KEYBOARD_CODE.G:
                 break;
             case Game.ƒ.KEYBOARD_CODE.C:
                 console.log("Credits");
@@ -143,6 +138,14 @@ var Game;
         classroomRobotics: {
             name: "Classroom Robotics",
             background: "Assets/Graphics/Backgrounds/classroom_robotics.png"
+        },
+        classroomFest: {
+            name: "Classroom Fest",
+            background: "Assets/Graphics/Backgrounds/classroom_fest.png"
+        },
+        schoolBuildingFest: {
+            name: "Classroom Fest",
+            background: "Assets/Graphics/Backgrounds/school_building_fest.png"
         }
     };
     Game.characters = {

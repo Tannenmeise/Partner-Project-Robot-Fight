@@ -64,6 +64,14 @@ declare namespace Game {
             name: string;
             background: string;
         };
+        classroomFest: {
+            name: string;
+            background: string;
+        };
+        schoolBuildingFest: {
+            name: string;
+            background: string;
+        };
     };
     let characters: {
         narrator: {
