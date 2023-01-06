@@ -3,6 +3,7 @@ declare namespace Game {
     export import ƒS = FudgeStory;
     let dataForSave: {
         protagonistName: string;
+        partnerChosen: string;
         louisPoints: number;
         lilyPoints: number;
         bullyPoints: number;
@@ -24,15 +25,17 @@ declare namespace Game {
     };
     let sounds: {
         background: string;
-        sparrows: string;
-        enterSchoolBuilding: string;
-        bump: string;
-        bigCrowd: string;
-        smallCrowd: string;
-        footstepsTiles: string;
+        robotFight: string;
         automaticDoor: string;
-        cloth: string;
+        bigCrowd: string;
+        bump: string;
         chairScreeching: string;
+        cloth: string;
+        damage: string;
+        enterSchoolBuilding: string;
+        footstepsTiles: string;
+        smallCrowd: string;
+        sparrows: string;
         schoolBell: string;
     };
     let locations: {
@@ -69,6 +72,14 @@ declare namespace Game {
             background: string;
         };
         schoolBuildingFest: {
+            name: string;
+            background: string;
+        };
+        storageRoom: {
+            name: string;
+            background: string;
+        };
+        storageRoomDark: {
             name: string;
             background: string;
         };
@@ -133,11 +144,32 @@ declare namespace Game {
                 neutral: string;
             };
         };
+        tankBot: {
+            name: string;
+            origin: ƒ.ORIGIN2D;
+            pose: {
+                neutral: string;
+                enemy: string;
+            };
+        };
+        carBot: {
+            name: string;
+            origin: ƒ.ORIGIN2D;
+            pose: {
+                neutral: string;
+                enemy: string;
+            };
+        };
     };
     function slideFromLeftToMiddleAnimation(): ƒS.AnimationDefinition;
     function slideFromRightToMiddleAnimation(): ƒS.AnimationDefinition;
     function slideFromMiddleToLeftAnimation(): ƒS.AnimationDefinition;
     function slideFromMiddleToRightAnimation(): ƒS.AnimationDefinition;
+    function robotAttack(): ƒS.AnimationDefinition;
+    function robotCharge(): ƒS.AnimationDefinition;
+    function robotDodge(): ƒS.AnimationDefinition;
+    function robotEnemyAttack(): ƒS.AnimationDefinition;
+    function robotEnemyDodge(): ƒS.AnimationDefinition;
 }
 declare namespace Game {
     function scene_0_intro(): ƒS.SceneReturn;
@@ -150,4 +182,28 @@ declare namespace Game {
 }
 declare namespace Game {
     function scene_3_robotics_lesson(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_4_storage_room(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_5a_date_louis(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_5b_date_lily(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_5c_date_none(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_6_robot_fight(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_7a_ending_louis(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_7b_ending_lily(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_8_end(): ƒS.SceneReturn;
 }

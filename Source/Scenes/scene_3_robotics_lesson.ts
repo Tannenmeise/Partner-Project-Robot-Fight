@@ -158,10 +158,10 @@ namespace Game {
 
         switch (partnerChoice) {
             case partnerChoiceAnswer.louis:
-
+                dataForSave.partnerChosen = "Louis";
                 break;
             case partnerChoiceAnswer.lily:
-
+                dataForSave.partnerChosen = "Lily";
                 break;
         }
 

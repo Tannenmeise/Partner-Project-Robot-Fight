@@ -6,6 +6,7 @@ var Game;
     console.log("'main.ts' started");
     Game.dataForSave = {
         protagonistName: "",
+        partnerChosen: "",
         louisPoints: 0,
         lilyPoints: 0,
         bullyPoints: 0
@@ -98,16 +99,18 @@ var Game;
     Game.sounds = {
         // music
         background: "PATH",
+        robotFight: "Assets/Audio/Music/robot_fight.wav",
         // sounds
-        sparrows: "Assets/Audio/Sounds/sparrows.wav",
-        enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
-        bump: "Assets/Audio/Sounds/bump.wav",
-        bigCrowd: "Assets/Audio/Sounds/big_crowd.wav",
-        smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
-        footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
         automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
-        cloth: "Assets/Audio/Sounds/cloth.wav",
+        bigCrowd: "Assets/Audio/Sounds/big_crowd.wav",
+        bump: "Assets/Audio/Sounds/bump.wav",
         chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav",
+        cloth: "Assets/Audio/Sounds/cloth.wav",
+        damage: "Assets/Audio/Sounds/damage.wav",
+        enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
+        footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
+        smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
+        sparrows: "Assets/Audio/Sounds/sparrows.wav",
         schoolBell: "Assets/Audio/Sounds/school_bell.wav"
     };
     Game.locations = {
@@ -146,6 +149,14 @@ var Game;
         schoolBuildingFest: {
             name: "Classroom Fest",
             background: "Assets/Graphics/Backgrounds/school_building_fest.png"
+        },
+        storageRoom: {
+            name: "Storage Room",
+            background: "Assets/Graphics/Backgrounds/storage_room.png"
+        },
+        storageRoomDark: {
+            name: "Storage Room Dark",
+            background: "Assets/Graphics/Backgrounds/storage_room_dark.png"
         }
     };
     Game.characters = {
@@ -207,6 +218,22 @@ var Game;
             pose: {
                 neutral: "Assets/Graphics/Characters/Teacher/teacher.png"
             }
+        },
+        tankBot: {
+            name: "Panzer-bot",
+            origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
+            pose: {
+                neutral: "Assets/Graphics/Characters/TankBot/tank_bot.png",
+                enemy: "Assets/Graphics/Characters/TankBot/tank_bot_enemy.png"
+            }
+        },
+        carBot: {
+            name: "Auto-bot",
+            origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
+            pose: {
+                neutral: "Assets/Graphics/Characters/CarBot/car_bot.png",
+                enemy: "Assets/Graphics/Characters/CarBot/car_bot_enemy.png"
+            }
         }
     };
     // TODO: Idee: jumpy (excited) animation for character
@@ -246,17 +273,71 @@ var Game;
         };
     }
     Game.slideFromMiddleToRightAnimation = slideFromMiddleToRightAnimation;
+    function robotAttack() {
+        return {
+            start: { translation: Game.ƒS.positionPercent(29, 70) },
+            end: { translation: Game.ƒS.positionPercent(55, 70) },
+            duration: 1,
+            playmode: Game.ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+    Game.robotAttack = robotAttack;
+    function robotCharge() {
+        return {
+            start: { color: Game.ƒ.Color.CSS("", 1) },
+            end: { color: Game.ƒ.Color.CSS("red", 1) },
+            duration: 1,
+            playmode: Game.ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+    Game.robotCharge = robotCharge;
+    function robotDodge() {
+        return {
+            start: { translation: Game.ƒS.positionPercent(29, 70) },
+            end: { translation: Game.ƒS.positionPercent(18, 70) },
+            duration: 1,
+            playmode: Game.ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+    Game.robotDodge = robotDodge;
+    function robotEnemyAttack() {
+        return {
+            start: { translation: Game.ƒS.positionPercent(78, 70) },
+            end: { translation: Game.ƒS.positionPercent(52, 70) },
+            duration: 1,
+            playmode: Game.ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+    Game.robotEnemyAttack = robotEnemyAttack;
+    function robotEnemyDodge() {
+        return {
+            start: { translation: Game.ƒS.positionPercent(78, 70) },
+            end: { translation: Game.ƒS.positionPercent(89, 70) },
+            duration: 1,
+            playmode: Game.ƒS.ANIMATION_PLAYMODE.PLAYONCE
+        };
+    }
+    Game.robotEnemyDodge = robotEnemyDodge;
     window.addEventListener("load", start);
     function start(_event) {
         // menu
         gameMenu = Game.ƒS.Menu.create(inGameMenuButtons, buttonFunctionalities, "gameMenuCSSClass");
         buttonFunctionalities("Close");
         let scenes = [
-            { scene: Game.scene_0_intro, name: "Scene 0: Intro" },
-            { scene: Game.scene_1_pinboards, name: "Scene 1: Pinboards" },
-            { scene: Game.scene_2_history_lesson, name: "Scene 2: History Lesson" },
-            { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" }
-            // TODO: empty scene (end of visual novel) noch einfügen!
+            /*
+            { scene: scene_0_intro, name: "Scene 0: Intro" },
+            { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
+            { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
+            { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
+            { scene: scene_4_storage_room, name: "Scene 4: Storage Room" },
+            { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis" },
+            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily" },
+            { scene: scene_5c_date_none, name: "Scene 5c: Date None" },
+            */
+            { scene: Game.scene_6_robot_fight, name: "Scene 6: Robot Fight" },
+            { scene: Game.scene_7a_ending_louis, name: "Scene 7a: Ending Louis" },
+            { scene: Game.scene_7b_ending_lily, name: "Scene 7b: Ending Lily" },
+            { scene: Game.scene_8_end, name: "Scene 8: End" }
         ];
         let uiElement = document.querySelector("[type=interface]");
         Game.dataForSave = Game.ƒS.Progress.setData(Game.dataForSave, uiElement);
@@ -281,8 +362,11 @@ var Game;
         };
         // #endregion (Text)
         // #region (Play)
-        Game.ƒS.Inventory.add(Game.items.item1);
-        await Game.ƒS.Inventory.open();
+        // TODO: DELETE
+        /*
+        ƒS.Inventory.add(items.item1);
+        await ƒS.Inventory.open();
+        */
         // transition
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.schoolBuilding);
@@ -768,12 +852,381 @@ var Game;
         partnerChoice = await Game.ƒS.Menu.getInput(partnerChoiceAnswer, "decisionClass");
         switch (partnerChoice) {
             case partnerChoiceAnswer.louis:
+                Game.dataForSave.partnerChosen = "Louis";
                 break;
             case partnerChoiceAnswer.lily:
+                Game.dataForSave.partnerChosen = "Lily";
                 break;
         }
         // #endregion (Play)
     }
     Game.scene_3_robotics_lesson = scene_3_robotics_lesson;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_4_storage_room() {
+        console.log("scene_4_storage_room started");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        // #endregion (Play)
+    }
+    Game.scene_4_storage_room = scene_4_storage_room;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_5a_date_louis() {
+        console.log("scene_5a_date_louis started");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        // #endregion (Play)
+    }
+    Game.scene_5a_date_louis = scene_5a_date_louis;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_5b_date_lily() {
+        console.log("scene_5b_date_lily started");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        // #endregion (Play)
+    }
+    Game.scene_5b_date_lily = scene_5b_date_lily;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_5c_date_none() {
+        console.log("scene_5c_date_none started");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        // #endregion (Play)
+    }
+    Game.scene_5c_date_none = scene_5c_date_none;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_6_robot_fight() {
+        console.log("scene_6_robot_fight started");
+        // #region (Text) 
+        let text = {
+            narrator: {
+                TEST: "TEST",
+                TankAttack0: "Panzer-bot setzt Stoßen ein.",
+                TankAttack1: "Panzer-bot setzt Umstoßen ein.",
+                TankAttack2: "Panzer-bot setzt Aufladen ein.",
+                TankAttack3: "Panzer-bot setzt Ausweichen ein.",
+                CarAttack0: "Auto-bot setzt Stoßen ein.",
+                CarAttackl: "Auto-bot setzt Umstoßen ein.",
+                CarAttack2: "Auto-bot setzt Aufladen ein.",
+                CarAttack3: "Auto-bot setzt Ausweichen ein.",
+                AttackFailed: "Attacke ist fehlgeschlagen."
+            }
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        let chooseAction;
+        let chooseActionAnswer = {
+            fight: "Kampf",
+            items: "Items",
+            robot: "Roboter",
+            flee: "Flucht"
+        };
+        let chooseAttack;
+        let chooseAttackAnswer = {
+            bump: "Stoßen",
+            knockOver: "Umstoßen",
+            charge: "Aufladen",
+            dodge: "Ausweichen"
+        };
+        // #endregion (Decision)
+        // #region (Play)
+        // text
+        await Game.ƒS.Location.show(Game.locations.classroomFest);
+        //await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
+        await Game.ƒS.update();
+        Game.ƒS.Sound.play(Game.sounds.robotFight, 1, true);
+        let health = 100;
+        let enemyHealth = 100;
+        let damageFactor = 1;
+        let enemyDamageFactor = 1;
+        let chosenAttack;
+        let enemyChosenAttack;
+        Game.dataForSave.partnerChosen = "Louis";
+        switch (Game.dataForSave.partnerChosen) {
+            case "Louis":
+                await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.ƒS.positionPercent(29, 70));
+                await Game.ƒS.Character.show(Game.characters.carBot, Game.characters.carBot.pose.enemy, Game.ƒS.positionPercent(78, 70));
+                await Game.ƒS.update();
+                break;
+            case "Lily":
+                await Game.ƒS.Character.show(Game.characters.carBot, Game.characters.carBot.pose.neutral, Game.ƒS.positionPercent(29, 70));
+                await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.ƒS.positionPercent(78, 70));
+                await Game.ƒS.update();
+                break;
+        }
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TEST);
+        // decision
+        while (health > 0 && enemyHealth > 0) {
+            // user's turn
+            chooseAction = await Game.ƒS.Menu.getInput(chooseActionAnswer, "decisionRobotFight");
+            switch (chooseAction) {
+                case chooseActionAnswer.fight:
+                    chooseAttack = await Game.ƒS.Menu.getInput(chooseAttackAnswer, "decisionClass");
+                    switch (chooseAttack) {
+                        case chooseAttackAnswer.bump:
+                            chosenAttack = 0;
+                            break;
+                        case chooseAttackAnswer.knockOver:
+                            chosenAttack = 1;
+                            break;
+                        case chooseAttackAnswer.charge:
+                            chosenAttack = 2;
+                            break;
+                        case chooseAttackAnswer.dodge:
+                            chosenAttack = 3;
+                            break;
+                    }
+                    break;
+                case chooseActionAnswer.robot:
+                    // TODO: "Are you sure?"
+                    // TODO: load "changing robot"-ending
+                    break;
+                case chooseActionAnswer.items:
+                    if (Game.dataForSave.partnerChosen == "Louis") {
+                        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
+                        // TODO: insert louis giving a hint here
+                        await Game.ƒS.Character.hide(Game.characters.louis);
+                    }
+                    else {
+                        await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(50, 100));
+                        // TODO: insert lily giving a hint here
+                        await Game.ƒS.Character.hide(Game.characters.lily);
+                    }
+                    break;
+                case chooseActionAnswer.flee:
+                    // TODO: "Are you sure?"
+                    // TODO: load "fleeing"-ending
+                    break;
+            }
+            // enemy's turn
+            let roll = Math.random();
+            console.log(roll);
+            switch (true) {
+                // enemy uses "Stoßen"
+                case (roll < 0.25):
+                    enemyChosenAttack = 0;
+                    break;
+                // enemy uses "Umstoßen"
+                case (roll < 0.5):
+                    enemyChosenAttack = 1;
+                    break;
+                // enemy uses "Aufladen"
+                case (roll < 0.75):
+                    enemyChosenAttack = 2;
+                    break;
+                // enemy uses "Ausweichen"
+                case (roll <= 1):
+                    enemyChosenAttack = 3;
+                    break;
+            }
+            // user's turn evaluation
+            switch (chosenAttack) {
+                case 0:
+                    if (Game.dataForSave.partnerChosen == "Louis") {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack0);
+                        await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.robotAttack());
+                        await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.ƒS.positionPercent(29, 70));
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttack0);
+                        await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.neutral, Game.robotAttack());
+                        await Game.ƒS.Character.show(Game.characters.carBot, Game.characters.carBot.pose.neutral, Game.ƒS.positionPercent(29, 70));
+                    }
+                    if (enemyChosenAttack != 3) {
+                        enemyHealth -= 10 * damageFactor;
+                        Game.ƒS.Sound.play(Game.sounds.damage, 1, false);
+                    }
+                    break;
+                case 1:
+                    if (Game.dataForSave.partnerChosen == "Louis") {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack1);
+                        await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.robotAttack());
+                        await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.ƒS.positionPercent(29, 70));
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttackl);
+                        await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.neutral, Game.robotAttack());
+                        await Game.ƒS.Character.show(Game.characters.carBot, Game.characters.carBot.pose.neutral, Game.ƒS.positionPercent(29, 70));
+                    }
+                    if (Math.random() > 0.67 && enemyChosenAttack != 3) { // (> 0.67) = 33% chance
+                        enemyHealth -= 50 * damageFactor;
+                        Game.ƒS.Sound.play(Game.sounds.damage, 1, false);
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.AttackFailed);
+                    }
+                    break;
+                case 2:
+                    if (Game.dataForSave.partnerChosen == "Louis") {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack2);
+                        await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.robotCharge());
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttack2);
+                        await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.neutral, Game.robotCharge());
+                    }
+                    damageFactor = 2;
+                    break;
+                case 3:
+                    if (Game.dataForSave.partnerChosen == "Louis") {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack3);
+                        await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.robotDodge());
+                        await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.ƒS.positionPercent(29, 70));
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttack3);
+                        await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.neutral, Game.robotDodge());
+                        await Game.ƒS.Character.show(Game.characters.carBot, Game.characters.carBot.pose.neutral, Game.ƒS.positionPercent(29, 70));
+                    }
+                    break;
+            }
+            // enemy's turn evaluation
+            switch (enemyChosenAttack) {
+                case (0):
+                    if (Game.dataForSave.partnerChosen == "Louis") {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttack0);
+                        await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.enemy, Game.robotEnemyAttack());
+                        await Game.ƒS.Character.show(Game.characters.carBot, Game.characters.carBot.pose.enemy, Game.ƒS.positionPercent(78, 70));
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack0);
+                        await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.robotEnemyAttack());
+                        await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.ƒS.positionPercent(78, 70));
+                    }
+                    if (chosenAttack != 3) {
+                        health -= 10 * enemyDamageFactor;
+                        Game.ƒS.Sound.play(Game.sounds.damage, 1, false);
+                    }
+                    break;
+                case (1):
+                    if (Game.dataForSave.partnerChosen == "Louis") {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttackl);
+                        await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.enemy, Game.robotEnemyAttack());
+                        await Game.ƒS.Character.show(Game.characters.carBot, Game.characters.carBot.pose.enemy, Game.ƒS.positionPercent(78, 70));
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack1);
+                        await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.robotEnemyAttack());
+                        await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.ƒS.positionPercent(78, 70));
+                    }
+                    if (Math.random() > 0.67 && chosenAttack != 3) { // (> 0.67) = 33% chance
+                        health -= 50 * damageFactor;
+                        Game.ƒS.Sound.play(Game.sounds.damage, 1, false);
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.AttackFailed);
+                    }
+                    break;
+                case (2):
+                    if (Game.dataForSave.partnerChosen == "Louis") {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttack2);
+                        await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.enemy, Game.robotCharge());
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack2);
+                        await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.robotCharge());
+                    }
+                    enemyDamageFactor = 2;
+                    break;
+                case (3):
+                    if (Game.dataForSave.partnerChosen == "Louis") {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttack3);
+                        await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.enemy, Game.robotEnemyDodge());
+                        await Game.ƒS.Character.show(Game.characters.carBot, Game.characters.carBot.pose.enemy, Game.ƒS.positionPercent(78, 70));
+                    }
+                    else {
+                        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack3);
+                        await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.robotEnemyDodge());
+                        await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.ƒS.positionPercent(78, 70));
+                    }
+                    break;
+            }
+            console.log("Your health: " + health + " | Enemy's health: " + enemyHealth);
+            console.log("1 round over");
+        }
+        // #endregion (Play)
+    }
+    Game.scene_6_robot_fight = scene_6_robot_fight;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_7a_ending_louis() {
+        console.log("scene_7a_ending_louis started");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        // #endregion (Play)
+    }
+    Game.scene_7a_ending_louis = scene_7a_ending_louis;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_7b_ending_lily() {
+        console.log("scene_7b_ending_lily started");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        // #endregion (Play)
+    }
+    Game.scene_7b_ending_lily = scene_7b_ending_lily;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_8_end() {
+        console.log("scene_8_end started");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        // #endregion (Play)
+    }
+    Game.scene_8_end = scene_8_end;
 })(Game || (Game = {}));
 //# sourceMappingURL=game.js.map

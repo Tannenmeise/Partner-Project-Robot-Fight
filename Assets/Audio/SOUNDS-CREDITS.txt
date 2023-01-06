@@ -1,0 +1,50 @@
+Music:
+-------
+robot_fight.wav
+- "Short loop made in a few minutes with QWS and GoldWave", sonically_sound, August 23rd, 2022
+- https://freesound.org/people/sonically_sound/sounds/647908/
+
+Sound:
+-------
+automatic_door.wav
+- "automatic_door.wav", ACorcuera, April 18th, 2013
+- https://freesound.org/people/ACorcuera/sounds/185311/
+
+big_crowd.wav
+- "Crowd at Cafeteria", sonically_sound, March 22nd, 2022
+- https://freesound.org/people/sonically_sound/sounds/625112/
+
+bump.wav
+- "17 Volleyball - Bump.wav", 14GPanskaValaChristoffer, February 28th, 2018
+- https://freesound.org/people/14GPanskaValaChristoffer/sounds/420171/
+
+chair_screeching.wav
+- "Chair Screeching.mp3", VIPERSTRONG, October 28th, 2022
+- https://freesound.org/people/VIPERSTRONG/sounds/655737/
+
+cloth.wav
+- "cloth flaps 2", exe2be, April 11th, 2020
+- https://freesound.org/people/exe2be/sounds/512739/
+
+damage.wav
+- "8-bit Hurt1.aif", timgormly, November 20th, 2012
+- https://freesound.org/people/timgormly/sounds/170148/
+
+enter_school_building.wav
+- self-combined with "automatic_door.wav" & "footsteps_tiles.wav"
+
+footsteps_tiles.wav
+- "Footsteps_Walk.wav", Nox_Sound, November 1st, 2019
+- https://freesound.org/people/Nox_Sound/sounds/490951/
+
+small_crowd.wav
+- "Small Crowd pre-concert talking party bar walla talking", JohnsonBrandEditing, July 23rd, 2014
+- https://freesound.org/people/JohnsonBrandEditing/sounds/243373/
+
+sparrows.wav
+- "Sparrows.wav", JKata, March 31st, 2022
+- https://freesound.org/people/JKata/sounds/626174/
+
+school_bell.wav
+- "School bell.wav", deleted_user_7020630, January 29th, 2017
+- https://freesound.org/people/deleted_user_7020630/sounds/378394/

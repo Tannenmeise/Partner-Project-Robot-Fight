@@ -67,7 +67,7 @@ speech {
     position: absolute;
     display: block;
     padding: 20px;
-    margin-bottom: 4.3vh;
+    margin-bottom: 4.2vh;
     left: 0;
     right: 0;
     bottom: 0;
@@ -93,7 +93,7 @@ speech name {
 
 .gameMenuCSSClass {
     width: 100vw;
-    margin-top: -4.8vh;
+    bottom: 0;
     margin-right: 0vw;
     text-align: right;
     background-color: rgba(0, 0, 0, 0.863);
@@ -133,6 +133,35 @@ speech name {
 }
 
 .decisionClass button:hover {
+    color: rgb(240, 240, 240);
+    background-color: rgba(0, 0, 0, 0.863);
+}
+
+.decisionRobotFight {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    text-align: left;
+    flex-wrap: wrap;
+    margin-right: 0;
+    margin-bottom: 4.3vh;
+    width: 20vw;
+    background-color: rgb(208, 201, 211);;
+}
+
+.decisionRobotFight button {
+    text-align: left;
+    color: rgb(208, 201, 211);
+    background-color: rgba(0, 0, 0, 0.744);
+    border-color: rgb(208, 201, 211);
+    border-style: solid;
+    width: 10vw;
+    margin-top: 1vh;
+    padding: 1vh;
+    font-size: 2.5vh;
+}
+
+.decisionRobotFight button:hover {
     color: rgb(240, 240, 240);
     background-color: rgba(0, 0, 0, 0.863);
 }

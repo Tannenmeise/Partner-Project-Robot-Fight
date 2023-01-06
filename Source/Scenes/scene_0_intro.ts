@@ -18,10 +18,12 @@ namespace Game {
         
         // #region (Play)
 
+        // TODO: DELETE
+        /*
         ƒS.Inventory.add(items.item1);
-
         await ƒS.Inventory.open();
-
+        */
+       
         
         // transition
         ƒS.Speech.hide();
