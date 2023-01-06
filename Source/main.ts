@@ -155,6 +155,14 @@ namespace Game {
         schoolBuildingFest: {
             name: "Classroom Fest",
             background: "Assets/Graphics/Backgrounds/school_building_fest.png"
+        },
+        storageRoom: {
+            name: "Storage Room",
+            background: "Assets/Graphics/Backgrounds/storage_room.png"
+        },
+        storageRoomDark: {
+            name: "Storage Room Dark",
+            background: "Assets/Graphics/Backgrounds/storage_room_dark.png"
         }
     };
 
@@ -271,6 +279,7 @@ namespace Game {
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" }
+            // TODO: empty scene (end of visual novel) noch einfügen!
         ];
 
         let uiElement: HTMLElement = document.querySelector("[type=interface]");

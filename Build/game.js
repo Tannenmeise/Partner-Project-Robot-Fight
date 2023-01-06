@@ -256,6 +256,7 @@ var Game;
             { scene: Game.scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: Game.scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" }
+            // TODO: empty scene (end of visual novel) noch einfügen!
         ];
         let uiElement = document.querySelector("[type=interface]");
         Game.dataForSave = Game.ƒS.Progress.setData(Game.dataForSave, uiElement);
