@@ -330,14 +330,16 @@ var Game;
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
             { scene: scene_4_storage_room, name: "Scene 4: Storage Room" },
-            { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis" },
-            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily" },
-            { scene: scene_5c_date_none, name: "Scene 5c: Date None" },
+            { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
+            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id; "dateLily" },
+            { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
             */
             { scene: Game.scene_6_robot_fight, name: "Scene 6: Robot Fight" },
-            { scene: Game.scene_7a_ending_louis, name: "Scene 7a: Ending Louis" },
-            { scene: Game.scene_7b_ending_lily, name: "Scene 7b: Ending Lily" },
-            { scene: Game.scene_8_end, name: "Scene 8: End" }
+            { scene: Game.scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis" },
+            { scene: Game.scene_7b_ending_lily, name: "Scene 7b: Ending Lily", id: "endLily" },
+            { scene: Game.scene_7c_ending_robot, name: "Scene 7c: Ending Robot", id: "endRobot" },
+            { scene: Game.scene_7d_ending_flee, name: "Scene 7d: Ending Flee", id: "endFlee" },
+            { scene: Game.scene_8_end, name: "Scene 8: End", id: "end" }
         ];
         let uiElement = document.querySelector("[type=interface]");
         Game.dataForSave = Game.ƒS.Progress.setData(Game.dataForSave, uiElement);
@@ -942,7 +944,8 @@ var Game;
                 CarAttackl: "Auto-bot setzt Umstoßen ein.",
                 CarAttack2: "Auto-bot setzt Aufladen ein.",
                 CarAttack3: "Auto-bot setzt Ausweichen ein.",
-                AttackFailed: "Attacke ist fehlgeschlagen."
+                AttackFailed: "Attacke ist fehlgeschlagen.",
+                AreYouSure: "Bist du dir sicher?"
             }
         };
         // #endregion (Text)
@@ -961,6 +964,11 @@ var Game;
             charge: "Aufladen",
             dodge: "Ausweichen"
         };
+        let confirmation;
+        let confirmationAnswer = {
+            yes: "Ja",
+            no: "Nein"
+        };
         // #endregion (Decision)
         // #region (Play)
         // text
@@ -974,6 +982,7 @@ var Game;
         let enemyDamageFactor = 1;
         let chosenAttack;
         let enemyChosenAttack;
+        document.getElementById("fightBars").setAttribute("style", "visibility: visible");
         Game.dataForSave.partnerChosen = "Louis";
         switch (Game.dataForSave.partnerChosen) {
             case "Louis":
@@ -1011,8 +1020,14 @@ var Game;
                     }
                     break;
                 case chooseActionAnswer.robot:
-                    // TODO: "Are you sure?"
-                    // TODO: load "changing robot"-ending
+                    await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.AreYouSure);
+                    confirmation = await Game.ƒS.Menu.getInput(confirmationAnswer, "decisionClass");
+                    switch (confirmation) {
+                        case confirmationAnswer.yes:
+                            return "endRobot";
+                        case confirmationAnswer.no:
+                            break;
+                    }
                     break;
                 case chooseActionAnswer.items:
                     if (Game.dataForSave.partnerChosen == "Louis") {
@@ -1027,13 +1042,18 @@ var Game;
                     }
                     break;
                 case chooseActionAnswer.flee:
-                    // TODO: "Are you sure?"
-                    // TODO: load "fleeing"-ending
+                    await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.AreYouSure);
+                    confirmation = await Game.ƒS.Menu.getInput(confirmationAnswer, "decisionClass");
+                    switch (confirmation) {
+                        case confirmationAnswer.yes:
+                            return "endFlee";
+                        case confirmationAnswer.no:
+                            break;
+                    }
                     break;
             }
             // enemy's turn
             let roll = Math.random();
-            console.log(roll);
             switch (true) {
                 // enemy uses "Stoßen"
                 case (roll < 0.25):
@@ -1068,6 +1088,7 @@ var Game;
                     if (enemyChosenAttack != 3) {
                         enemyHealth -= 10 * damageFactor;
                         Game.ƒS.Sound.play(Game.sounds.damage, 1, false);
+                        document.getElementById("enemyHealthBar").setAttribute("value", String(enemyHealth));
                     }
                     break;
                 case 1:
@@ -1084,6 +1105,7 @@ var Game;
                     if (Math.random() > 0.67 && enemyChosenAttack != 3) { // (> 0.67) = 33% chance
                         enemyHealth -= 50 * damageFactor;
                         Game.ƒS.Sound.play(Game.sounds.damage, 1, false);
+                        document.getElementById("enemyHealthBar").setAttribute("value", String(enemyHealth));
                     }
                     else {
                         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.AttackFailed);
@@ -1113,6 +1135,8 @@ var Game;
                     }
                     break;
             }
+            if (enemyHealth <= 0)
+                break;
             // enemy's turn evaluation
             switch (enemyChosenAttack) {
                 case (0):
@@ -1129,6 +1153,7 @@ var Game;
                     if (chosenAttack != 3) {
                         health -= 10 * enemyDamageFactor;
                         Game.ƒS.Sound.play(Game.sounds.damage, 1, false);
+                        document.getElementById("healthBar").setAttribute("value", String(health));
                     }
                     break;
                 case (1):
@@ -1145,6 +1170,7 @@ var Game;
                     if (Math.random() > 0.67 && chosenAttack != 3) { // (> 0.67) = 33% chance
                         health -= 50 * damageFactor;
                         Game.ƒS.Sound.play(Game.sounds.damage, 1, false);
+                        document.getElementById("healthBar").setAttribute("value", String(health));
                     }
                     else {
                         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.AttackFailed);
@@ -1174,8 +1200,20 @@ var Game;
                     }
                     break;
             }
-            console.log("Your health: " + health + " | Enemy's health: " + enemyHealth);
-            console.log("1 round over");
+        }
+        if (health <= 0) {
+            console.log("You lost.");
+        }
+        else {
+            console.log("You won.");
+        }
+        await Game.ƒS.Sound.fade(Game.sounds.robotFight, 0, 1, true);
+        document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
+        switch (Game.dataForSave.partnerChosen) {
+            case "Louis":
+                return "endLouis";
+            case "Lily":
+                return "endLily";
         }
         // #endregion (Play)
     }
@@ -1193,6 +1231,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        return "end";
         // #endregion (Play)
     }
     Game.scene_7a_ending_louis = scene_7a_ending_louis;
@@ -1209,9 +1248,44 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        return "end";
         // #endregion (Play)
     }
     Game.scene_7b_ending_lily = scene_7b_ending_lily;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_7c_ending_robot() {
+        console.log("scene_7c_ending_robot");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        return "end";
+        // #endregion (Play)
+    }
+    Game.scene_7c_ending_robot = scene_7c_ending_robot;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_7d_ending_flee() {
+        console.log("scene_7d_ending_flee started");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        return "end";
+        // #endregion (Play)
+    }
+    Game.scene_7d_ending_flee = scene_7d_ending_flee;
 })(Game || (Game = {}));
 var Game;
 (function (Game) {

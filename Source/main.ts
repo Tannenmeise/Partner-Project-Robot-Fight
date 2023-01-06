@@ -350,14 +350,16 @@ namespace Game {
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
             { scene: scene_4_storage_room, name: "Scene 4: Storage Room" },
-            { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis" },
-            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily" },
-            { scene: scene_5c_date_none, name: "Scene 5c: Date None" },
+            { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
+            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id; "dateLily" },
+            { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
             */
             { scene: scene_6_robot_fight, name: "Scene 6: Robot Fight" },
-            { scene: scene_7a_ending_louis, name: "Scene 7a: Ending Louis" },
-            { scene: scene_7b_ending_lily, name: "Scene 7b: Ending Lily" },
-            { scene: scene_8_end, name: "Scene 8: End" }
+            { scene: scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis"},
+            { scene: scene_7b_ending_lily, name: "Scene 7b: Ending Lily", id: "endLily" },
+            { scene: scene_7c_ending_robot, name: "Scene 7c: Ending Robot", id: "endRobot" },
+            { scene: scene_7d_ending_flee, name: "Scene 7d: Ending Flee", id: "endFlee" },
+            { scene: scene_8_end, name: "Scene 8: End", id: "end" }
         ];
 
         let uiElement: HTMLElement = document.querySelector("[type=interface]");

@@ -14,6 +14,7 @@ namespace Game {
 
 
         // #region (Play)
+        return "end";
         // #endregion (Play)
     }
 }

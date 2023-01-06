@@ -14,7 +14,8 @@ namespace Game {
                 CarAttackl: "Auto-bot setzt Umstoßen ein.",
                 CarAttack2: "Auto-bot setzt Aufladen ein.",
                 CarAttack3: "Auto-bot setzt Ausweichen ein.",
-                AttackFailed: "Attacke ist fehlgeschlagen."
+                AttackFailed: "Attacke ist fehlgeschlagen.",
+                AreYouSure: "Bist du dir sicher?"
             }
         };
         // #endregion (Text)
@@ -35,6 +36,12 @@ namespace Game {
             charge: "Aufladen",
             dodge: "Ausweichen"
         };
+
+        let confirmation;
+        let confirmationAnswer = {
+            yes: "Ja",
+            no: "Nein"
+        };
         // #endregion (Decision)
 
         // #region (Play)
@@ -51,6 +58,8 @@ namespace Game {
         let enemyDamageFactor: number = 1;
         let chosenAttack: number;
         let enemyChosenAttack: number;
+
+        document.getElementById("fightBars").setAttribute("style", "visibility: visible");
 
         dataForSave.partnerChosen = "Louis";
 
@@ -92,8 +101,14 @@ namespace Game {
                     }
                     break;
                 case chooseActionAnswer.robot:
-                    // TODO: "Are you sure?"
-                    // TODO: load "changing robot"-ending
+                    await ƒS.Speech.tell(characters.narrator, text.narrator.AreYouSure);
+                    confirmation = await ƒS.Menu.getInput(confirmationAnswer, "decisionClass");
+                    switch (confirmation) {
+                        case confirmationAnswer.yes:
+                            return "endRobot";
+                        case confirmationAnswer.no:
+                            break;
+                    }
                     break;
                 case chooseActionAnswer.items:
                     if (dataForSave.partnerChosen == "Louis") {
@@ -107,14 +122,19 @@ namespace Game {
                     }
                     break;
                 case chooseActionAnswer.flee:
-                    // TODO: "Are you sure?"
-                    // TODO: load "fleeing"-ending
+                    await ƒS.Speech.tell(characters.narrator, text.narrator.AreYouSure);
+                    confirmation = await ƒS.Menu.getInput(confirmationAnswer, "decisionClass");
+                    switch (confirmation) {
+                        case confirmationAnswer.yes:
+                            return "endFlee";
+                        case confirmationAnswer.no:
+                            break;
+                    }
                     break;
             }
 
             // enemy's turn
             let roll: number = Math.random();
-            console.log(roll);
 
             switch (true) {
                 // enemy uses "Stoßen"
@@ -150,6 +170,7 @@ namespace Game {
                     if (enemyChosenAttack != 3) {
                         enemyHealth -= 10 * damageFactor;
                         ƒS.Sound.play(sounds.damage, 1, false);
+                        document.getElementById("enemyHealthBar").setAttribute("value", String(enemyHealth));
                     }
                     break;
                 case 1:
@@ -165,6 +186,7 @@ namespace Game {
                     if (Math.random() > 0.67 && enemyChosenAttack != 3) { // (> 0.67) = 33% chance
                         enemyHealth -= 50 * damageFactor;
                         ƒS.Sound.play(sounds.damage, 1, false);
+                        document.getElementById("enemyHealthBar").setAttribute("value", String(enemyHealth));
                     } else {
                         await ƒS.Speech.tell(characters.narrator, text.narrator.AttackFailed);
                     }
@@ -192,6 +214,9 @@ namespace Game {
                     break;
             }
 
+            if (enemyHealth <= 0)
+                break;
+
             // enemy's turn evaluation
             switch (enemyChosenAttack) {
                 case (0):
@@ -207,6 +232,7 @@ namespace Game {
                     if (chosenAttack != 3) {
                         health -= 10 * enemyDamageFactor;
                         ƒS.Sound.play(sounds.damage, 1, false);
+                        document.getElementById("healthBar").setAttribute("value", String(health));
                     }
                     break;
                 case (1):
@@ -222,6 +248,7 @@ namespace Game {
                     if (Math.random() > 0.67 && chosenAttack != 3) { // (> 0.67) = 33% chance
                         health -= 50 * damageFactor;
                         ƒS.Sound.play(sounds.damage, 1, false);
+                        document.getElementById("healthBar").setAttribute("value", String(health));
                     } else {
                         await ƒS.Speech.tell(characters.narrator, text.narrator.AttackFailed);
                     }  
@@ -248,10 +275,24 @@ namespace Game {
                     }
                     break;
             }
-
-            console.log("Your health: " + health + " | Enemy's health: " + enemyHealth);
-            console.log("1 round over");
         }
+
+        if (health <= 0) {
+            console.log("You lost.");
+        } else {
+            console.log("You won.");
+        }
+
+        await ƒS.Sound.fade(sounds.robotFight, 0, 1, true);
+        document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
+
+        switch (dataForSave.partnerChosen) {
+            case "Louis":
+                return "endLouis";
+            case "Lily":
+                return "endLily";
+        }
+
         // #endregion (Play)
     }
 }

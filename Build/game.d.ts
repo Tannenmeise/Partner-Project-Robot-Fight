@@ -205,5 +205,11 @@ declare namespace Game {
     function scene_7b_ending_lily(): ƒS.SceneReturn;
 }
 declare namespace Game {
+    function scene_7c_ending_robot(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_7d_ending_flee(): ƒS.SceneReturn;
+}
+declare namespace Game {
     function scene_8_end(): ƒS.SceneReturn;
 }

@@ -1,6 +1,6 @@
 namespace Game {
-    export async function scene_7a_ending_louis(): ƒS.SceneReturn {
-        console.log("scene_7a_ending_louis started");
+    export async function scene_7d_ending_flee(): ƒS.SceneReturn {
+        console.log("scene_7d_ending_flee started");
 
         // #region (Text) 
         let text = {

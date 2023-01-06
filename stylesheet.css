@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     width: 100vw;
     height: 100vh;
     margin: 0px;
@@ -38,7 +39,7 @@ dialog[type=splash] {
     cursor: pointer;
 }
 
-dialog[type="splash"] > div {
+dialog[type="splash"]>div {
     width: 50%;
     background-color: white;
     margin-right: auto;
@@ -48,7 +49,7 @@ dialog[type="splash"] > div {
     opacity: 60%;
 }
 
-dialog[type="splash"] > div > div {
+dialog[type="splash"]>div>div {
     padding: 10px;
     font-size: 2vmin;
     color: rgb(96, 85, 155);
@@ -82,7 +83,7 @@ speech content {
     left: 20px;
     font-family: Lucida Sans, Helvetica, Arial, sans-serif
 }
-  
+
 speech name {
     font-size: 2vmin;
     font-family: 'DePixel', sans-serif;
@@ -146,7 +147,8 @@ speech name {
     margin-right: 0;
     margin-bottom: 4.3vh;
     width: 20vw;
-    background-color: rgb(208, 201, 211);;
+    background-color: rgb(208, 201, 211);
+    ;
 }
 
 .decisionRobotFight button {
@@ -169,4 +171,39 @@ speech name {
 #love-o-meter {
     margin-top: -97vh;
     margin-left: 92vw;
+}
+
+div[type=interface] {
+    visibility: hidden;
+}
+
+/***** METER BAR *****/
+meter::-webkit-meter-bar {
+    background-color: #ececec;
+}
+
+meter[id="healthBar"] {
+    position: absolute;
+    transform: rotate(-90deg);
+    bottom: 56%;
+    left: -14%;
+    width: 35%;
+    height: 10%;
+}
+
+meter[id="healthBar"]::-webkit-meter-optimum-value {
+    background-color: rgb(17, 255, 0);
+}
+
+meter[id="enemyHealthBar"] {
+    position: absolute;
+    transform: rotate(-90deg);
+    bottom: 56%;
+    right: -14%;
+    width: 35%;
+    height: 10%;
+}
+
+meter[id="enemyHealthBar"]::-webkit-meter-optimum-value {
+    background-color: rgb(17, 255, 0);
 }
