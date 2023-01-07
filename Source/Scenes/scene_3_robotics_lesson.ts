@@ -38,6 +38,25 @@ namespace Game {
             },
             student: {
                 T00_00_000: "Was ist das Projekt denn eigentlich?"
+            },
+            protagonist: {
+                T00_00_000: "Hey, ähm... Willst du mit mir das Projekt machen?",
+                T00_00_001: ""
+            },
+            louis: {
+                T00_00_000: dataForSave.protagonistName + " ist dein Name, oder?",
+
+                T01_00_000: "Gut. Jedenfalls jemand, der im Unterricht aufpasst. Von mir aus können wir zusammenarbeiten.",
+                T01_00_001: "",
+
+                T02_00_000: "Schläfst du üblicherweise im Unterricht?",
+                T02_00_001: "Na gut, ich kann ja schlecht 'Nein' sagen",
+
+                T03_00_000: "... Ok.",
+                T03_00_001: "..."
+            },
+            lily: {
+                T00_00_000: "Hi... Wie heißt du nochmal?"
             }
         };
         // #endregion (Text)
@@ -159,6 +178,15 @@ namespace Game {
         switch (partnerChoice) {
             case partnerChoiceAnswer.louis:
                 dataForSave.partnerChosen = "Louis";
+                await ƒS.Speech.tell(characters.louis, text.louis.T00_00_000);
+
+                if (dataForSave.paidAttentionInClass) {
+                    await ƒS.Speech.tell(characters.louis, text.louis.T01_00_000);
+                } else if (dataForSave.sleptInClass) {
+                    await ƒS.Speech.tell(characters.louis, text.louis.T02_00_000);
+                } else if (dataForSave.tormentedSomeoneInClass) {
+                    await ƒS.Speech.tell(characters.louis, text.louis.T03_00_000);
+                }
                 break;
             case partnerChoiceAnswer.lily:
                 dataForSave.partnerChosen = "Lily";

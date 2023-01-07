@@ -5,7 +5,7 @@ namespace Game {
         // #region (Text) 
         let text = {
             narrator: {
-                TEST: "TEST", // TODO: delete
+                ChooseYourAction: "Wähle eine Aktion aus.",
                 TankAttack0: "Panzer-bot setzt Stoßen ein.",
                 TankAttack1: "Panzer-bot setzt Umstoßen ein.",
                 TankAttack2: "Panzer-bot setzt Aufladen ein.",
@@ -15,7 +15,13 @@ namespace Game {
                 CarAttack2: "Auto-bot setzt Aufladen ein.",
                 CarAttack3: "Auto-bot setzt Ausweichen ein.",
                 AttackFailed: "Attacke ist fehlgeschlagen.",
-                AreYouSure: "Bist du dir sicher?"
+                AreYouSure: "Bist du dir sicher?",
+                YouWin: "Du hast gewonnen!",
+                YouLose: "Du hast verloren."
+            },
+            roboticsTeacher: {
+                T00_00_000: "Auf die Plätze... fertig... los!",
+                T00_00_001: "Das war es mit dem Roboter-Kampf. Danke an alle Studierenden, die teilgenommen haben."
             }
         };
         // #endregion (Text)
@@ -76,11 +82,10 @@ namespace Game {
                 break;
         }
 
-        await ƒS.Speech.tell(characters.narrator, text.narrator.TEST);
-
         // decision
         while (health > 0 && enemyHealth > 0) {
             // user's turn
+            await ƒS.Speech.tell(characters.narrator, text.narrator.ChooseYourAction);
             chooseAction = await ƒS.Menu.getInput(chooseActionAnswer, "decisionRobotFight");
             switch (chooseAction) {
                 case chooseActionAnswer.fight:
@@ -194,9 +199,11 @@ namespace Game {
                 case 2:
                     if (dataForSave.partnerChosen == "Louis") {
                         await ƒS.Speech.tell(characters.narrator, text.narrator.TankAttack2);
+                        ƒS.Sound.play(sounds.charge, 1, false);
                         await ƒS.Character.animate(characters.tankBot, characters.tankBot.pose.neutral, robotCharge());
                     } else {
                         await ƒS.Speech.tell(characters.narrator, text.narrator.CarAttack2);
+                        ƒS.Sound.play(sounds.charge, 1, false);
                         await ƒS.Character.animate(characters.carBot, characters.carBot.pose.neutral, robotCharge());
                     }
                     damageFactor = 2;
@@ -246,7 +253,7 @@ namespace Game {
                         await ƒS.Character.show(characters.tankBot, characters.tankBot.pose.enemy, ƒS.positionPercent(78, 70));
                     }
                     if (Math.random() > 0.67 && chosenAttack != 3) { // (> 0.67) = 33% chance
-                        health -= 50 * damageFactor;
+                        health -= 50 * enemyDamageFactor;
                         ƒS.Sound.play(sounds.damage, 1, false);
                         document.getElementById("healthBar").setAttribute("value", String(health));
                     } else {
@@ -256,9 +263,11 @@ namespace Game {
                 case (2):
                     if (dataForSave.partnerChosen == "Louis") {
                         await ƒS.Speech.tell(characters.narrator, text.narrator.CarAttack2);
+                        ƒS.Sound.play(sounds.charge, 1, false);
                         await ƒS.Character.animate(characters.carBot, characters.carBot.pose.enemy, robotCharge());
                     } else {
                         await ƒS.Speech.tell(characters.narrator, text.narrator.TankAttack2);
+                        ƒS.Sound.play(sounds.charge, 1, false);
                         await ƒS.Character.animate(characters.tankBot, characters.tankBot.pose.enemy, robotCharge());
                     }
                     enemyDamageFactor = 2;
@@ -277,14 +286,17 @@ namespace Game {
             }
         }
 
-        if (health <= 0) {
-            console.log("You lost.");
-        } else {
-            console.log("You won.");
-        }
-
         await ƒS.Sound.fade(sounds.robotFight, 0, 1, true);
-        document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
+
+        if (health <= 0) {
+            ƒS.Sound.play(sounds.failure, 1, false);
+            await ƒS.Speech.tell(characters.narrator, text.narrator.YouLose);
+            document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
+        } else {
+            ƒS.Sound.play(sounds.success, 1, false);
+            await ƒS.Speech.tell(characters.narrator, text.narrator.YouWin);
+            document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
+        }
 
         switch (dataForSave.partnerChosen) {
             case "Louis":

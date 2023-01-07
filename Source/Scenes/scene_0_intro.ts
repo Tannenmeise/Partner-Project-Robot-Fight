@@ -5,6 +5,7 @@ namespace Game {
         // #region (Text) 
         let text = {
             narrator: {
+                YourName: "Wie heißt du?",
                 T00_00_000: "Ein neuer Tag an der Robert Robotik Hochschule.",
                 T00_00_001: "Nach 4 Semestern hat sich das Gefühl von Gewohnheit endgültig eingenistet. Nun bist du bereits Nahe des Endes des 5. Semesters angelangt.",
                 T00_00_002: "Das Laufen zur Hochschule gleicht immer mehr einer gedankenlosen Trance. Es ist immer der gleiche gewohnte Ablauf. Beruhigend, aber auch etwas langweilig.",
@@ -24,6 +25,8 @@ namespace Game {
         await ƒS.Inventory.open();
         */
        
+        await ƒS.Speech.tell(characters.narrator, text.narrator.YourName);
+        dataForSave.protagonistName = await ƒS.Speech.getInput();
         
         // transition
         ƒS.Speech.hide();

@@ -9,7 +9,9 @@ var Game;
         partnerChosen: "",
         louisPoints: 0,
         lilyPoints: 0,
-        bullyPoints: 0
+        paidAttentionInClass: false,
+        sleptInClass: false,
+        tormentedSomeoneInClass: false
     };
     function credits() {
         Game.ƒS.Text.print("");
@@ -105,13 +107,16 @@ var Game;
         bigCrowd: "Assets/Audio/Sounds/big_crowd.wav",
         bump: "Assets/Audio/Sounds/bump.wav",
         chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav",
+        charge: "Assets/Audio/Sounds/charge.wav",
         cloth: "Assets/Audio/Sounds/cloth.wav",
         damage: "Assets/Audio/Sounds/damage.wav",
         enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
+        failure: "Assets/Audio/Sounds/failure.wav",
         footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
+        schoolBell: "Assets/Audio/Sounds/school_bell.wav",
         smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
         sparrows: "Assets/Audio/Sounds/sparrows.wav",
-        schoolBell: "Assets/Audio/Sounds/school_bell.wav"
+        success: "Assets/Audio/Sounds/success.wav"
     };
     Game.locations = {
         black: {
@@ -174,22 +179,6 @@ var Game;
                 louis: "Assets/Graphics/Characters/Louis/louis_silhouette.png"
             }
         },
-        lily: {
-            name: "Lily",
-            origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
-            pose: {
-                excited1: "Assets/Graphics/Characters/Lily/lily_excited_1.png",
-                excited2: "Assets/Graphics/Characters/Lily/lily_excited_2.png",
-                happy1: "Assets/Graphics/Characters/Lily/lily_happy_1.png",
-                happy2: "Assets/Graphics/Characters/Lily/lily_happy_2.png",
-                joyful1: "Assets/Graphics/Characters/Lily/lily_joyful_1.png",
-                joyful2: "Assets/Graphics/Characters/Lily/lily_joyful_2.png",
-                neutral1: "Assets/Graphics/Characters/Lily/lily_neutral_1.png",
-                neutral2: "Assets/Graphics/Characters/Lily/lily_neutral_2.png",
-                sad1: "Assets/Graphics/Characters/Lily/lily_sad_1.png",
-                sad2: "Assets/Graphics/Characters/Lily/lily_sad_2.png"
-            }
-        },
         louis: {
             name: "Louis",
             origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
@@ -206,8 +195,21 @@ var Game;
                 sad2: "Assets/Graphics/Characters/Louis/louis_sad_2.png"
             }
         },
-        luisa: {
-            name: "Luisa"
+        lily: {
+            name: "Lily",
+            origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
+            pose: {
+                excited1: "Assets/Graphics/Characters/Lily/lily_excited_1.png",
+                excited2: "Assets/Graphics/Characters/Lily/lily_excited_2.png",
+                happy1: "Assets/Graphics/Characters/Lily/lily_happy_1.png",
+                happy2: "Assets/Graphics/Characters/Lily/lily_happy_2.png",
+                joyful1: "Assets/Graphics/Characters/Lily/lily_joyful_1.png",
+                joyful2: "Assets/Graphics/Characters/Lily/lily_joyful_2.png",
+                neutral1: "Assets/Graphics/Characters/Lily/lily_neutral_1.png",
+                neutral2: "Assets/Graphics/Characters/Lily/lily_neutral_2.png",
+                sad1: "Assets/Graphics/Characters/Lily/lily_sad_1.png",
+                sad2: "Assets/Graphics/Characters/Lily/lily_sad_2.png"
+            }
         },
         historyTeacher: {
             name: "Geschichtslehrer"
@@ -223,6 +225,7 @@ var Game;
             name: "Panzer-bot",
             origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
+                sketch: "Assets/Graphics/Characters/TankBot/tank_bot_sketch.png",
                 neutral: "Assets/Graphics/Characters/TankBot/tank_bot.png",
                 enemy: "Assets/Graphics/Characters/TankBot/tank_bot_enemy.png"
             }
@@ -231,6 +234,7 @@ var Game;
             name: "Auto-bot",
             origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
+                sketch: "Assets/Graphics/Characters/CarBot/car_bot_sketch.png",
                 neutral: "Assets/Graphics/Characters/CarBot/car_bot.png",
                 enemy: "Assets/Graphics/Characters/CarBot/car_bot_enemy.png"
             }
@@ -324,16 +328,16 @@ var Game;
         gameMenu = Game.ƒS.Menu.create(inGameMenuButtons, buttonFunctionalities, "gameMenuCSSClass");
         buttonFunctionalities("Close");
         let scenes = [
+            { scene: Game.scene_0_intro, name: "Scene 0: Intro" },
             /*
-            { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
-            { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
-            { scene: scene_4_storage_room, name: "Scene 4: Storage Room" },
-            { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
-            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id; "dateLily" },
-            { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
             */
+            { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
+            { scene: Game.scene_4_storage_room, name: "Scene 4: Storage Room" },
+            { scene: Game.scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
+            { scene: Game.scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
+            { scene: Game.scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
             { scene: Game.scene_6_robot_fight, name: "Scene 6: Robot Fight" },
             { scene: Game.scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis" },
             { scene: Game.scene_7b_ending_lily, name: "Scene 7b: Ending Lily", id: "endLily" },
@@ -353,6 +357,7 @@ var Game;
         // #region (Text) 
         let text = {
             narrator: {
+                YourName: "Wie heißt du?",
                 T00_00_000: "Ein neuer Tag an der Robert Robotik Hochschule.",
                 T00_00_001: "Nach 4 Semestern hat sich das Gefühl von Gewohnheit endgültig eingenistet. Nun bist du bereits Nahe des Endes des 5. Semesters angelangt.",
                 T00_00_002: "Das Laufen zur Hochschule gleicht immer mehr einer gedankenlosen Trance. Es ist immer der gleiche gewohnte Ablauf. Beruhigend, aber auch etwas langweilig.",
@@ -369,6 +374,8 @@ var Game;
         ƒS.Inventory.add(items.item1);
         await ƒS.Inventory.open();
         */
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.YourName);
+        Game.dataForSave.protagonistName = await Game.ƒS.Speech.getInput();
         // transition
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.schoolBuilding);
@@ -501,13 +508,17 @@ var Game;
         bumpIntoStudent = await Game.ƒS.Menu.getInput(bumpIntoStudentAnswer, "decisionClass");
         switch (bumpIntoStudent) {
             case bumpIntoStudentAnswer.complain:
+                Game.dataForSave.lilyPoints -= 1;
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
                 break;
             case bumpIntoStudentAnswer.soothe:
+                Game.dataForSave.lilyPoints += 1;
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
+                // positive
                 break;
             case bumpIntoStudentAnswer.ignore:
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T03_00_000);
+                // neutral
                 break;
         }
         // narration
@@ -555,6 +566,7 @@ var Game;
         studentRemark = await Game.ƒS.Menu.getInput(studentRemarkAnswer, "decisionClass");
         switch (studentRemark) {
             case studentRemarkAnswer.argue:
+                Game.dataForSave.louisPoints -= 1;
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_000);
                 break;
             case studentRemarkAnswer.apologize:
@@ -671,6 +683,7 @@ var Game;
         lectureStart = await Game.ƒS.Menu.getInput(lectureStartAnswer, "decisionClass");
         switch (lectureStart) {
             case lectureStartAnswer.payAttention:
+                Game.dataForSave.louisPoints += 1;
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T01_00_000);
                 Game.ƒS.Speech.hide();
                 await Game.ƒS.Location.show(Game.locations.white);
@@ -685,6 +698,7 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_003);
                 break;
             case lectureStartAnswer.sleep:
+                Game.dataForSave.louisPoints -= 1;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_002);
@@ -702,6 +716,8 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_007);
                 break;
             case lectureStartAnswer.torment:
+                Game.dataForSave.louisPoints -= 1;
+                Game.dataForSave.lilyPoints -= 1;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_002);
@@ -767,6 +783,22 @@ var Game;
             },
             student: {
                 T00_00_000: "Was ist das Projekt denn eigentlich?"
+            },
+            protagonist: {
+                T00_00_000: "Hey, ähm... Willst du mit mir das Projekt machen?",
+                T00_00_001: ""
+            },
+            louis: {
+                T00_00_000: Game.dataForSave.protagonistName + " ist dein Name, oder?",
+                T01_00_000: "Gut. Jedenfalls jemand, der im Unterricht aufpasst. Von mir aus können wir zusammenarbeiten.",
+                T01_00_001: "",
+                T02_00_000: "Schläfst du üblicherweise im Unterricht?",
+                T02_00_001: "Na gut, ich kann ja schlecht 'Nein' sagen",
+                T03_00_000: "... Ok.",
+                T03_00_001: "..."
+            },
+            lily: {
+                T00_00_000: "Hi... Wie heißt du nochmal?"
             }
         };
         // #endregion (Text)
@@ -855,6 +887,16 @@ var Game;
         switch (partnerChoice) {
             case partnerChoiceAnswer.louis:
                 Game.dataForSave.partnerChosen = "Louis";
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
+                if (Game.dataForSave.paidAttentionInClass) {
+                    await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_000);
+                }
+                else if (Game.dataForSave.sleptInClass) {
+                    await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_000);
+                }
+                else if (Game.dataForSave.tormentedSomeoneInClass) {
+                    await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_000);
+                }
                 break;
             case partnerChoiceAnswer.lily:
                 Game.dataForSave.partnerChosen = "Lily";
@@ -935,7 +977,7 @@ var Game;
         // #region (Text) 
         let text = {
             narrator: {
-                TEST: "TEST",
+                ChooseYourAction: "Wähle eine Aktion aus.",
                 TankAttack0: "Panzer-bot setzt Stoßen ein.",
                 TankAttack1: "Panzer-bot setzt Umstoßen ein.",
                 TankAttack2: "Panzer-bot setzt Aufladen ein.",
@@ -945,7 +987,13 @@ var Game;
                 CarAttack2: "Auto-bot setzt Aufladen ein.",
                 CarAttack3: "Auto-bot setzt Ausweichen ein.",
                 AttackFailed: "Attacke ist fehlgeschlagen.",
-                AreYouSure: "Bist du dir sicher?"
+                AreYouSure: "Bist du dir sicher?",
+                YouWin: "Du hast gewonnen!",
+                YouLose: "Du hast verloren."
+            },
+            roboticsTeacher: {
+                T00_00_000: "Auf die Plätze... fertig... los!",
+                T00_00_001: "Das war es mit dem Roboter-Kampf. Danke an alle Studierenden, die teilgenommen haben."
             }
         };
         // #endregion (Text)
@@ -996,10 +1044,10 @@ var Game;
                 await Game.ƒS.update();
                 break;
         }
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TEST);
         // decision
         while (health > 0 && enemyHealth > 0) {
             // user's turn
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.ChooseYourAction);
             chooseAction = await Game.ƒS.Menu.getInput(chooseActionAnswer, "decisionRobotFight");
             switch (chooseAction) {
                 case chooseActionAnswer.fight:
@@ -1114,10 +1162,12 @@ var Game;
                 case 2:
                     if (Game.dataForSave.partnerChosen == "Louis") {
                         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack2);
+                        Game.ƒS.Sound.play(Game.sounds.charge, 1, false);
                         await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.robotCharge());
                     }
                     else {
                         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttack2);
+                        Game.ƒS.Sound.play(Game.sounds.charge, 1, false);
                         await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.neutral, Game.robotCharge());
                     }
                     damageFactor = 2;
@@ -1168,7 +1218,7 @@ var Game;
                         await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.ƒS.positionPercent(78, 70));
                     }
                     if (Math.random() > 0.67 && chosenAttack != 3) { // (> 0.67) = 33% chance
-                        health -= 50 * damageFactor;
+                        health -= 50 * enemyDamageFactor;
                         Game.ƒS.Sound.play(Game.sounds.damage, 1, false);
                         document.getElementById("healthBar").setAttribute("value", String(health));
                     }
@@ -1179,10 +1229,12 @@ var Game;
                 case (2):
                     if (Game.dataForSave.partnerChosen == "Louis") {
                         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.CarAttack2);
+                        Game.ƒS.Sound.play(Game.sounds.charge, 1, false);
                         await Game.ƒS.Character.animate(Game.characters.carBot, Game.characters.carBot.pose.enemy, Game.robotCharge());
                     }
                     else {
                         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.TankAttack2);
+                        Game.ƒS.Sound.play(Game.sounds.charge, 1, false);
                         await Game.ƒS.Character.animate(Game.characters.tankBot, Game.characters.tankBot.pose.enemy, Game.robotCharge());
                     }
                     enemyDamageFactor = 2;
@@ -1201,14 +1253,17 @@ var Game;
                     break;
             }
         }
+        await Game.ƒS.Sound.fade(Game.sounds.robotFight, 0, 1, true);
         if (health <= 0) {
-            console.log("You lost.");
+            Game.ƒS.Sound.play(Game.sounds.failure, 1, false);
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.YouLose);
+            document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
         }
         else {
-            console.log("You won.");
+            Game.ƒS.Sound.play(Game.sounds.success, 1, false);
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.YouWin);
+            document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
         }
-        await Game.ƒS.Sound.fade(Game.sounds.robotFight, 0, 1, true);
-        document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
         switch (Game.dataForSave.partnerChosen) {
             case "Louis":
                 return "endLouis";
@@ -1291,15 +1346,7 @@ var Game;
 (function (Game) {
     async function scene_8_end() {
         console.log("scene_8_end started");
-        // #region (Text) 
-        let text = {
-            narrator: {}
-        };
-        // #endregion (Text)
-        // #region (Decision)
-        // #endregion (Decision)
-        // #region (Play)
-        // #endregion (Play)
+        console.log("End of Visual Novel");
     }
     Game.scene_8_end = scene_8_end;
 })(Game || (Game = {}));

@@ -6,7 +6,9 @@ declare namespace Game {
         partnerChosen: string;
         louisPoints: number;
         lilyPoints: number;
-        bullyPoints: number;
+        paidAttentionInClass: boolean;
+        sleptInClass: boolean;
+        tormentedSomeoneInClass: boolean;
     };
     let items: {
         item1: {
@@ -30,13 +32,16 @@ declare namespace Game {
         bigCrowd: string;
         bump: string;
         chairScreeching: string;
+        charge: string;
         cloth: string;
         damage: string;
         enterSchoolBuilding: string;
+        failure: string;
         footstepsTiles: string;
+        schoolBell: string;
         smallCrowd: string;
         sparrows: string;
-        schoolBell: string;
+        success: string;
     };
     let locations: {
         black: {
@@ -99,22 +104,6 @@ declare namespace Game {
                 louis: string;
             };
         };
-        lily: {
-            name: string;
-            origin: ƒ.ORIGIN2D;
-            pose: {
-                excited1: string;
-                excited2: string;
-                happy1: string;
-                happy2: string;
-                joyful1: string;
-                joyful2: string;
-                neutral1: string;
-                neutral2: string;
-                sad1: string;
-                sad2: string;
-            };
-        };
         louis: {
             name: string;
             origin: ƒ.ORIGIN2D;
@@ -131,8 +120,21 @@ declare namespace Game {
                 sad2: string;
             };
         };
-        luisa: {
+        lily: {
             name: string;
+            origin: ƒ.ORIGIN2D;
+            pose: {
+                excited1: string;
+                excited2: string;
+                happy1: string;
+                happy2: string;
+                joyful1: string;
+                joyful2: string;
+                neutral1: string;
+                neutral2: string;
+                sad1: string;
+                sad2: string;
+            };
         };
         historyTeacher: {
             name: string;
@@ -148,6 +150,7 @@ declare namespace Game {
             name: string;
             origin: ƒ.ORIGIN2D;
             pose: {
+                sketch: string;
                 neutral: string;
                 enemy: string;
             };
@@ -156,6 +159,7 @@ declare namespace Game {
             name: string;
             origin: ƒ.ORIGIN2D;
             pose: {
+                sketch: string;
                 neutral: string;
                 enemy: string;
             };

@@ -112,13 +112,17 @@ namespace Game {
         bumpIntoStudent = await ƒS.Menu.getInput(bumpIntoStudentAnswer, "decisionClass");
         switch (bumpIntoStudent) {
             case bumpIntoStudentAnswer.complain:
+                dataForSave.lilyPoints -= 1;
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T01_00_000);
                 break;
             case bumpIntoStudentAnswer.soothe:
+                dataForSave.lilyPoints += 1;
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T02_00_000);
+                // positive
                 break;
             case bumpIntoStudentAnswer.ignore:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T03_00_000);
+                // neutral
                 break;
         }
         // narration
@@ -166,6 +170,7 @@ namespace Game {
         studentRemark = await ƒS.Menu.getInput(studentRemarkAnswer, "decisionClass");
         switch (studentRemark) {
             case studentRemarkAnswer.argue:
+                dataForSave.louisPoints -= 1;
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T04_00_000);
                 break;
             case studentRemarkAnswer.apologize:

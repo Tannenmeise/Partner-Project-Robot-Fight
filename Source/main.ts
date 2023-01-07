@@ -9,7 +9,9 @@ namespace Game {
         partnerChosen: "",
         louisPoints: 0,
         lilyPoints: 0,
-        bullyPoints: 0
+        paidAttentionInClass: false,
+        sleptInClass: false,
+        tormentedSomeoneInClass: false
     };
 
     function credits(): void {
@@ -110,16 +112,19 @@ namespace Game {
         robotFight: "Assets/Audio/Music/robot_fight.wav",
         // sounds
         automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
-        bigCrowd: "Assets/Audio/Sounds/big_crowd.wav",
+        bigCrowd: "Assets/Audio/Sounds/big_crowd.wav", // TODO: check if I can freely use it!!!
         bump: "Assets/Audio/Sounds/bump.wav",
         chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav",
+        charge: "Assets/Audio/Sounds/charge.wav",
         cloth: "Assets/Audio/Sounds/cloth.wav", // TODO: delete if not used. it's very quiet compared to crowd
         damage: "Assets/Audio/Sounds/damage.wav",
         enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
+        failure: "Assets/Audio/Sounds/failure.wav",
         footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
-        smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
+        schoolBell: "Assets/Audio/Sounds/school_bell.wav",
+        smallCrowd: "Assets/Audio/Sounds/small_crowd.wav", // TODO: check if I can freely use it!!!
         sparrows: "Assets/Audio/Sounds/sparrows.wav", // TODO: make ambient sound instead (mix of sparrows, wind and students)
-        schoolBell: "Assets/Audio/Sounds/school_bell.wav"
+        success: "Assets/Audio/Sounds/success.wav"
     };
 
     export let locations = {
@@ -184,22 +189,6 @@ namespace Game {
                 louis: "Assets/Graphics/Characters/Louis/louis_silhouette.png"
             }
         },
-        lily: {
-            name: "Lily",
-            origin: ƒS.ORIGIN.BOTTOMCENTER,
-            pose: {
-                excited1: "Assets/Graphics/Characters/Lily/lily_excited_1.png",
-                excited2: "Assets/Graphics/Characters/Lily/lily_excited_2.png",
-                happy1: "Assets/Graphics/Characters/Lily/lily_happy_1.png",
-                happy2: "Assets/Graphics/Characters/Lily/lily_happy_2.png",
-                joyful1: "Assets/Graphics/Characters/Lily/lily_joyful_1.png",
-                joyful2: "Assets/Graphics/Characters/Lily/lily_joyful_2.png",
-                neutral1: "Assets/Graphics/Characters/Lily/lily_neutral_1.png",
-                neutral2: "Assets/Graphics/Characters/Lily/lily_neutral_2.png",
-                sad1: "Assets/Graphics/Characters/Lily/lily_sad_1.png",
-                sad2: "Assets/Graphics/Characters/Lily/lily_sad_2.png"
-            }
-        },
         louis: {
             name: "Louis",
             origin: ƒS.ORIGIN.BOTTOMCENTER,
@@ -216,8 +205,21 @@ namespace Game {
                 sad2: "Assets/Graphics/Characters/Louis/louis_sad_2.png"
             }
         },
-        luisa: {
-            name: "Luisa"
+        lily: {
+            name: "Lily",
+            origin: ƒS.ORIGIN.BOTTOMCENTER,
+            pose: {
+                excited1: "Assets/Graphics/Characters/Lily/lily_excited_1.png",
+                excited2: "Assets/Graphics/Characters/Lily/lily_excited_2.png",
+                happy1: "Assets/Graphics/Characters/Lily/lily_happy_1.png",
+                happy2: "Assets/Graphics/Characters/Lily/lily_happy_2.png",
+                joyful1: "Assets/Graphics/Characters/Lily/lily_joyful_1.png",
+                joyful2: "Assets/Graphics/Characters/Lily/lily_joyful_2.png",
+                neutral1: "Assets/Graphics/Characters/Lily/lily_neutral_1.png",
+                neutral2: "Assets/Graphics/Characters/Lily/lily_neutral_2.png",
+                sad1: "Assets/Graphics/Characters/Lily/lily_sad_1.png",
+                sad2: "Assets/Graphics/Characters/Lily/lily_sad_2.png"
+            }
         },
         historyTeacher: {
             name: "Geschichtslehrer"
@@ -233,6 +235,7 @@ namespace Game {
             name: "Panzer-bot",
             origin: ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
+                sketch: "Assets/Graphics/Characters/TankBot/tank_bot_sketch.png",
                 neutral: "Assets/Graphics/Characters/TankBot/tank_bot.png",
                 enemy: "Assets/Graphics/Characters/TankBot/tank_bot_enemy.png"
             }
@@ -241,6 +244,7 @@ namespace Game {
             name: "Auto-bot",
             origin: ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
+                sketch: "Assets/Graphics/Characters/CarBot/car_bot_sketch.png",
                 neutral: "Assets/Graphics/Characters/CarBot/car_bot.png",
                 enemy: "Assets/Graphics/Characters/CarBot/car_bot_enemy.png"
             }
@@ -344,16 +348,16 @@ namespace Game {
         buttonFunctionalities("Close");
 
         let scenes: ƒS.Scenes = [
-            /*
             { scene: scene_0_intro, name: "Scene 0: Intro" },
+            /*
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
+            */
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
             { scene: scene_4_storage_room, name: "Scene 4: Storage Room" },
             { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
-            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id; "dateLily" },
+            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
             { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
-            */
             { scene: scene_6_robot_fight, name: "Scene 6: Robot Fight" },
             { scene: scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis"},
             { scene: scene_7b_ending_lily, name: "Scene 7b: Ending Lily", id: "endLily" },

@@ -22,6 +22,10 @@ chair_screeching.wav
 - "Chair Screeching.mp3", VIPERSTRONG, October 28th, 2022
 - https://freesound.org/people/VIPERSTRONG/sounds/655737/
 
+charge.wav
+- "Power Up Regeneration SFX.wav", Romeo_Kaleikau, September 25th, 2021
+- https://freesound.org/people/Romeo_Kaleikau/sounds/588251/
+
 cloth.wav
 - "cloth flaps 2", exe2be, April 11th, 2020
 - https://freesound.org/people/exe2be/sounds/512739/
@@ -33,9 +37,17 @@ damage.wav
 enter_school_building.wav
 - self-combined with "automatic_door.wav" & "footsteps_tiles.wav"
 
+failure.wav
+- "Failure/wrong action.wav", GabrielAraujo, July 13th, 2014
+- https://freesound.org/people/GabrielAraujo/sounds/242503/
+
 footsteps_tiles.wav
 - "Footsteps_Walk.wav", Nox_Sound, November 1st, 2019
 - https://freesound.org/people/Nox_Sound/sounds/490951/
+
+school_bell.wav
+- "School bell.wav", deleted_user_7020630, January 29th, 2017
+- https://freesound.org/people/deleted_user_7020630/sounds/378394/
 
 small_crowd.wav
 - "Small Crowd pre-concert talking party bar walla talking", JohnsonBrandEditing, July 23rd, 2014
@@ -45,6 +57,6 @@ sparrows.wav
 - "Sparrows.wav", JKata, March 31st, 2022
 - https://freesound.org/people/JKata/sounds/626174/
 
-school_bell.wav
-- "School bell.wav", deleted_user_7020630, January 29th, 2017
-- https://freesound.org/people/deleted_user_7020630/sounds/378394/
+success.wav
+- "SFX-Success!.wav", HenryRichard, November 18th, 2018
+- https://freesound.org/people/HenryRichard/sounds/448274/
