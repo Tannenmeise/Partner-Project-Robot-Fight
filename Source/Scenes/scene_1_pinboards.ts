@@ -112,11 +112,13 @@ namespace Game {
         bumpIntoStudent = await ƒS.Menu.getInput(bumpIntoStudentAnswer, "decisionClass");
         switch (bumpIntoStudent) {
             case bumpIntoStudentAnswer.complain:
-                dataForSave.lilyPoints -= 1;
+                dataForSave.lilyPoints -= 10;
+                document.getElementById("lilyBar").setAttribute("value", String(dataForSave.lilyPoints));
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T01_00_000);
                 break;
             case bumpIntoStudentAnswer.soothe:
-                dataForSave.lilyPoints += 1;
+                dataForSave.lilyPoints += 10;
+                document.getElementById("lilyBar").setAttribute("value", String(dataForSave.lilyPoints));
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T02_00_000);
                 // positive
                 break;
@@ -170,7 +172,8 @@ namespace Game {
         studentRemark = await ƒS.Menu.getInput(studentRemarkAnswer, "decisionClass");
         switch (studentRemark) {
             case studentRemarkAnswer.argue:
-                dataForSave.louisPoints -= 1;
+                dataForSave.louisPoints -= 10;
+                document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T04_00_000);
                 break;
             case studentRemarkAnswer.apologize:

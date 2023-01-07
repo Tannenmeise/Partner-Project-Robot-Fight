@@ -173,11 +173,12 @@ speech name {
     margin-left: 92vw;
 }
 
-div[type=interface] {
+#fightBars {
     visibility: hidden;
 }
 
-/***** METER BAR *****/
+/* METER BAR */
+
 meter::-webkit-meter-bar {
     background-color: #ececec;
 }
@@ -206,4 +207,48 @@ meter[id="enemyHealthBar"] {
 
 meter[id="enemyHealthBar"]::-webkit-meter-optimum-value {
     background-color: rgb(17, 255, 0);
+}
+
+meter[id="louisBar"] {
+    position: absolute;
+    top: 0;
+    left: 1%;
+    width: 15%;
+    height: 6%;
+}
+
+meter[id="louisBar"]::-webkit-meter-optimum-value {
+    background-color: rgb(255, 0, 102);
+}
+
+#louisName {
+    position: absolute;
+    top: -1.2%;
+    left: 16.5%;
+    color: rgb(12, 12, 12);
+    font-weight: bold;
+    background-color: #ececec;
+    padding: 0.3%;
+}
+
+meter[id="lilyBar"] {
+    position: absolute;
+    top: 0;
+    right: 1%;
+    width: 15%;
+    height: 6%;
+}
+
+meter[id="lilyBar"]::-webkit-meter-optimum-value {
+    background-color: rgb(255, 0, 102);
+}
+
+#lilyName {
+    position: absolute;
+    top: -1.2%;
+    right: 16.5%;
+    color: rgb(12, 12, 12);
+    font-weight: bold;
+    background-color: #ececec;
+    padding: 0.3%;
 }

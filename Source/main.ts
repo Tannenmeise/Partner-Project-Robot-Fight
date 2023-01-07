@@ -3,12 +3,13 @@ namespace Game {
     export import ƒS = FudgeStory;
 
     console.log("'main.ts' started");
+    // TODO: UPDATE THE LOVE-POINT-BAR FOR THE PARTNERS AT THE BEGINNING OF EVERY SCENE (IN-CASE OF LOADING A SAVE)
 
     export let dataForSave = {
-        protagonistName: "",
+        protagonistName: "Protagonist",
         partnerChosen: "",
-        louisPoints: 0,
-        lilyPoints: 0,
+        louisPoints: 50,
+        lilyPoints: 50,
         paidAttentionInClass: false,
         sleptInClass: false,
         tormentedSomeoneInClass: false
@@ -348,8 +349,8 @@ namespace Game {
         buttonFunctionalities("Close");
 
         let scenes: ƒS.Scenes = [
-            { scene: scene_0_intro, name: "Scene 0: Intro" },
             /*
+            { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             */

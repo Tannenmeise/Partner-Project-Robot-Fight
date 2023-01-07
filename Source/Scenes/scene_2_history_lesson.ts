@@ -119,7 +119,9 @@ namespace Game {
 
         switch (lectureStart) {
             case lectureStartAnswer.payAttention:
-                dataForSave.louisPoints += 1;
+                dataForSave.paidAttentionInClass = true;
+                dataForSave.louisPoints += 10;
+                document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
                 await ƒS.Speech.tell(characters.historyTeacher, text.historyTeacher.T01_00_000);
                 ƒS.Speech.hide();
                 await ƒS.Location.show(locations.white);
@@ -134,7 +136,9 @@ namespace Game {
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T01_00_003);
                 break;
             case lectureStartAnswer.sleep:
-                dataForSave.louisPoints -= 1;
+                dataForSave.sleptInClass = true;
+                dataForSave.louisPoints -= 10;
+                document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_000);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_001);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_002);
@@ -152,8 +156,11 @@ namespace Game {
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_007);
                 break;
             case lectureStartAnswer.torment:
-                dataForSave.louisPoints -= 1;
-                dataForSave.lilyPoints -= 1;
+                dataForSave.tormentedSomeoneInClass = true;
+                dataForSave.louisPoints -= 10;
+                dataForSave.lilyPoints -= 10;
+                document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
+                document.getElementById("lilyBar").setAttribute("value", String(dataForSave.lilyPoints));
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T03_00_000);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T03_00_001);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T03_00_002);

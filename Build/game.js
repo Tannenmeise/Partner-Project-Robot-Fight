@@ -4,11 +4,12 @@ var Game;
     Game.ƒ = FudgeCore;
     Game.ƒS = FudgeStory;
     console.log("'main.ts' started");
+    // TODO: UPDATE THE LOVE-POINT-BAR FOR THE PARTNERS AT THE BEGINNING OF EVERY SCENE (IN-CASE OF LOADING A SAVE)
     Game.dataForSave = {
-        protagonistName: "",
+        protagonistName: "Protagonist",
         partnerChosen: "",
-        louisPoints: 0,
-        lilyPoints: 0,
+        louisPoints: 50,
+        lilyPoints: 50,
         paidAttentionInClass: false,
         sleptInClass: false,
         tormentedSomeoneInClass: false
@@ -328,8 +329,8 @@ var Game;
         gameMenu = Game.ƒS.Menu.create(inGameMenuButtons, buttonFunctionalities, "gameMenuCSSClass");
         buttonFunctionalities("Close");
         let scenes = [
-            { scene: Game.scene_0_intro, name: "Scene 0: Intro" },
             /*
+            { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             */
@@ -508,11 +509,13 @@ var Game;
         bumpIntoStudent = await Game.ƒS.Menu.getInput(bumpIntoStudentAnswer, "decisionClass");
         switch (bumpIntoStudent) {
             case bumpIntoStudentAnswer.complain:
-                Game.dataForSave.lilyPoints -= 1;
+                Game.dataForSave.lilyPoints -= 10;
+                document.getElementById("lilyBar").setAttribute("value", String(Game.dataForSave.lilyPoints));
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
                 break;
             case bumpIntoStudentAnswer.soothe:
-                Game.dataForSave.lilyPoints += 1;
+                Game.dataForSave.lilyPoints += 10;
+                document.getElementById("lilyBar").setAttribute("value", String(Game.dataForSave.lilyPoints));
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
                 // positive
                 break;
@@ -566,7 +569,8 @@ var Game;
         studentRemark = await Game.ƒS.Menu.getInput(studentRemarkAnswer, "decisionClass");
         switch (studentRemark) {
             case studentRemarkAnswer.argue:
-                Game.dataForSave.louisPoints -= 1;
+                Game.dataForSave.louisPoints -= 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_000);
                 break;
             case studentRemarkAnswer.apologize:
@@ -683,7 +687,9 @@ var Game;
         lectureStart = await Game.ƒS.Menu.getInput(lectureStartAnswer, "decisionClass");
         switch (lectureStart) {
             case lectureStartAnswer.payAttention:
-                Game.dataForSave.louisPoints += 1;
+                Game.dataForSave.paidAttentionInClass = true;
+                Game.dataForSave.louisPoints += 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T01_00_000);
                 Game.ƒS.Speech.hide();
                 await Game.ƒS.Location.show(Game.locations.white);
@@ -698,7 +704,9 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_003);
                 break;
             case lectureStartAnswer.sleep:
-                Game.dataForSave.louisPoints -= 1;
+                Game.dataForSave.sleptInClass = true;
+                Game.dataForSave.louisPoints -= 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_002);
@@ -716,8 +724,11 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_007);
                 break;
             case lectureStartAnswer.torment:
-                Game.dataForSave.louisPoints -= 1;
-                Game.dataForSave.lilyPoints -= 1;
+                Game.dataForSave.tormentedSomeoneInClass = true;
+                Game.dataForSave.louisPoints -= 10;
+                Game.dataForSave.lilyPoints -= 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                document.getElementById("lilyBar").setAttribute("value", String(Game.dataForSave.lilyPoints));
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_002);
@@ -767,6 +778,7 @@ var Game;
                 T00_00_012: "Nicht Lebenspartner. Dafür ist es gerade etwas zu früh. Projektpartner! Projektpartner erstmal.",
                 T00_00_013: "Wen willst du dir zuerst anschauen?",
                 T00_00_014: "Wen willst du als Partner?",
+                T00_00_015: "Du verabschiedest dich von deinem Projektpartner, verlässt den Raum und gehst nach Hause.",
                 T01_00_000: "Ah ja, der Nerd der Klasse. Nicht der einzige. Robotik zieht so einige Leute an, die man Nerds oder Geeks nennen würde. Dieser hier hat jedoch auch einer der besten Noten und ist sehr ehrgeizig.",
                 T01_00_001: "Ihn kann man gut als Einzelgänger bezeichnen. Ob er ein guter Partner abgeben würde? Nun ja, ein Gewinn müsste bei ihm ja eigentlich schon in der Tasche sein, oder nicht? Da müsste man sich schon großartig dumm anstellen, um das ihm zu vermasseln.",
                 T01_00_002: "Aber ist Arbeit mit überhaupt aushaltbar? Sein Respekt gewinnt man meistens durch gute Manieren und Wissensschatz. Ähm… wie war sein Name nochmal überhaupt?",
@@ -779,26 +791,40 @@ var Game;
                 T00_00_001: "Nun reißen Sie sich bitte zusammen. Ich werde Ihre Ergebnisse jeweils benoten. Wenn Sie möchten, wäre diese Note dann auch schon die Endnote für diesen Kurs. Ob Sie die angedachte Klausur dann schreiben wollen, ist Ihnen überlassen. Sie wird freiwillig sein. Die Klausur würde dann 50% mit der Projektarbeit zählen. Ist alles soweit klar?",
                 T00_00_002: "Ach ja, genau. Das hatte ich vergessen. Manchmal muss ich es gar nicht mehr erwähnen, da es schon jeder wusste.",
                 T00_00_003: "Sie werden mithilfe des Wissens und den Materialien von diesem Semester, einen Roboter bauen, der in einem Ring einen anderen Roboter bewegungsunfähig machen soll. Alle Infos hierzu, habe ich online hochgeladen.",
-                T00_00_004: "Dann bitte ich Sie, Sich bitte einen Partner auszusuchen mit dem Sie die Projektarbeit bestreiten möchten."
+                T00_00_004: "Dann bitte ich Sie, Sich bitte einen Partner auszusuchen mit dem Sie die Projektarbeit bestreiten möchten.",
+                T00_00_005: "Wer bereits einen Partner hat, kann gehen."
             },
             student: {
                 T00_00_000: "Was ist das Projekt denn eigentlich?"
             },
             protagonist: {
                 T00_00_000: "Hey, ähm... Willst du mit mir das Projekt machen?",
-                T00_00_001: ""
+                T00_01_000: "Ja, ich habe voll Lust darauf!",
+                T00_02_000: "Ne, eigentlich habe ich gar keine Lust auf den Scheiß.",
+                T00_03_000: "Hm... ich weiß nicht. Mal sehen wie es wird.",
+                T01_00_000: "Ja.",
+                T01_01_000: "Äh...",
+                T02_00_000: Game.dataForSave.protagonistName + "."
             },
             louis: {
                 T00_00_000: Game.dataForSave.protagonistName + " ist dein Name, oder?",
-                T01_00_000: "Gut. Jedenfalls jemand, der im Unterricht aufpasst. Von mir aus können wir zusammenarbeiten.",
-                T01_00_001: "",
+                T00_00_001: "Mein Name ist Louis.",
+                T00_00_002: "Freust du dich auf die Projektarbeit? Nächste Woche werden wir damit anfangen.",
+                T01_00_000: "Gut. Jedenfalls jemand, der im Unterricht aufpasst. Von mir aus können wir zusammen arbeiten.",
                 T02_00_000: "Schläfst du üblicherweise im Unterricht?",
-                T02_00_001: "Na gut, ich kann ja schlecht 'Nein' sagen",
                 T03_00_000: "... Ok.",
-                T03_00_001: "..."
+                T04_00_000: "Das ist gut. Ich werde sicherstellen, dass unser Projekt ein Erfolg wird.",
+                T05_00_000: "Hm. ... Ich werde mich darum kümmern, dass unser Projekt trotzdem ein Erfolg wird.",
+                T06_00_000: "Das ist ok. Ich werde sicherstellen, dass unser Projekt ein Erfolg wird."
             },
             lily: {
-                T00_00_000: "Hi... Wie heißt du nochmal?"
+                T00_00_000: "Ja! Gerne! ... Wie heißt du nochmal?",
+                T00_00_001: "Hi " + Game.dataForSave.protagonistName + ". Wir hatten noch nichts miteinander zu tun. Darum fiel es mir schwer mich zu erinnern. Sorry.",
+                T00_00_002: "Ich heiße Lily übrigens.",
+                T00_00_003: "Nächste Woche werden wir mit der Projektarbeit anfangen. Freust du dich darauf?",
+                T01_00_000: "Cool! Ich bin auch schon echt aufgeregt! Das könnte echt spaßig werden.",
+                T02_00_000: "Das ist schade. Ich habe trotzdem vor mein Bestes zu geben.",
+                T03_00_000: "Mhm. ... Ich freue mich schon etwas auf die Projektarbeit."
             }
         };
         // #endregion (Text)
@@ -812,6 +838,12 @@ var Game;
         let partnerChoiceAnswer = {
             louis: "Der Student links",
             lily: "Die Studentin rechts"
+        };
+        let expressEnthusiasm;
+        let expressEnthusiasmAnswer = {
+            yes: "Ja",
+            no: "Nein",
+            indifferent: "Gleichgültig"
         };
         // #endregion (Decision)
         // #region (Play)
@@ -887,21 +919,119 @@ var Game;
         switch (partnerChoice) {
             case partnerChoiceAnswer.louis:
                 Game.dataForSave.partnerChosen = "Louis";
+                await Game.ƒS.Character.hide(Game.characters.lily);
+                await Game.ƒS.update(0.5);
+                await Game.ƒS.Character.animate(Game.characters.louis, Game.characters.louis.pose.neutral2, Game.slideFromLeftToMiddleAnimation());
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_000);
+                await Game.ƒS.Character.hide(Game.characters.louis);
+                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
+                Game.ƒS.update();
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_001);
+                document.getElementById("louisName").innerText = "Louis";
+                // remove Lily's bar
+                document.getElementById("lilyName").remove();
+                document.getElementById("lilyBar").remove();
                 if (Game.dataForSave.paidAttentionInClass) {
+                    await Game.ƒS.Character.hide(Game.characters.louis);
+                    await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy2, Game.ƒS.positionPercent(50, 100));
+                    Game.ƒS.update();
                     await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_000);
                 }
                 else if (Game.dataForSave.sleptInClass) {
                     await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_000);
+                    await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_01_000);
                 }
                 else if (Game.dataForSave.tormentedSomeoneInClass) {
+                    await Game.ƒS.Character.hide(Game.characters.louis);
+                    await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.sad2, Game.ƒS.positionPercent(50, 100));
+                    Game.ƒS.update();
                     await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_000);
                 }
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_002);
+                expressEnthusiasm = await Game.ƒS.Menu.getInput(expressEnthusiasmAnswer, "decisionClass");
+                switch (expressEnthusiasm) {
+                    case expressEnthusiasmAnswer.yes:
+                        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_01_000);
+                        await Game.ƒS.Character.hide(Game.characters.louis);
+                        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy1, Game.ƒS.positionPercent(50, 100));
+                        Game.ƒS.update();
+                        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T04_00_000);
+                        break;
+                    case expressEnthusiasmAnswer.no:
+                        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_02_000);
+                        await Game.ƒS.Character.hide(Game.characters.louis);
+                        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.sad1, Game.ƒS.positionPercent(50, 100));
+                        Game.ƒS.update();
+                        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T05_00_000);
+                        break;
+                    case expressEnthusiasmAnswer.indifferent:
+                        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_03_000);
+                        await Game.ƒS.Character.hide(Game.characters.louis);
+                        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
+                        Game.ƒS.update();
+                        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T06_00_000);
+                        break;
+                }
+                // teacher talking
+                await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_005);
+                // going home
+                await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_015);
+                await Game.ƒS.Character.hide(Game.characters.louis);
+                Game.ƒS.update();
                 break;
             case partnerChoiceAnswer.lily:
                 Game.dataForSave.partnerChosen = "Lily";
+                await Game.ƒS.Character.hide(Game.characters.louis);
+                await Game.ƒS.update(0.5);
+                await Game.ƒS.Character.animate(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.slideFromRightToMiddleAnimation());
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_000);
+                await Game.ƒS.Character.hide(Game.characters.lily);
+                await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.happy1, Game.ƒS.positionPercent(50, 100));
+                Game.ƒS.update();
+                await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_001);
+                await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_002);
+                document.getElementById("lilyName").innerText = "Lily";
+                // remove Louis' bar
+                document.getElementById("louisName").remove();
+                document.getElementById("louisBar").remove();
+                await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_003);
+                expressEnthusiasm = await Game.ƒS.Menu.getInput(expressEnthusiasmAnswer, "decisionClass");
+                switch (expressEnthusiasm) {
+                    case expressEnthusiasmAnswer.yes:
+                        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_01_000);
+                        await Game.ƒS.Character.hide(Game.characters.lily);
+                        await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.excited1, Game.ƒS.positionPercent(50, 100));
+                        Game.ƒS.update();
+                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_000);
+                        break;
+                    case expressEnthusiasmAnswer.no:
+                        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_02_000);
+                        await Game.ƒS.Character.hide(Game.characters.lily);
+                        await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.sad1, Game.ƒS.positionPercent(50, 100));
+                        Game.ƒS.update();
+                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_000);
+                        break;
+                    case expressEnthusiasmAnswer.indifferent:
+                        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_03_000);
+                        await Game.ƒS.Character.hide(Game.characters.lily);
+                        await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(50, 100));
+                        Game.ƒS.update();
+                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T03_00_000);
+                        break;
+                }
+                // teacher talking
+                await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_005);
+                // going home
+                await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_015);
+                await Game.ƒS.Character.hide(Game.characters.lily);
+                Game.ƒS.update();
                 break;
         }
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         // #endregion (Play)
     }
     Game.scene_3_robotics_lesson = scene_3_robotics_lesson;
