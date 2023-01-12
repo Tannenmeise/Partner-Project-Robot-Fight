@@ -14,6 +14,8 @@ namespace Game {
 
 
         // #region (Play)
+        await ƒS.Text.print("Brief von Louis");
+
         return "end";
         // #endregion (Play)
     }

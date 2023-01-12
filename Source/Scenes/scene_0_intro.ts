@@ -18,12 +18,15 @@ namespace Game {
         // #endregion (Text)
         
         // #region (Play)
-
         // TODO: DELETE
-        
+        /*
         ƒS.Inventory.add(items.keychainEvo);
+        ƒS.Inventory.add(items.keychainLancebot);
+        ƒS.Inventory.add(items.pinBlue);
+        ƒS.Inventory.add(items.pinOrange);
+        ƒS.Inventory.add(items.medal);
         await ƒS.Inventory.open();
-        
+        */
        
         await ƒS.Speech.tell(characters.narrator, text.narrator.YourName);
         dataForSave.protagonistName = await ƒS.Speech.getInput();

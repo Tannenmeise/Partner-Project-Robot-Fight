@@ -92,32 +92,32 @@ namespace Game {
 
     export let items = {
         keychainEvo: {
-            name: "EVO 01",
+            name: "EVO 01 Anhänger",
             description: "Evolution Einheit 01 vom Anime Evolution",
             image: "Assets/Graphics/Items/keychain_evo01.png",
             static: true
         },
         keychainLancebot: {
-            name: "Lancebot",
+            name: "Lancebot Anhänger",
             description: "Lancebot vom Anime Code Gas",
             image: "Assets/Graphics/Items/keychain_lancebot.png",
             static: true
         },
         medal: {
-            name: "Medaille",
-            description: "Die Medaille zum 1. Platz im Roboterkampf",
-            image: "Assets/Graphics/Items/keychain_medal.png",
+            name: "Platz 1 Medaille",
+            description: "Medaille zum 1. Platz im Roboterkampf",
+            image: "Assets/Graphics/Items/medal.png",
             static: true
         },
         pinBlue: {
             name: "Blauer Schmetterling Pin",
-            description: "Ein Pin mit einem blauen Schmetterling",
+            description: "Pin mit einem blauen Schmetterling",
             image: "Assets/Graphics/Items/pin_blue.png",
             static: true
         },
         pinOrange: {
-            name: "Orangener Schmetterling Pin",
-            description: "Ein Pin mit einem orangenen Schmetterling",
+            name: "Oranger Schmetterling Pin",
+            description: "Pin mit einem orangenen Schmetterling",
             image: "Assets/Graphics/Items/pin_orange.png",
             static: true
         }

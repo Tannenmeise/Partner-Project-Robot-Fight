@@ -229,6 +229,7 @@ meter[id="louisBar"]::-webkit-meter-optimum-value {
     font-weight: bold;
     background-color: #ececec;
     padding: 0.3%;
+    border-radius: 10%;
 }
 
 meter[id="lilyBar"] {
@@ -251,4 +252,48 @@ meter[id="lilyBar"]::-webkit-meter-optimum-value {
     font-weight: bold;
     background-color: #ececec;
     padding: 0.3%;
+    border-radius: 10%;
+}
+
+dialog[type=inventory] {
+    background-color: rgba(0, 0, 0, 0.863);
+    border-color: rgba(0, 0, 0, 0);
+}
+
+dialog[type=inventory] ul {
+    display: flex;
+    flex-direction: row;
+}
+
+dialog[type=inventory] ul li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 40%;
+    background-color: #ececec;
+    margin-left: 1%;
+    border-width: 10%;
+    border-style: solid;
+    border-radius: 5%;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+dialog[type=inventory] ul li name {
+    font-weight: bold;
+}
+
+dialog[type=inventory] ul li amount {
+    border-style: solid;
+    border-width: 0.1vw;
+    border-color: black;
+    border-radius: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-size: smaller;
+}
+
+dialog[type=inventory] ul li description {
+    font-style: italic;
+    font-size: smaller;
 }
