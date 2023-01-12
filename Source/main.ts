@@ -19,15 +19,6 @@ namespace Game {
         ƒS.Text.print("");
     }
 
-    export let items = {
-        item1: {
-            name: "Item-Name",
-            description: "Item-Beschreibung",
-            image: "Assets/Graphics/Items/item1.png",
-            static: true
-        }
-    };
-
     // #region (MENU)
     // menu shortcuts
     let inGameMenuButtons = {
@@ -99,6 +90,39 @@ namespace Game {
     }
     // #endregion (MENU)
 
+    export let items = {
+        keychainEvo: {
+            name: "EVO 01",
+            description: "Evolution Einheit 01 vom Anime Evolution",
+            image: "Assets/Graphics/Items/keychain_evo01.png",
+            static: true
+        },
+        keychainLancebot: {
+            name: "Lancebot",
+            description: "Lancebot vom Anime Code Gas",
+            image: "Assets/Graphics/Items/keychain_lancebot.png",
+            static: true
+        },
+        medal: {
+            name: "Medaille",
+            description: "Die Medaille zum 1. Platz im Roboterkampf",
+            image: "Assets/Graphics/Items/keychain_medal.png",
+            static: true
+        },
+        pinBlue: {
+            name: "Blauer Schmetterling Pin",
+            description: "Ein Pin mit einem blauen Schmetterling",
+            image: "Assets/Graphics/Items/pin_blue.png",
+            static: true
+        },
+        pinOrange: {
+            name: "Orangener Schmetterling Pin",
+            description: "Ein Pin mit einem orangenen Schmetterling",
+            image: "Assets/Graphics/Items/pin_orange.png",
+            static: true
+        }
+    };
+
     export let transitions = {
         binaryCode: {
             duration: 3,
@@ -109,7 +133,7 @@ namespace Game {
 
     export let sounds = {
         // music
-        background: "PATH",
+        endTheme: "Assets/Audio/Music/end_theme.wav",
         robotFight: "Assets/Audio/Music/robot_fight.wav",
         // sounds
         automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
@@ -349,13 +373,14 @@ namespace Game {
         buttonFunctionalities("Close");
 
         let scenes: ƒS.Scenes = [
-            /*
             { scene: scene_0_intro, name: "Scene 0: Intro" },
+            /*
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             */
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
-            { scene: scene_4_storage_room, name: "Scene 4: Storage Room" },
+            { scene: scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis" },
+            { scene: scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily" },
             { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
             { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
             { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },

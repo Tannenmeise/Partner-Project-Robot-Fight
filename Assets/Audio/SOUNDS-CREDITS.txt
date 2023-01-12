@@ -1,5 +1,9 @@
 Music:
 -------
+end_theme.wav
+- "Nostalgic Ending Credits 3", tyops, January 31st, 2022
+- https://freesound.org/people/tyops/sounds/616799/
+
 robot_fight.wav
 - "Short loop made in a few minutes with QWS and GoldWave", sonically_sound, August 23rd, 2022
 - https://freesound.org/people/sonically_sound/sounds/647908/

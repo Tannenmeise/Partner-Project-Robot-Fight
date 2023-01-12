@@ -20,10 +20,10 @@ namespace Game {
         // #region (Play)
 
         // TODO: DELETE
-        /*
-        ƒS.Inventory.add(items.item1);
+        
+        ƒS.Inventory.add(items.keychainEvo);
         await ƒS.Inventory.open();
-        */
+        
        
         await ƒS.Speech.tell(characters.narrator, text.narrator.YourName);
         dataForSave.protagonistName = await ƒS.Speech.getInput();

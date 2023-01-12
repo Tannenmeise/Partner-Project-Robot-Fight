@@ -17,14 +17,6 @@ var Game;
     function credits() {
         Game.ƒS.Text.print("");
     }
-    Game.items = {
-        item1: {
-            name: "Item-Name",
-            description: "Item-Beschreibung",
-            image: "Assets/Graphics/Items/item1.png",
-            static: true
-        }
-    };
     // #region (MENU)
     // menu shortcuts
     let inGameMenuButtons = {
@@ -92,6 +84,38 @@ var Game;
         }
     }
     // #endregion (MENU)
+    Game.items = {
+        keychainEvo: {
+            name: "EVO 01",
+            description: "Evolution Einheit 01 vom Anime Evolution",
+            image: "Assets/Graphics/Items/keychain_evo01.png",
+            static: true
+        },
+        keychainLancebot: {
+            name: "Lancebot",
+            description: "Lancebot vom Anime Code Gas",
+            image: "Assets/Graphics/Items/keychain_lancebot.png",
+            static: true
+        },
+        medal: {
+            name: "Medaille",
+            description: "Die Medaille zum 1. Platz im Roboterkampf",
+            image: "Assets/Graphics/Items/keychain_medal.png",
+            static: true
+        },
+        pinBlue: {
+            name: "Blauer Schmetterling Pin",
+            description: "Ein Pin mit einem blauen Schmetterling",
+            image: "Assets/Graphics/Items/pin_blue.png",
+            static: true
+        },
+        pinOrange: {
+            name: "Orangener Schmetterling Pin",
+            description: "Ein Pin mit einem orangenen Schmetterling",
+            image: "Assets/Graphics/Items/pin_orange.png",
+            static: true
+        }
+    };
     Game.transitions = {
         binaryCode: {
             duration: 3,
@@ -101,7 +125,7 @@ var Game;
     };
     Game.sounds = {
         // music
-        background: "PATH",
+        endTheme: "Assets/Audio/Music/end_theme.wav",
         robotFight: "Assets/Audio/Music/robot_fight.wav",
         // sounds
         automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
@@ -329,13 +353,14 @@ var Game;
         gameMenu = Game.ƒS.Menu.create(inGameMenuButtons, buttonFunctionalities, "gameMenuCSSClass");
         buttonFunctionalities("Close");
         let scenes = [
+            { scene: Game.scene_0_intro, name: "Scene 0: Intro" },
             /*
-            { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             */
             { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
-            { scene: Game.scene_4_storage_room, name: "Scene 4: Storage Room" },
+            { scene: Game.scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis" },
+            { scene: Game.scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily" },
             { scene: Game.scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
             { scene: Game.scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
             { scene: Game.scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
@@ -371,10 +396,8 @@ var Game;
         // #endregion (Text)
         // #region (Play)
         // TODO: DELETE
-        /*
-        ƒS.Inventory.add(items.item1);
-        await ƒS.Inventory.open();
-        */
+        Game.ƒS.Inventory.add(Game.items.keychainEvo);
+        await Game.ƒS.Inventory.open();
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.YourName);
         Game.dataForSave.protagonistName = await Game.ƒS.Speech.getInput();
         // transition
@@ -1038,8 +1061,8 @@ var Game;
 })(Game || (Game = {}));
 var Game;
 (function (Game) {
-    async function scene_4_storage_room() {
-        console.log("scene_4_storage_room started");
+    async function scene_4a_storage_room_louis() {
+        console.log("scene_4a_storage_room_louis started");
         // #region (Text) 
         let text = {
             narrator: {}
@@ -1050,7 +1073,23 @@ var Game;
         // #region (Play)
         // #endregion (Play)
     }
-    Game.scene_4_storage_room = scene_4_storage_room;
+    Game.scene_4a_storage_room_louis = scene_4a_storage_room_louis;
+})(Game || (Game = {}));
+var Game;
+(function (Game) {
+    async function scene_4b_storage_room_lily() {
+        console.log("scene_4b_storage_room_lily started");
+        // #region (Text) 
+        let text = {
+            narrator: {}
+        };
+        // #endregion (Text)
+        // #region (Decision)
+        // #endregion (Decision)
+        // #region (Play)
+        // #endregion (Play)
+    }
+    Game.scene_4b_storage_room_lily = scene_4b_storage_room_lily;
 })(Game || (Game = {}));
 var Game;
 (function (Game) {

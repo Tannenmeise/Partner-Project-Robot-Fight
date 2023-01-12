@@ -11,7 +11,31 @@ declare namespace Game {
         tormentedSomeoneInClass: boolean;
     };
     let items: {
-        item1: {
+        keychainEvo: {
+            name: string;
+            description: string;
+            image: string;
+            static: boolean;
+        };
+        keychainLancebot: {
+            name: string;
+            description: string;
+            image: string;
+            static: boolean;
+        };
+        medal: {
+            name: string;
+            description: string;
+            image: string;
+            static: boolean;
+        };
+        pinBlue: {
+            name: string;
+            description: string;
+            image: string;
+            static: boolean;
+        };
+        pinOrange: {
             name: string;
             description: string;
             image: string;
@@ -26,7 +50,7 @@ declare namespace Game {
         };
     };
     let sounds: {
-        background: string;
+        endTheme: string;
         robotFight: string;
         automaticDoor: string;
         bigCrowd: string;
@@ -188,7 +212,10 @@ declare namespace Game {
     function scene_3_robotics_lesson(): ƒS.SceneReturn;
 }
 declare namespace Game {
-    function scene_4_storage_room(): ƒS.SceneReturn;
+    function scene_4a_storage_room_louis(): ƒS.SceneReturn;
+}
+declare namespace Game {
+    function scene_4b_storage_room_lily(): ƒS.SceneReturn;
 }
 declare namespace Game {
     function scene_5a_date_louis(): ƒS.SceneReturn;
