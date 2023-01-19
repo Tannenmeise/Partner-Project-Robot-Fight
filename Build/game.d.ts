@@ -72,10 +72,6 @@ declare namespace Game {
             name: string;
             background: string;
         };
-        white: {
-            name: string;
-            background: string;
-        };
         schoolBuilding: {
             name: string;
             background: string;

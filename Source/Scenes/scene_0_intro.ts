@@ -18,6 +18,8 @@ namespace Game {
         // #endregion (Text)
         
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
+
         // TODO: DELETE
         /*
         ƒS.Inventory.add(items.keychainEvo);

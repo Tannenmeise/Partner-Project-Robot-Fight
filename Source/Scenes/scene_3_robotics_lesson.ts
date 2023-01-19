@@ -109,8 +109,10 @@ namespace Game {
         // #endregion (Decision)
 
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
+
         ƒS.Speech.hide();
-        await ƒS.Location.show(locations.white);
+        await ƒS.Location.show(locations.black);
         await ƒS.update(1);
 
         await ƒS.Location.show(locations.classroomRobotics);
@@ -227,10 +229,6 @@ namespace Game {
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T01_00_000);
 
                 await ƒS.Speech.tell(characters.louis, text.louis.T00_00_001);
-                document.getElementById("louisName").innerText = "Louis";
-                // remove Lily's bar
-                document.getElementById("lilyName").remove();
-                document.getElementById("lilyBar").remove();
 
                 if (dataForSave.paidAttentionInClass) {
                     await ƒS.Character.hide(characters.louis);
@@ -308,10 +306,6 @@ namespace Game {
 
                 await ƒS.Speech.tell(characters.lily, text.lily.T00_00_001);
                 await ƒS.Speech.tell(characters.lily, text.lily.T00_00_002);
-                document.getElementById("lilyName").innerText = "Lily";
-                // remove Louis' bar
-                document.getElementById("louisName").remove();
-                document.getElementById("louisBar").remove();
 
                 await ƒS.Speech.tell(characters.lily, text.lily.T00_00_003);
 

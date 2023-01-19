@@ -74,8 +74,9 @@ namespace Game {
         // #endregion (Decision)
         
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         ƒS.Speech.hide();
-        await ƒS.Location.show(locations.white);
+        await ƒS.Location.show(locations.black);
         await ƒS.update(1);
 
         await ƒS.Location.show(locations.classroomHistory);
@@ -124,7 +125,7 @@ namespace Game {
                 document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
                 await ƒS.Speech.tell(characters.historyTeacher, text.historyTeacher.T01_00_000);
                 ƒS.Speech.hide();
-                await ƒS.Location.show(locations.white);
+                await ƒS.Location.show(locations.black);
                 await ƒS.update(1);
                 await ƒS.Location.show(locations.classroomHistory);
                 await ƒS.update(1);
@@ -143,7 +144,7 @@ namespace Game {
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_001);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_002);
                 ƒS.Speech.hide();
-                await ƒS.Location.show(locations.white);
+                await ƒS.Location.show(locations.black);
                 await ƒS.update(1);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_003);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T02_00_004);
@@ -169,7 +170,7 @@ namespace Game {
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T03_00_005);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T03_00_006);
                 ƒS.Speech.hide();
-                await ƒS.Location.show(locations.white);
+                await ƒS.Location.show(locations.black);
                 await ƒS.update(1);
                 await ƒS.Location.show(locations.classroomHistory);
                 await ƒS.update(1);

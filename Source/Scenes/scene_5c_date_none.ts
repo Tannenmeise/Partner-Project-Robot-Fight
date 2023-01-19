@@ -14,6 +14,7 @@ namespace Game {
 
 
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
 }

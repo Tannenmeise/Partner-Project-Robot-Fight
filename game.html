@@ -14,26 +14,13 @@
 <body>
     <scene>
         <dialog type="splash" open>
-            <img id="FudgeStoryLogo" theme="dark" /> <!-- use "light" or "dark" -->
+            <img id="FudgeStoryLogo" theme="dark" />
         </dialog>
         <canvas></canvas>
         <speech>
             <name></name>
             <content></content>
         </speech>
-        <dialog type="splash">
-            The content of a page of text for reading
-        </dialog>
-        <div id="fightBars" type="interface">
-            <meter id="healthBar" min="0" max="100" value="100" disabled></meter>
-            <meter id="enemyHealthBar" min="0" max="100" value="100" disabled></meter>
-        </div>
-        <div id="loveBars" type="interface">
-            <meter id="louisBar" min="0" max="100" value="50" enabled></meter>
-            <p id="louisName">?</p>
-            <meter id="lilyBar" min="0" max="100" value="50" enabled></meter>
-            <p id="lilyName">?</p>
-        </div>
         <dialog type="text">
         </dialog>
         <dialog type="inventory">
@@ -41,6 +28,16 @@
             <ul>
             </ul>
         </dialog>
+        <div id="fightBars" type="interface">
+            <meter id="healthBar" min="0" max="100" value="100" disabled></meter>
+            <meter id="enemyHealthBar" min="0" max="100" value="100" disabled></meter>
+        </div>
+        <div id="loveBars" type="interface">
+            <meter id="louisBar" name="louisPoints" min="0" max="100" value="50" disabled></meter>
+            <p id="louisName">Louis</p>
+            <meter id="lilyBar" name ="lilyPoints" min="0" max="100" value="50" disabled></meter>
+            <p id="lilyName">Lily</p>
+        </div>
     </scene>
 </body>
 

@@ -157,10 +157,6 @@ namespace Game {
             name: "Black",
             background: "Assets/Graphics/Backgrounds/black.png"
         },
-        white: {
-            name: "White",
-            background: "Assets/Graphics/Backgrounds/white.png"
-        },
         schoolBuilding: {
             name: "School Building",
             background: "Assets/Graphics/Backgrounds/school_building.png"
@@ -374,10 +370,8 @@ namespace Game {
 
         let scenes: ƒS.Scenes = [
             { scene: scene_0_intro, name: "Scene 0: Intro" },
-            /*
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
-            */
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
             { scene: scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis" },
             { scene: scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily" },

@@ -52,9 +52,14 @@ namespace Game {
 
         // #region (Play)
         // text
+        ƒS.Speech.hide();
+        await ƒS.Location.show(locations.black);
+        await ƒS.update(1);
+
+        document.getElementById("loveBars").setAttribute("style", "visibility: hidden");
+        
         await ƒS.Location.show(locations.classroomFest);
-        //await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
-        await ƒS.update();
+        await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
 
         ƒS.Sound.play(sounds.robotFight, 1, true);
 
@@ -66,8 +71,6 @@ namespace Game {
         let enemyChosenAttack: number;
 
         document.getElementById("fightBars").setAttribute("style", "visibility: visible");
-
-        dataForSave.partnerChosen = "Louis";
 
         switch (dataForSave.partnerChosen) {
             case "Louis":

@@ -148,10 +148,6 @@ var Game;
             name: "Black",
             background: "Assets/Graphics/Backgrounds/black.png"
         },
-        white: {
-            name: "White",
-            background: "Assets/Graphics/Backgrounds/white.png"
-        },
         schoolBuilding: {
             name: "School Building",
             background: "Assets/Graphics/Backgrounds/school_building.png"
@@ -354,10 +350,8 @@ var Game;
         buttonFunctionalities("Close");
         let scenes = [
             { scene: Game.scene_0_intro, name: "Scene 0: Intro" },
-            /*
-            { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
-            { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
-            */
+            { scene: Game.scene_1_pinboards, name: "Scene 1: Pinboards" },
+            { scene: Game.scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
             { scene: Game.scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis" },
             { scene: Game.scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily" },
@@ -395,6 +389,7 @@ var Game;
         };
         // #endregion (Text)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // TODO: DELETE
         /*
         ƒS.Inventory.add(items.keychainEvo);
@@ -491,10 +486,11 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // transition
         Game.ƒS.Speech.clear();
         Game.ƒS.Speech.hide();
-        await Game.ƒS.Location.show(Game.locations.white);
+        await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.pinboards1);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
@@ -690,8 +686,9 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         Game.ƒS.Speech.hide();
-        await Game.ƒS.Location.show(Game.locations.white);
+        await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomHistory);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
@@ -721,7 +718,7 @@ var Game;
                 document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T01_00_000);
                 Game.ƒS.Speech.hide();
-                await Game.ƒS.Location.show(Game.locations.white);
+                await Game.ƒS.Location.show(Game.locations.black);
                 await Game.ƒS.update(1);
                 await Game.ƒS.Location.show(Game.locations.classroomHistory);
                 await Game.ƒS.update(1);
@@ -740,7 +737,7 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_002);
                 Game.ƒS.Speech.hide();
-                await Game.ƒS.Location.show(Game.locations.white);
+                await Game.ƒS.Location.show(Game.locations.black);
                 await Game.ƒS.update(1);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_003);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_004);
@@ -766,7 +763,7 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_005);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_006);
                 Game.ƒS.Speech.hide();
-                await Game.ƒS.Location.show(Game.locations.white);
+                await Game.ƒS.Location.show(Game.locations.black);
                 await Game.ƒS.update(1);
                 await Game.ƒS.Location.show(Game.locations.classroomHistory);
                 await Game.ƒS.update(1);
@@ -876,8 +873,9 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         Game.ƒS.Speech.hide();
-        await Game.ƒS.Location.show(Game.locations.white);
+        await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomRobotics);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
@@ -958,10 +956,6 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_001);
-                document.getElementById("louisName").innerText = "Louis";
-                // remove Lily's bar
-                document.getElementById("lilyName").remove();
-                document.getElementById("lilyBar").remove();
                 if (Game.dataForSave.paidAttentionInClass) {
                     await Game.ƒS.Character.hide(Game.characters.louis);
                     await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy2, Game.ƒS.positionPercent(50, 100));
@@ -1023,10 +1017,6 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_002);
-                document.getElementById("lilyName").innerText = "Lily";
-                // remove Louis' bar
-                document.getElementById("louisName").remove();
-                document.getElementById("louisBar").remove();
                 await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_003);
                 expressEnthusiasm = await Game.ƒS.Menu.getInput(expressEnthusiasmAnswer, "decisionClass");
                 switch (expressEnthusiasm) {
@@ -1077,6 +1067,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
     Game.scene_4a_storage_room_louis = scene_4a_storage_room_louis;
@@ -1093,6 +1084,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
     Game.scene_4b_storage_room_lily = scene_4b_storage_room_lily;
@@ -1109,6 +1101,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
     Game.scene_5a_date_louis = scene_5a_date_louis;
@@ -1125,6 +1118,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
     Game.scene_5b_date_lily = scene_5b_date_lily;
@@ -1141,6 +1135,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
     Game.scene_5c_date_none = scene_5c_date_none;
@@ -1195,9 +1190,12 @@ var Game;
         // #endregion (Decision)
         // #region (Play)
         // text
+        Game.ƒS.Speech.hide();
+        await Game.ƒS.Location.show(Game.locations.black);
+        await Game.ƒS.update(1);
+        document.getElementById("loveBars").setAttribute("style", "visibility: hidden");
         await Game.ƒS.Location.show(Game.locations.classroomFest);
-        //await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
-        await Game.ƒS.update();
+        await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         Game.ƒS.Sound.play(Game.sounds.robotFight, 1, true);
         let health = 100;
         let enemyHealth = 100;
@@ -1206,7 +1204,6 @@ var Game;
         let chosenAttack;
         let enemyChosenAttack;
         document.getElementById("fightBars").setAttribute("style", "visibility: visible");
-        Game.dataForSave.partnerChosen = "Louis";
         switch (Game.dataForSave.partnerChosen) {
             case "Louis":
                 await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.neutral, Game.ƒS.positionPercent(29, 70));
@@ -1461,6 +1458,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         await Game.ƒS.Text.print("Brief von Louis");
         return "end";
         // #endregion (Play)
@@ -1479,6 +1477,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         await Game.ƒS.Text.print("Brief von Lily");
         return "end";
         // #endregion (Play)
@@ -1497,6 +1496,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         return "end";
         // #endregion (Play)
     }
@@ -1514,6 +1514,7 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         return "end";
         // #endregion (Play)
     }

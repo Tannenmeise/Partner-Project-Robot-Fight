@@ -65,10 +65,11 @@ namespace Game {
         // #endregion (Decision)
         
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // transition
         ƒS.Speech.clear();
         ƒS.Speech.hide();
-        await ƒS.Location.show(locations.white);
+        await ƒS.Location.show(locations.black);
         await ƒS.update(1);
         await ƒS.Location.show(locations.pinboards1);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);

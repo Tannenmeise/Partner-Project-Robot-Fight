@@ -168,9 +168,8 @@ speech name {
     background-color: rgba(0, 0, 0, 0.863);
 }
 
-#love-o-meter {
-    margin-top: -97vh;
-    margin-left: 92vw;
+#loveBars {
+    visibility: hidden;
 }
 
 #fightBars {

@@ -14,6 +14,8 @@ namespace Game {
 
 
         // #region (Play)
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
+        
         await ƒS.Text.print("Brief von Louis");
 
         return "end";
