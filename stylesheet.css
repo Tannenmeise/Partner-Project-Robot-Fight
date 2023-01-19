@@ -296,3 +296,21 @@ dialog[type=inventory] ul li description {
     font-style: italic;
     font-size: smaller;
 }
+
+.louisLetter {
+    font-family: 'Shadows Into Light';
+    font-weight: bold;
+    color: rgb(47, 50, 135);
+    border-color: rgba(255, 0, 0, 0);
+    border-radius: 1%;
+    background-image: url("Assets/Graphics/Letter/paper.png");
+}
+
+.lilyLetter {
+    font-family: 'Caveat';
+    font-weight: bold;
+    color: rgb(22, 120, 137);
+    border-color: rgba(255, 0, 0, 0);
+    border-radius: 1%;
+    background-image: url("Assets/Graphics/Letter/paper.png");
+}

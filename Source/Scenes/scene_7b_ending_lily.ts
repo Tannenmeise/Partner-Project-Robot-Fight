@@ -15,8 +15,17 @@ namespace Game {
 
         // #region (Play)
         document.getElementById("loveBars").setAttribute("style", "visibility: visible");
-        
-        await ƒS.Text.print("Brief von Lily");
+
+        //TODO: delete
+        dataForSave.partnerChosen = "Lily";
+
+        ƒS.Text.addClass("lilyLetter");
+
+        await ƒS.Text.print("<h2>Hallo " + dataForSave.protagonistName + ",</h2>" +
+            "<p>Bla bla bla...</p>" +
+            "<h2>Liebe Grüße</h2>" +
+            "<h2>Lily</h2>"
+        );
 
         return "end";
         // #endregion (Play)

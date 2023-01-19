@@ -1459,7 +1459,13 @@ var Game;
         // #endregion (Decision)
         // #region (Play)
         document.getElementById("loveBars").setAttribute("style", "visibility: visible");
-        await Game.ƒS.Text.print("Brief von Louis");
+        //TODO: delete
+        Game.dataForSave.partnerChosen = "Louis";
+        Game.ƒS.Text.addClass("louisLetter");
+        await Game.ƒS.Text.print("<h2>Hallo " + Game.dataForSave.protagonistName + ",</h2>" +
+            "<p>Bla bla bla...</p>" +
+            "<h2>Liebe Grüße</h2>" +
+            "<h2>Louis</h2>");
         return "end";
         // #endregion (Play)
     }
@@ -1478,7 +1484,13 @@ var Game;
         // #endregion (Decision)
         // #region (Play)
         document.getElementById("loveBars").setAttribute("style", "visibility: visible");
-        await Game.ƒS.Text.print("Brief von Lily");
+        //TODO: delete
+        Game.dataForSave.partnerChosen = "Lily";
+        Game.ƒS.Text.addClass("lilyLetter");
+        await Game.ƒS.Text.print("<h2>Hallo " + Game.dataForSave.protagonistName + ",</h2>" +
+            "<p>Bla bla bla...</p>" +
+            "<h2>Liebe Grüße</h2>" +
+            "<h2>Lily</h2>");
         return "end";
         // #endregion (Play)
     }

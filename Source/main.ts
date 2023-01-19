@@ -369,6 +369,7 @@ namespace Game {
         buttonFunctionalities("Close");
 
         let scenes: ƒS.Scenes = [
+            
             { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
