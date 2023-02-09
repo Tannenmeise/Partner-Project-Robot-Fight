@@ -14,7 +14,7 @@ namespace Game {
 
 
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
+
 
         //TODO: delete
         dataForSave.partnerChosen = "Louis";

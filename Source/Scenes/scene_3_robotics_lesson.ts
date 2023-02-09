@@ -31,7 +31,7 @@ namespace Game {
                 T02_00_002: "Sie wirkt trotz ihrer auffälligen Haarfarbe wie ein fast unsichtbares Mauerblümchen. Menschen mit gutem Herz und Unterstützungsgeist, schätzt sie sehr."
             },
             roboticsTeacher: {
-                T00_00_000: "Schön. Es scheint, Sie haben alle erfolgreich hierhergefunden. Das erspart mir, dass ich einen oder mehreren von Ihnen hinterherlaufen muss, denn das Projekt ist Pflicht – nicht freiwillig.",
+                T00_00_000: "Schön. Es scheint, Sie haben alle erfolgreich hierhergefunden. Das erspart mir, dass ich einen oder mehreren von Ihnen hinterherlaufen muss, denn das Projekt ist Pflicht und nicht freiwillig.",
                 T00_00_001: "Nun reißen Sie sich bitte zusammen. Ich werde Ihre Ergebnisse jeweils benoten. Wenn Sie möchten, wäre diese Note dann auch schon die Endnote für diesen Kurs. Ob Sie die angedachte Klausur dann schreiben wollen, ist Ihnen überlassen. Sie wird freiwillig sein. Die Klausur würde dann 50% mit der Projektarbeit zählen. Ist alles soweit klar?",
                 T00_00_002: "Ach ja, genau. Das hatte ich vergessen. Manchmal muss ich es gar nicht mehr erwähnen, da es schon jeder wusste.",
                 T00_00_003: "Sie werden mithilfe des Wissens und den Materialien von diesem Semester, einen Roboter bauen, der in einem Ring einen anderen Roboter bewegungsunfähig machen soll. Alle Infos hierzu, habe ich online hochgeladen.",
@@ -109,8 +109,6 @@ namespace Game {
         // #endregion (Decision)
 
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
-
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);
@@ -122,6 +120,8 @@ namespace Game {
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_001);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_002);
 
+        await ƒS.Character.show(characters.roboticsTeacher, characters.roboticsTeacher.pose.neutral, ƒS.positionPercent(50, 100));
+        ƒS.update();
         await ƒS.Speech.tell(characters.roboticsTeacher, text.roboticsTeacher.T00_00_000);
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_003);
@@ -132,12 +132,18 @@ namespace Game {
 
         await ƒS.Speech.tell(characters.roboticsTeacher, text.roboticsTeacher.T00_00_002);
         await ƒS.Speech.tell(characters.roboticsTeacher, text.roboticsTeacher.T00_00_003);
+        await ƒS.Character.hide(characters.roboticsTeacher);
+        ƒS.update();
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_004);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_005);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_006);
 
+        await ƒS.Character.show(characters.roboticsTeacher, characters.roboticsTeacher.pose.neutral, ƒS.positionPercent(50, 100));
+        ƒS.update();
         await ƒS.Speech.tell(characters.roboticsTeacher, text.roboticsTeacher.T00_00_004);
+        await ƒS.Character.hide(characters.roboticsTeacher);
+        ƒS.update();
 
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_007);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_008);
@@ -349,6 +355,16 @@ namespace Game {
                 break;
         }
         ƒS.Sound.play(sounds.footstepsTiles, 1, false);
+        ƒS.Speech.hide();
+        await ƒS.Location.show(locations.black);
+        await ƒS.update(1);
+
+        switch (dataForSave.partnerChosen) {
+            case "Louis":
+                return "eventLouis";
+            case "Lily":
+                return "eventLily";
+        }
         // #endregion (Play)
     }
 }

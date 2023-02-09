@@ -74,7 +74,6 @@ namespace Game {
         // #endregion (Decision)
         
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);

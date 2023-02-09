@@ -17,6 +17,14 @@ var Game;
     function credits() {
         Game.ƒS.Text.print("");
     }
+    function showLovebar() {
+        document.getElementById("lilyBar").setAttribute("value", String(Game.dataForSave.lilyPoints));
+        document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
+    }
+    function hideLovebar() {
+        document.getElementById("loveBars").setAttribute("style", "visibility: hidden");
+    }
     // #region (MENU)
     // menu shortcuts
     let inGameMenuButtons = {
@@ -27,7 +35,8 @@ var Game;
         close: "Close"
     };
     let gameMenu;
-    let menuIsOpen = true;
+    let menuIsOpen = false;
+    let lovebarIsVisible = false;
     async function buttonFunctionalities(_option) {
         console.log(_option);
         switch (_option) {
@@ -68,6 +77,18 @@ var Game;
             case Game.ƒ.KEYBOARD_CODE.C:
                 console.log("Credits");
                 credits();
+                break;
+            case Game.ƒ.KEYBOARD_CODE.L:
+                if (lovebarIsVisible) {
+                    console.log("Hide Lovebar");
+                    hideLovebar();
+                    lovebarIsVisible = false;
+                }
+                else {
+                    console.log("Show Lovebar");
+                    showLovebar();
+                    lovebarIsVisible = true;
+                }
                 break;
             case Game.ƒ.KEYBOARD_CODE.M:
                 if (menuIsOpen) {
@@ -353,8 +374,8 @@ var Game;
             { scene: Game.scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: Game.scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
-            { scene: Game.scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis" },
-            { scene: Game.scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily" },
+            { scene: Game.scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis", id: "eventLouis" },
+            { scene: Game.scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily", id: "eventLily" },
             { scene: Game.scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
             { scene: Game.scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
             { scene: Game.scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
@@ -389,7 +410,6 @@ var Game;
         };
         // #endregion (Text)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // TODO: DELETE
         /*
         ƒS.Inventory.add(items.keychainEvo);
@@ -399,6 +419,34 @@ var Game;
         ƒS.Inventory.add(items.medal);
         await ƒS.Inventory.open();
         */
+        // show controls
+        await Game.ƒS.Text.print("<h2>Steuerung</h2>" +
+            "<table>" +
+            "<tr>" +
+            "<td>f8</td>" +
+            "<td>= Speichern</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>f9</td>" +
+            "<td>= Laden</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>i</td>" +
+            "<td>= Inventar</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>c</td>" +
+            "<td>= Credits</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>l</td>" +
+            "<td>= Love bar</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>m</td>" +
+            "<td>= Menü</td>" +
+            "</tr>" +
+            "</table>");
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.YourName);
         Game.dataForSave.protagonistName = await Game.ƒS.Speech.getInput();
         // transition
@@ -486,7 +534,6 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // transition
         Game.ƒS.Speech.clear();
         Game.ƒS.Speech.hide();
@@ -534,14 +581,14 @@ var Game;
         bumpIntoStudent = await Game.ƒS.Menu.getInput(bumpIntoStudentAnswer, "decisionClass");
         switch (bumpIntoStudent) {
             case bumpIntoStudentAnswer.complain:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
                 Game.dataForSave.lilyPoints -= 10;
                 document.getElementById("lilyBar").setAttribute("value", String(Game.dataForSave.lilyPoints));
-                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
                 break;
             case bumpIntoStudentAnswer.soothe:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
                 Game.dataForSave.lilyPoints += 10;
                 document.getElementById("lilyBar").setAttribute("value", String(Game.dataForSave.lilyPoints));
-                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
                 // positive
                 break;
             case bumpIntoStudentAnswer.ignore:
@@ -594,9 +641,9 @@ var Game;
         studentRemark = await Game.ƒS.Menu.getInput(studentRemarkAnswer, "decisionClass");
         switch (studentRemark) {
             case studentRemarkAnswer.argue:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_000);
                 Game.dataForSave.louisPoints -= 10;
                 document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
-                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_000);
                 break;
             case studentRemarkAnswer.apologize:
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T05_00_000);
@@ -686,7 +733,6 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
@@ -813,7 +859,7 @@ var Game;
                 T02_00_002: "Sie wirkt trotz ihrer auffälligen Haarfarbe wie ein fast unsichtbares Mauerblümchen. Menschen mit gutem Herz und Unterstützungsgeist, schätzt sie sehr."
             },
             roboticsTeacher: {
-                T00_00_000: "Schön. Es scheint, Sie haben alle erfolgreich hierhergefunden. Das erspart mir, dass ich einen oder mehreren von Ihnen hinterherlaufen muss, denn das Projekt ist Pflicht – nicht freiwillig.",
+                T00_00_000: "Schön. Es scheint, Sie haben alle erfolgreich hierhergefunden. Das erspart mir, dass ich einen oder mehreren von Ihnen hinterherlaufen muss, denn das Projekt ist Pflicht und nicht freiwillig.",
                 T00_00_001: "Nun reißen Sie sich bitte zusammen. Ich werde Ihre Ergebnisse jeweils benoten. Wenn Sie möchten, wäre diese Note dann auch schon die Endnote für diesen Kurs. Ob Sie die angedachte Klausur dann schreiben wollen, ist Ihnen überlassen. Sie wird freiwillig sein. Die Klausur würde dann 50% mit der Projektarbeit zählen. Ist alles soweit klar?",
                 T00_00_002: "Ach ja, genau. Das hatte ich vergessen. Manchmal muss ich es gar nicht mehr erwähnen, da es schon jeder wusste.",
                 T00_00_003: "Sie werden mithilfe des Wissens und den Materialien von diesem Semester, einen Roboter bauen, der in einem Ring einen anderen Roboter bewegungsunfähig machen soll. Alle Infos hierzu, habe ich online hochgeladen.",
@@ -873,7 +919,6 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
@@ -882,16 +927,24 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
+        await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
+        Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_001);
         await Game.ƒS.Speech.tell(Game.characters.student, text.student.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_002);
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_003);
+        await Game.ƒS.Character.hide(Game.characters.roboticsTeacher);
+        Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_005);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_006);
+        await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
+        Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_004);
+        await Game.ƒS.Character.hide(Game.characters.roboticsTeacher);
+        Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_007);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_008);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_009);
@@ -1051,6 +1104,15 @@ var Game;
                 break;
         }
         Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        Game.ƒS.Speech.hide();
+        await Game.ƒS.Location.show(Game.locations.black);
+        await Game.ƒS.update(1);
+        switch (Game.dataForSave.partnerChosen) {
+            case "Louis":
+                return "eventLouis";
+            case "Lily":
+                return "eventLily";
+        }
         // #endregion (Play)
     }
     Game.scene_3_robotics_lesson = scene_3_robotics_lesson;
@@ -1061,13 +1123,111 @@ var Game;
         console.log("scene_4a_storage_room_louis started");
         // #region (Text) 
         let text = {
-            narrator: {}
+            narrator: {
+                T00_00_000: "Freitag, der nächsten Woche, gehst du wieder zur Hochschule. Wie besproche geht es an die Partnerarbeit.",
+                T00_00_001: "Du betritts den Robotik-Vorlesungsraum, der beinahe komplett leer ist. Nur eine Person scheint vor dir angekommen zu sein.",
+                T00_00_002: "Kaum war er fertig mit reden, hörst du die Tür sich öffnen.",
+                T00_00_003: "Ihr folgt der Professorin in den Lagerraum."
+            },
+            protagonist: {
+                T00_00_000: "Wir sind die Einzigen hier. Bin ich zu früh gekommen?",
+                T01_00_000: "Ach, so ist das. Alles klar. Danke für die Info.",
+                T02_00_000: "Ja, gut. Dann warten wir halt.",
+                T03_00_000: "Ugh, dabei hatte ich gehofft, dass ich als erstes heute nicht deine Visage sehen muss. Die werde ich ja noch oft genug sehen müssen wegen dieser Partnerarbeit."
+            },
+            louis: {
+                T00_00_000: "Guten Morgen, " + Game.dataForSave.protagonistName + ". Bist du bereit, um an unseren Roboter zu arbeiten?",
+                T00_00_001: "Nein, du bist recht pünktlich. Es waren schon zwei andere Studenten hier, die sind jedoch schon mit der Professorin in den Lagerraum für Robotikteile gegangen.",
+                T00_00_002: "Ich denke, es sollte nicht lange dauern bis sie wieder zurück sind. Danach wird sie uns die Materialien zeigen, die wir benutzen dürfen.",
+                T01_00_000: "Gerne doch.",
+                T02_00_000: "Ja.",
+                T03_00_000: "...",
+                T03_00_001: "Bitte mach solche Scherze nicht, falls es denn einer gewesen sein soll. Mir fällt es schwer zu erkennen, ob du das ernst meinst."
+            },
+            roboticsTeacher: {
+                T00_00_000: "Ach, gut, dass sich das nächste Team hier bereits eingefunden hat. Kommen Sie kurz mit mir mit? Ich will Ihnen die Bauteile und Materialien zeigen, die Sie für Ihr Projekt benutzen dürfen.",
+                T00_00_001: "So... Sie können alles was in den unteren fünf Fächern des Regals, das rechts von Ihnen steht, benutzen. Falls Ihnen an Bauteilen fehlen sollte, kommen Sie bitte zuerst zu mir bevor Sie selbstständig etwas einkaufen, OK?"
+            }
         };
         // #endregion (Text)
         // #region (Decision)
+        let explanation;
+        let explanationAnswer = {
+            thank: "Für die Info danken",
+            indifferent: "Gleichgültig antworten",
+            joke: "Ihm gegenüber einen feindseligen Scherz machen"
+        };
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
+        Game.ƒS.Speech.hide();
+        await Game.ƒS.Location.show(Game.locations.black);
+        await Game.ƒS.update(1);
+        await Game.ƒS.Location.show(Game.locations.classroomRobotics);
+        await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        // talking with louis
+        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
+        await Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_000);
+        await Game.ƒS.Character.hide(Game.characters.louis);
+        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy2, Game.ƒS.positionPercent(50, 100));
+        await Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_001);
+        await Game.ƒS.Character.hide(Game.characters.louis);
+        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
+        await Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_002);
+        explanation = await Game.ƒS.Menu.getInput(explanationAnswer, "decisionClass");
+        switch (explanation) {
+            case explanationAnswer.thank:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
+                Game.dataForSave.louisPoints += 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                await Game.ƒS.Character.hide(Game.characters.louis);
+                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy1, Game.ƒS.positionPercent(50, 100));
+                await Game.ƒS.update();
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_000);
+                break;
+            case explanationAnswer.indifferent:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_000);
+                break;
+            case explanationAnswer.joke:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T03_00_000);
+                Game.dataForSave.louisPoints -= 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                await Game.ƒS.Character.hide(Game.characters.louis);
+                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.sad2, Game.ƒS.positionPercent(50, 100));
+                await Game.ƒS.update();
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_000);
+                await Game.ƒS.Character.hide(Game.characters.louis);
+                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.sad1, Game.ƒS.positionPercent(50, 100));
+                await Game.ƒS.update();
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_001);
+                break;
+        }
+        await Game.ƒS.Character.hide(Game.characters.louis);
+        await Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
+        Game.ƒS.Sound.play(Game.sounds.automaticDoor, 1, false);
+        // teacher shows up
+        await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
+        Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_000);
+        await Game.ƒS.Character.hide(Game.characters.roboticsTeacher);
+        Game.ƒS.update();
+        // going to the storage room, TODO: DELETE  THIS, IT'S UNNECESSARY, REWRITE EVERYTHING SO IT'S SHORTER AND IT COMES TO THE STORAGE SCENE !UICKLY
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
+        Game.ƒS.Speech.hide();
+        await Game.ƒS.Location.show(Game.locations.black);
+        await Game.ƒS.update(1);
+        await Game.ƒS.Location.show(Game.locations.storageRoom);
+        await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
+        Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_001);
         // #endregion (Play)
     }
     Game.scene_4a_storage_room_louis = scene_4a_storage_room_louis;
@@ -1084,7 +1244,6 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
     Game.scene_4b_storage_room_lily = scene_4b_storage_room_lily;
@@ -1101,7 +1260,6 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
     Game.scene_5a_date_louis = scene_5a_date_louis;
@@ -1118,7 +1276,6 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
     Game.scene_5b_date_lily = scene_5b_date_lily;
@@ -1135,7 +1292,6 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // #endregion (Play)
     }
     Game.scene_5c_date_none = scene_5c_date_none;
@@ -1193,7 +1349,6 @@ var Game;
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
-        document.getElementById("loveBars").setAttribute("style", "visibility: hidden");
         await Game.ƒS.Location.show(Game.locations.classroomFest);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         Game.ƒS.Sound.play(Game.sounds.robotFight, 1, true);
@@ -1458,7 +1613,6 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         //TODO: delete
         Game.dataForSave.partnerChosen = "Louis";
         Game.ƒS.Text.addClass("louisLetter");
@@ -1483,7 +1637,6 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         //TODO: delete
         Game.dataForSave.partnerChosen = "Lily";
         Game.ƒS.Text.addClass("lilyLetter");
@@ -1508,7 +1661,6 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         return "end";
         // #endregion (Play)
     }
@@ -1526,7 +1678,6 @@ var Game;
         // #region (Decision)
         // #endregion (Decision)
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         return "end";
         // #endregion (Play)
     }

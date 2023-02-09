@@ -16,9 +16,8 @@ namespace Game {
             }
         };
         // #endregion (Text)
-        
+
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
 
         // TODO: DELETE
         /*
@@ -29,10 +28,40 @@ namespace Game {
         ƒS.Inventory.add(items.medal);
         await ƒS.Inventory.open();
         */
-       
+
+        // show controls
+        await ƒS.Text.print("<h2>Steuerung</h2>" +
+            "<table>" +
+            "<tr>" +
+            "<td>f8</td>" +
+            "<td>= Speichern</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>f9</td>" +
+            "<td>= Laden</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>i</td>" +
+            "<td>= Inventar</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>c</td>" +
+            "<td>= Credits</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>l</td>" +
+            "<td>= Love bar</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>m</td>" +
+            "<td>= Menü</td>" +
+            "</tr>" +
+            "</table>"
+        );
+
         await ƒS.Speech.tell(characters.narrator, text.narrator.YourName);
         dataForSave.protagonistName = await ƒS.Speech.getInput();
-        
+
         // transition
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.schoolBuilding);

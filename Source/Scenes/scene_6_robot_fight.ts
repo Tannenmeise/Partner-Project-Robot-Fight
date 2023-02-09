@@ -55,8 +55,6 @@ namespace Game {
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);
-
-        document.getElementById("loveBars").setAttribute("style", "visibility: hidden");
         
         await ƒS.Location.show(locations.classroomFest);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
@@ -307,7 +305,6 @@ namespace Game {
             case "Lily":
                 return "endLily";
         }
-
         // #endregion (Play)
     }
 }

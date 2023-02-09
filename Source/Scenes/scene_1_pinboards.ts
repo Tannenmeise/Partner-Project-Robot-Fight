@@ -65,7 +65,6 @@ namespace Game {
         // #endregion (Decision)
         
         // #region (Play)
-        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
         // transition
         ƒS.Speech.clear();
         ƒS.Speech.hide();
@@ -113,14 +112,14 @@ namespace Game {
         bumpIntoStudent = await ƒS.Menu.getInput(bumpIntoStudentAnswer, "decisionClass");
         switch (bumpIntoStudent) {
             case bumpIntoStudentAnswer.complain:
+                await ƒS.Speech.tell(characters.protagonist, text.protagonist.T01_00_000);
                 dataForSave.lilyPoints -= 10;
                 document.getElementById("lilyBar").setAttribute("value", String(dataForSave.lilyPoints));
-                await ƒS.Speech.tell(characters.protagonist, text.protagonist.T01_00_000);
                 break;
             case bumpIntoStudentAnswer.soothe:
+                await ƒS.Speech.tell(characters.protagonist, text.protagonist.T02_00_000);
                 dataForSave.lilyPoints += 10;
                 document.getElementById("lilyBar").setAttribute("value", String(dataForSave.lilyPoints));
-                await ƒS.Speech.tell(characters.protagonist, text.protagonist.T02_00_000);
                 // positive
                 break;
             case bumpIntoStudentAnswer.ignore:
@@ -173,9 +172,9 @@ namespace Game {
         studentRemark = await ƒS.Menu.getInput(studentRemarkAnswer, "decisionClass");
         switch (studentRemark) {
             case studentRemarkAnswer.argue:
+                await ƒS.Speech.tell(characters.protagonist, text.protagonist.T04_00_000);
                 dataForSave.louisPoints -= 10;
                 document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
-                await ƒS.Speech.tell(characters.protagonist, text.protagonist.T04_00_000);
                 break;
             case studentRemarkAnswer.apologize:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T05_00_000);

@@ -19,6 +19,16 @@ namespace Game {
         ƒS.Text.print("");
     }
 
+    function showLovebar(): void {
+        document.getElementById("lilyBar").setAttribute("value", String(dataForSave.lilyPoints));
+        document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
+        document.getElementById("loveBars").setAttribute("style", "visibility: visible");
+    }
+
+    function hideLovebar(): void {
+        document.getElementById("loveBars").setAttribute("style", "visibility: hidden");
+    }
+
     // #region (MENU)
     // menu shortcuts
     let inGameMenuButtons = {
@@ -31,7 +41,8 @@ namespace Game {
 
     let gameMenu: ƒS.Menu;
 
-    let menuIsOpen: boolean = true;
+    let menuIsOpen: boolean = false;
+    let lovebarIsVisible: boolean = false;
 
     async function buttonFunctionalities(_option: string): Promise<void> {
         console.log(_option);
@@ -74,6 +85,17 @@ namespace Game {
             case ƒ.KEYBOARD_CODE.C:
                 console.log("Credits");
                 credits();
+                break;
+            case ƒ.KEYBOARD_CODE.L:
+                if (lovebarIsVisible) {
+                    console.log("Hide Lovebar");
+                    hideLovebar();
+                    lovebarIsVisible = false;
+                } else {
+                    console.log("Show Lovebar");
+                    showLovebar();
+                    lovebarIsVisible = true;
+                }
                 break;
             case ƒ.KEYBOARD_CODE.M:
                 if (menuIsOpen) {
@@ -369,13 +391,12 @@ namespace Game {
         buttonFunctionalities("Close");
 
         let scenes: ƒS.Scenes = [
-            
             { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
-            { scene: scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis" },
-            { scene: scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily" },
+            { scene: scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis", id: "eventLouis" },
+            { scene: scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily", id: "eventLily" },
             { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
             { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
             { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
