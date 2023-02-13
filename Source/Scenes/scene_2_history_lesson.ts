@@ -184,6 +184,7 @@ namespace Game {
                 break;
         }
 
+        ƒS.Sound.play(sounds.zipper, 1, false);
         ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         // #endregion (Play)
     }

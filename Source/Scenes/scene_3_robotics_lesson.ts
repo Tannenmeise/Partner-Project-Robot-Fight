@@ -159,6 +159,7 @@ namespace Game {
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_013);
 
         partnerSearch = await ƒS.Menu.getInput(partnerSearchAnswer, "decisionClass");
+        // TODO: maybe get a theme song for lily and louis each, which then plays in situations where you talk to them, like here while watching them
 
         switch (partnerSearch) {
             case partnerSearchAnswer.louis:

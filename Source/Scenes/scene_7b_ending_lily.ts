@@ -18,8 +18,8 @@ namespace Game {
         //TODO: delete
         dataForSave.partnerChosen = "Lily";
 
+        ƒS.Sound.play(sounds.paper, 1, false);
         ƒS.Text.addClass("lilyLetter");
-
         await ƒS.Text.print("<h2>Hallo " + dataForSave.protagonistName + ",</h2>" +
             "<p>Bla bla bla...</p>" +
             "<h2>Liebe Grüße</h2>" +

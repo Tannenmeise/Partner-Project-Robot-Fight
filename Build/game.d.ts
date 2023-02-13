@@ -50,6 +50,7 @@ declare namespace Game {
         };
     };
     let sounds: {
+        alternativeEnd: string;
         endTheme: string;
         robotFight: string;
         automaticDoor: string;
@@ -62,10 +63,13 @@ declare namespace Game {
         enterSchoolBuilding: string;
         failure: string;
         footstepsTiles: string;
+        paper: string;
         schoolBell: string;
         smallCrowd: string;
         sparrows: string;
         success: string;
+        switch: string;
+        zipper: string;
     };
     let locations: {
         black: {

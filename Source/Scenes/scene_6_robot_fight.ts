@@ -15,6 +15,7 @@ namespace Game {
                 CarAttack2: "Auto-bot setzt Aufladen ein.",
                 CarAttack3: "Auto-bot setzt Ausweichen ein.",
                 AttackFailed: "Attacke ist fehlgeschlagen.",
+                NoSecondBot: "Du hast keinen zweiten Roboter.",
                 AreYouSure: "Bist du dir sicher?",
                 YouWin: "Du hast gewonnen!",
                 YouLose: "Du hast verloren."
@@ -107,6 +108,7 @@ namespace Game {
                     }
                     break;
                 case chooseActionAnswer.robot:
+                    await ƒS.Speech.tell(characters.narrator, text.narrator.NoSecondBot);
                     await ƒS.Speech.tell(characters.narrator, text.narrator.AreYouSure);
                     confirmation = await ƒS.Menu.getInput(confirmationAnswer, "decisionClass");
                     switch (confirmation) {

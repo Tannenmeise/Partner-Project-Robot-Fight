@@ -1,8 +1,16 @@
 Music:
 -------
+alternative_end.wav
+- "Game background Music loop short", yummie, November 12th, 2017
+- https://freesound.org/people/yummie/sounds/410574/
+
 end_theme.wav
 - "Nostalgic Ending Credits 3", tyops, January 31st, 2022
 - https://freesound.org/people/tyops/sounds/616799/
+
+lilys_predicament.wav
+- "BirdFish Happy Loop.mp3", pinkinblue, April 20th, 2018
+- https://freesound.org/people/pinkinblue/sounds/425971/
 
 robot_fight.wav
 - "Short loop made in a few minutes with QWS and GoldWave", sonically_sound, August 23rd, 2022
@@ -49,6 +57,10 @@ footsteps_tiles.wav
 - "Footsteps_Walk.wav", Nox_Sound, November 1st, 2019
 - https://freesound.org/people/Nox_Sound/sounds/490951/
 
+paper.wav
+- "rustling paper.wav", keweldog, March 23rd, 2013
+- https://freesound.org/people/keweldog/sounds/181774/
+
 school_bell.wav
 - "School bell.wav", deleted_user_7020630, January 29th, 2017
 - https://freesound.org/people/deleted_user_7020630/sounds/378394/
@@ -64,3 +76,11 @@ sparrows.wav
 success.wav
 - "SFX-Success!.wav", HenryRichard, November 18th, 2018
 - https://freesound.org/people/HenryRichard/sounds/448274/
+
+switch.wav
+- "Kitchen Fuse Switch.wav", mincedbeats, October 25th, 2021
+- https://freesound.org/people/mincedbeats/sounds/593976/
+
+zipper.wav
+- "Zipper Fast Pull 01", Rudmer_Rotteveel, September 22nd, 2020
+- https://freesound.org/people/Rudmer_Rotteveel/sounds/536235/

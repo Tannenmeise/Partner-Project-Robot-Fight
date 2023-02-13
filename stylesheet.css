@@ -315,3 +315,12 @@ dialog[type=inventory] ul li description {
     border-radius: 1%;
     background-image: url("Assets/Graphics/Letter/paper.png");
 }
+
+.endScreen {
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+    color: rgb(241, 241, 241);
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+}

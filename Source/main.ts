@@ -155,6 +155,7 @@ namespace Game {
 
     export let sounds = {
         // music
+        alternativeEnd: "Assets/Audio/Music/alternative_end.wav",
         endTheme: "Assets/Audio/Music/end_theme.wav",
         robotFight: "Assets/Audio/Music/robot_fight.wav",
         // sounds
@@ -168,10 +169,13 @@ namespace Game {
         enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
         failure: "Assets/Audio/Sounds/failure.wav",
         footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
+        paper: "Assets/Audio/Sounds/paper.wav",
         schoolBell: "Assets/Audio/Sounds/school_bell.wav",
         smallCrowd: "Assets/Audio/Sounds/small_crowd.wav", // TODO: check if I can freely use it!!!
         sparrows: "Assets/Audio/Sounds/sparrows.wav", // TODO: make ambient sound instead (mix of sparrows, wind and students)
-        success: "Assets/Audio/Sounds/success.wav"
+        success: "Assets/Audio/Sounds/success.wav",
+        switch: "Assets/Audio/Sounds/switch.wav",
+        zipper: "Assets/Audio/Sounds/zipper.wav"
     };
 
     export let locations = {
@@ -391,10 +395,12 @@ namespace Game {
         buttonFunctionalities("Close");
 
         let scenes: ƒS.Scenes = [
+            /*
             { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
             { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
+            */
             { scene: scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis", id: "eventLouis" },
             { scene: scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily", id: "eventLily" },
             { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
