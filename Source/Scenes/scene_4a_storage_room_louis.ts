@@ -12,7 +12,13 @@ namespace Game {
                 T00_00_004: "Du gehst mit Louis wieder zurück in das Klassenzimmer.",
                 T00_00_005: "Urplötzlich ist es stockfinster. Wer hat das Licht ausgemacht? Oder ist die Sicherung rausgeflogen?",
                 T00_00_006: "Langsam näherst du dich der Tür und dem Lichtschalter. Jedenfalls dort, wo du denkst, dass sie sind.",
-                T00_00_007: "Doch da siehst du jemanden oder etwas stehen."
+                T00_00_007: "Doch da siehst du jemanden oder etwas stehen.",
+                T00_00_008: "Du bist mit Louis wieder im Klassenzimmer angekommen.",
+                T00_00_009: "Der Gong hat geläutet. Es ist Zeit für den Feierabend",
+
+                T09_00_000: "Du stürzt dich auf den Studenten und reißt ihn zu Boden. Da erkennst du, wer dieser wirklich ist.",
+
+                T10_00_000: "Du schaust Louis mit einem Blick an."
             },
             protagonist: {
                 T00_00_000: "Wir sind die Einzigen hier. Bin ich zu früh gekommen?",
@@ -22,6 +28,9 @@ namespace Game {
                 T00_00_004: "So... Wo haben wir denn die Hüllen... Ah ha-",
                 T00_00_005: "Ha?!",
                 T00_00_006: "Verdammt... Ähm... Und was jetzt?",
+                T00_00_007: "Oh. Das war es also.",
+                T00_00_008: "Puh... Gute Arbeit!",
+                T00_00_009: "Bis dann!",
 
                 T01_00_000: "Ach, so ist das. Alles klar. Danke für die Info.",
 
@@ -43,6 +52,11 @@ namespace Game {
                 T08_00_001: "J-Ja!",
 
                 T09_00_000: "Stillgestanden! Ich werde dir lehren, was passiert, wenn man sich über " + dataForSave.protagonistName + " lustig macht!",
+                T09_00_001: "Oops. Du bists, Louis. Tut mir Leid.",
+
+                T10_01_000: "Ja, gerne!",
+
+                T10_02_000: "Nein, danke."
             },
             louis: {
                 T00_00_000: "Guten Morgen, " + dataForSave.protagonistName + ". Bist du bereit, um an unseren Roboter zu arbeiten?",
@@ -53,6 +67,10 @@ namespace Game {
                 T00_00_005: "Zur Offensive habe ich mir überlegt eine Schaufel vorne zu installieren. Damit sollte es einfach möglich sein, den Gegner in eine Seiten- oder Rückenlage zu versetzen und somit außer Gefecht zu setzen.",
                 T00_00_006: "Klar. Was ist eine Skizze ohne eine gute Erklärung? Ich will den Roboter-Kampf schließlich gewinnen. Du hoffentlich auch.",
                 T00_00_007: "Ich möchte die Lehrerin nach einem Akku fragen, den ich vorher nicht im Lagerraum gesehen habe. Könntest du währenddessen ein paar Bauteile besorgen, die wir für den Bau der Hülle brauchen könnten?",
+                T00_00_008: "Die Lehrerin hat gesagt, es gab einen Kurzschluss bei einer der Gruppen. Deswegen muss die Sicherung in der gesamten Etage rausgefolgen sein.",
+                T00_00_009: "Lass uns an unserem Roboter weiterarbeiten.",
+                T00_00_010: "Der Roboter ist fertig!",
+                T00_00_011: "Wir werden uns spätestens wieder zum Roboter-Kampf sehen. Bis dahin!",
 
                 T01_00_000: "Gerne doch.",
 
@@ -75,6 +93,24 @@ namespace Game {
                 T08_00_001: "Ok, gut. Nimm meine Hand. Ich führe dich raus.",
 
                 T09_00_000: "Wow, Moment mal-",
+
+                T09_01_000: "Haha, ich will garnicht wissen, was du gesagt hättest, wenn ich die Lehrerin gewesen wäre.",
+                T09_01_001: "Mann, das hat mich jetzt echt überrascht...",
+                T09_01_002: "Komm. Lass uns zurück zum Klassenzimmer gehen.",
+
+                T09_02_000: "Was soll das denn?",
+                T09_02_001: "Kannst du bitte von mir runter, damit wir zurück ins Klassenzimmer gehen können?",
+
+                T09_03_000: "Pass doch auf!",
+                T09_03_001: "Ugh... Kannst du dich denn nicht einfach angemessen verhalten?",
+                T09_03_002: "Das ist ja die Hölle... Geh endlich von mir runter!",
+
+                T10_00_000: "Hey, bevor du gehst möchte ich dich noch gerne etwas fragen.",
+                T10_00_001: "Würdest du mit mir auf die Mecha-Con dieses Wochenende gehen wollen?",
+
+                T10_01_000: "Cool! Danke, dass du mich begleitest. Ich schreibe dir wann und wo wir uns treffen werden.",
+
+                T10_02_000: "Ok. Das verstehe ich. Dann sehen wir uns spätestens zum Roboter-Kampf wieder. Bis dahin!"
             },
             roboticsTeacher: {
                 T00_00_000: "Ach, gut, dass sich das nächste Team hier bereits eingefunden hat. Kommen Sie kurz mit mir mit? Ich will Ihnen die Bauteile und Materialien zeigen, die Sie für Ihr Projekt benutzen dürfen.",
@@ -103,6 +139,12 @@ namespace Game {
             speakTo: "Ansprechen",
             freeze: "Stehen bleiben",
             tackle: "Tackeln"
+        };
+
+        let date;
+        let dateAnswer = {
+            yes: "Ja",
+            no: "Nein"
         };
         // #endregion (Decision)
 
@@ -288,32 +330,91 @@ namespace Game {
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T09_00_000);
                 await ƒS.Speech.tell(characters.louis, text.louis.T09_00_000);
                 // tackle
-                ƒS.Sound.play(sounds.bump, 1, false);
-                let graph: ƒ.Node = ƒS.Base.getGraph();
-                graph.addComponent(new ƒ.ComponentTransform());
-                let t: number = 0;
-                function jitter(): void {
-                    let posX: number = 0;
-                    posX = (Number(6 * Math.sin(0.15 * t + 1.6)));
-                    t++;
-                    if (t <= 64) {
-                        graph.mtxLocal.translateX(posX);
-                        ƒS.update();
-                    }
+                await ƒS.Speech.tell(characters.narrator, text.narrator.T09_00_000);
+                await ƒS.Speech.tell(characters.protagonist, text.protagonist.T09_00_001);
+
+                // louis reaction based on points
+                if (dataForSave.louisPoints >= 80) {
+                    await ƒS.Speech.tell(characters.louis, text.louis.T09_01_000);
+                    await ƒS.Speech.tell(characters.louis, text.louis.T09_01_001);
+                    await ƒS.Speech.tell(characters.louis, text.louis.T09_01_002);
+                } else if (dataForSave.louisPoints >= 40) {
+                    await ƒS.Speech.tell(characters.louis, text.louis.T09_02_000);
+                    await ƒS.Speech.tell(characters.louis, text.louis.T09_02_001);
+                } else {
+                    dataForSave.louisPoints -= 10;
+                    document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
+                    await ƒS.Speech.tell(characters.louis, text.louis.T09_03_000);
+                    await ƒS.Speech.tell(characters.louis, text.louis.T09_03_001);
+                    await ƒS.Speech.tell(characters.louis, text.louis.T09_03_002);
                 }
-                ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, jitter);
-                await ƒS.Progress.delay(2);
-                ƒ.Loop.removeEventListener(ƒ.EVENT.LOOP_FRAME, jitter);
-                graph.mtxLocal.translateX(-1 * (graph.mtxLocal.translation.x));
-                await ƒS.update();
-                // talk
-                // TODO: if you have the highest possible points, he'll react positively towards your tackle. Neutral or angry accordingly to lower points.
                 break;
         }
 
-        // TODO: DELETE TEST
-        dataForSave.partnerChosen = "Louis";
+        // go back to classroom
+        ƒS.Character.hideAll();
+        ƒS.Speech.hide();
+        await ƒS.Location.show(locations.black);
+        await ƒS.update(1);
+        await ƒS.Location.show(locations.classroomRobotics);
+        await ƒS.update(1);
+        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_008);
 
+        // talking with louis
+        await ƒS.Character.show(characters.louis, characters.louis.pose.neutral1, ƒS.positionPercent(50, 100));
+        await ƒS.update();
+        await ƒS.Speech.tell(characters.louis, text.louis.T00_00_008);
+        await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_007);
+        await ƒS.Speech.tell(characters.louis, text.louis.T00_00_009);
+
+        // project work is over
+        ƒS.Character.hideAll();
+        ƒS.Speech.hide();
+        await ƒS.Location.show(locations.black);
+        await ƒS.update(1);
+        await ƒS.Location.show(locations.classroomRobotics);
+        await ƒS.update(1);
+        ƒS.Sound.play(sounds.schoolBell, 1, false);
+
+        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_009);
+        ƒS.Character.hideAll();
+        await ƒS.Character.show(characters.louis, characters.louis.pose.happy1, ƒS.positionPercent(50, 100));
+        await ƒS.update();
+        await ƒS.Speech.tell(characters.louis, text.louis.T00_00_010);
+        await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_008);
+
+        // louis asks you on a date or not
+        if (dataForSave.louisPoints >= 70) {
+            ƒS.Character.hideAll();
+            await ƒS.Character.show(characters.louis, characters.louis.pose.happy2, ƒS.positionPercent(50, 100));
+            await ƒS.update();
+            await ƒS.Speech.tell(characters.louis, text.louis.T10_00_000);
+            await ƒS.Speech.tell(characters.narrator, text.narrator.T10_00_000);
+            await ƒS.Speech.tell(characters.louis, text.louis.T10_00_001);
+
+            // decide to go on date or not
+            date = await ƒS.Menu.getInput(dateAnswer, "decisionClass");
+
+            switch (date) {
+                case dateAnswer.yes:
+                    await ƒS.Speech.tell(characters.protagonist, text.protagonist.T10_01_000);
+                    ƒS.Character.hideAll();
+                    await ƒS.Character.show(characters.louis, characters.louis.pose.happy1, ƒS.positionPercent(50, 100));
+                    await ƒS.update();
+                    await ƒS.Speech.tell(characters.louis, text.louis.T10_01_000);
+                    return "dateLouis";
+                case dateAnswer.no:
+                    await ƒS.Speech.tell(characters.protagonist, text.protagonist.T10_02_000);
+                    ƒS.Character.hideAll();
+                    await ƒS.Character.show(characters.louis, characters.louis.pose.sad1, ƒS.positionPercent(50, 100));
+                    await ƒS.update();
+                    await ƒS.Speech.tell(characters.louis, text.louis.T10_02_000);
+                    break;
+            }
+        }
+        await ƒS.Speech.tell(characters.louis, text.louis.T00_00_011);
+        await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_009);
+        return "dateNone";
         // #endregion (Play)
     }
 }
