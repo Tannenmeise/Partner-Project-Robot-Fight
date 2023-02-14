@@ -186,9 +186,9 @@ meter::-webkit-meter-bar {
 meter[id="healthBar"] {
     position: absolute;
     transform: rotate(-90deg);
-    bottom: 56%;
+    bottom: 54%;
     left: -14%;
-    width: 35%;
+    width: 33%;
     height: 10%;
 }
 
@@ -199,9 +199,9 @@ meter[id="healthBar"]::-webkit-meter-optimum-value {
 meter[id="enemyHealthBar"] {
     position: absolute;
     transform: rotate(-90deg);
-    bottom: 56%;
+    bottom: 54%;
     right: -14%;
-    width: 35%;
+    width: 33%;
     height: 10%;
 }
 

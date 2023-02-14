@@ -14,7 +14,14 @@ namespace Game {
 
 
         // #region (Play)
+        ƒS.Speech.hide();
+        ƒS.Character.hideAll();
+        await ƒS.Location.show(locations.black);
+        await ƒS.update(1);
+        await ƒS.Location.show(locations.mechaCon);
+        await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
 
+        return "robotFight";
         // #endregion (Play)
     }
 }

@@ -18,7 +18,7 @@ namespace Game {
 
                 T09_00_000: "Du stürzt dich auf den Studenten und reißt ihn zu Boden. Da erkennst du, wer dieser wirklich ist.",
 
-                T10_00_000: "Du schaust Louis mit einem Blick an."
+                T10_00_000: "Du schaust Louis mit erwartungsvollen Blick an."
             },
             protagonist: {
                 T00_00_000: "Wir sind die Einzigen hier. Bin ich zu früh gekommen?",

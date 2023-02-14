@@ -34,6 +34,7 @@ namespace Game {
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_000);
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_000);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_001);
+        ƒS.Sound.play(sounds.bump, 1, false);
         await ƒS.Speech.tell(characters.student, text.student.T00_00_000);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_002);
 

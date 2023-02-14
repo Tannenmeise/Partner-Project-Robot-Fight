@@ -14,10 +14,6 @@ namespace Game {
 
 
         // #region (Play)
-
-        //TODO: delete
-        dataForSave.partnerChosen = "Lily";
-
         ƒS.Sound.play(sounds.paper, 1, false);
         ƒS.Text.addClass("lilyLetter");
         await ƒS.Text.print("<h2>Hallo " + dataForSave.protagonistName + ",</h2>" +

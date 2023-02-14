@@ -48,7 +48,7 @@ namespace Game {
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_002);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_003);
 
-        await ƒS.Sound.fade(sounds.robotFight, 0, 0, true);
+        await ƒS.Sound.fade(sounds.robotFight, 0, 0.5, true);
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_002);
         await ƒS.Sound.fade(sounds.alternativeEnd, 1, 0, true);
 

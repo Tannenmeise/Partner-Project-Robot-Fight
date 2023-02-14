@@ -76,15 +76,11 @@ declare namespace Game {
             name: string;
             background: string;
         };
-        schoolBuilding: {
+        butterflyHouse: {
             name: string;
             background: string;
         };
-        pinboards1: {
-            name: string;
-            background: string;
-        };
-        pinboards2: {
+        classroomFest: {
             name: string;
             background: string;
         };
@@ -96,7 +92,23 @@ declare namespace Game {
             name: string;
             background: string;
         };
-        classroomFest: {
+        endSceneLily: {
+            name: string;
+            background: string;
+        };
+        endSceneLouis: {
+            name: string;
+            background: string;
+        };
+        mechaCon: {
+            name: string;
+            background: string;
+        };
+        pinboards1: {
+            name: string;
+            background: string;
+        };
+        pinboards2: {
             name: string;
             background: string;
         };
@@ -104,11 +116,15 @@ declare namespace Game {
             name: string;
             background: string;
         };
-        storageRoom: {
+        schoolBuilding: {
             name: string;
             background: string;
         };
         storageRoomDark: {
+            name: string;
+            background: string;
+        };
+        storageRoom: {
             name: string;
             background: string;
         };

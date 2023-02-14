@@ -183,17 +183,13 @@ namespace Game {
             name: "Black",
             background: "Assets/Graphics/Backgrounds/black.png"
         },
-        schoolBuilding: {
-            name: "School Building",
-            background: "Assets/Graphics/Backgrounds/school_building.png"
+        butterflyHouse: {
+            name: "Butterfly House",
+            background: "Assets/Graphics/Backgrounds/butterfly_house.png"
         },
-        pinboards1: {
-            name: "Pinboards 1",
-            background: "Assets/Graphics/Backgrounds/pinboards_1.png"
-        },
-        pinboards2: {
-            name: "Pinboards 2",
-            background: "Assets/Graphics/Backgrounds/pinboards_2.png"
+        classroomFest: {
+            name: "Classroom Fest",
+            background: "Assets/Graphics/Backgrounds/classroom_fest.png"
         },
         classroomHistory: {
             name: "Classroom History",
@@ -203,21 +199,41 @@ namespace Game {
             name: "Classroom Robotics",
             background: "Assets/Graphics/Backgrounds/classroom_robotics.png"
         },
-        classroomFest: {
-            name: "Classroom Fest",
-            background: "Assets/Graphics/Backgrounds/classroom_fest.png"
+        endSceneLily: {
+            name: "End Scene Lily",
+            background: "Assets/Graphics/Backgrounds/end_scene_lily.png"
+        },
+        endSceneLouis: {
+            name: "End Scene Louis",
+            background: "Assets/Graphics/Backgrounds/end_scene_louis.png"
+        },
+        mechaCon: {
+            name: "Mecha Con",
+            background: "Assets/Graphics/Backgrounds/mecha_con.png"
+        },
+        pinboards1: {
+            name: "Pinboards 1",
+            background: "Assets/Graphics/Backgrounds/pinboards_1.png"
+        },
+        pinboards2: {
+            name: "Pinboards 2",
+            background: "Assets/Graphics/Backgrounds/pinboards_2.png"
         },
         schoolBuildingFest: {
             name: "Classroom Fest",
             background: "Assets/Graphics/Backgrounds/school_building_fest.png"
         },
-        storageRoom: {
-            name: "Storage Room",
-            background: "Assets/Graphics/Backgrounds/storage_room.png"
+        schoolBuilding: {
+            name: "School Building",
+            background: "Assets/Graphics/Backgrounds/school_building.png"
         },
         storageRoomDark: {
             name: "Storage Room Dark",
             background: "Assets/Graphics/Backgrounds/storage_room_dark.png"
+        },
+        storageRoom: {
+            name: "Storage Room",
+            background: "Assets/Graphics/Backgrounds/storage_room.png"
         }
     };
 
@@ -404,7 +420,7 @@ namespace Game {
             { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
             { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
             { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
-            { scene: scene_6_robot_fight, name: "Scene 6: Robot Fight" },
+            { scene: scene_6_robot_fight, name: "Scene 6: Robot Fight", id: "robotFight" },
             { scene: scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis"},
             { scene: scene_7b_ending_lily, name: "Scene 7b: Ending Lily", id: "endLily" },
             { scene: scene_7c_ending_robot, name: "Scene 7c: Ending Robot", id: "endRobot" },
