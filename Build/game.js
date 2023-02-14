@@ -1975,6 +1975,7 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
+        // TODO: insert scene of school building fest first
         // text
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
@@ -2222,6 +2223,8 @@ var Game;
             await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.YouWin);
             document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
         }
+        // TODO: insert the teacher saying "Everyone did such a great job. You'll all get a good grade."
+        // TODO: insert sound effect of students cheering
         switch (Game.dataForSave.partnerChosen) {
             case "Louis":
                 return "endLouis";
@@ -2238,19 +2241,116 @@ var Game;
         console.log("scene_7a_ending_louis started");
         // #region (Text) 
         let text = {
-            narrator: {}
+            narrator: {
+                T00_00_000: "Der Roboter-Kampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
+                T01_00_000: "Louis hat dich mit einer ihm unüblichen Röte im Gesicht dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T01_00_001: "Lächelnd hast du dem Treffen zugesagt.",
+                T02_00_000: "Louis hat dich dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T03_00_000: "Louis hat dich allein gelassen. Er scheint besseres zu tun zu haben als noch etwas Zeit mit dir zu verbringen.",
+                T03_00_001: "Als du über das Campusgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
+                T03_00_002: "Nach einer Weile entscheidest du dich dazu nach Hause zu gehen."
+            },
+            louis: {
+                T01_00_000: "Hi " + Game.dataForSave.protagonistName + ". Schön, dass wir uns noch treffen können.",
+                T01_00_001: "Ich wollte dir noch etwas wichtiges sagen...",
+                T01_00_002: "Ich schätze die Zeit, die ich mit dir verbringen durfte. Es war schön mit dir die Projektarbeit zu machen. Du gibst mir das Gefühl, dass ich mich auf dich verlassen kann.",
+                T01_00_003: "Das bedeutet mir sehr viel. Es gibt wenige Menschen, denen ich so vertrauen könnte.",
+                T01_00_004: "Du warst immerzu nett zu mir... Danke.",
+                T01_00_005: "Mich würde es freuen, wenn wir Freunde sein könnten und naja... In Zukunft weiterhin Sachen unternehmen könnten.",
+                T01_00_006: "Das wars von mir erstmal... Komm gut nach Hause, OK?",
+                T02_00_000: "Hi " + Game.dataForSave.protagonistName + ". Schön, dass wir uns noch treffen können.",
+                T02_00_001: "Es war angenehm mit dir die Projektarbeit zu verbringen. Du warst ein guter Projektpartner.",
+                T02_00_002: "Ich denke, ich wollte einfach nur 'Danke' sagen. Also... Danke.",
+                T02_00_003: "Es wäre schön, wenn wir Freunde sein könnten.",
+                T02_00_004: "Das wars eigentlich schon. Wir sehen uns dann mal wieder, wenn du willst. Auf Wiedersehen."
+            }
         };
         // #endregion (Text)
-        // #region (Decision)
-        // #endregion (Decision)
         // #region (Play)
-        //TODO: delete
-        Game.ƒS.Sound.play(Game.sounds.paper, 1, false);
-        Game.ƒS.Text.addClass("louisLetter");
-        await Game.ƒS.Text.print("<h2>Hallo " + Game.dataForSave.protagonistName + ",</h2>" +
-            "<p>Bla bla bla...</p>" +
-            "<h2>Liebe Grüße</h2>" +
-            "<h2>Louis</h2>");
+        // transition
+        Game.ƒS.Speech.hide();
+        Game.ƒS.Character.hideAll();
+        await Game.ƒS.Location.show(Game.locations.black);
+        await Game.ƒS.update(1);
+        await Game.ƒS.Location.show(Game.locations.schoolBuildingFest);
+        await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        // end of school fest
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
+        // get 1 out of 3 ends (decided by affection points)
+        if (Game.dataForSave.louisPoints >= 100) {
+            // narration
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_000);
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_001);
+            Game.ƒS.Speech.hide();
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
+            await Game.ƒS.Location.show(Game.locations.endSceneLouis);
+            await Game.ƒS.update(1);
+            // talking with louis
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_000);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_001);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_002);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_003);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_004);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_005);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_006);
+            // letter from louis
+            Game.ƒS.Speech.hide();
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
+            Game.ƒS.Sound.play(Game.sounds.paper, 1, false);
+            Game.ƒS.Text.addClass("louisLetter");
+            await Game.ƒS.Text.print("<h2>Liebe/r " + Game.dataForSave.protagonistName + ",</h2>" +
+                "<p>ich wollte dir nochmal schreiben über das, was ich auf dem Hügel gesagt habe.</p>" +
+                "<p>Es ist etwas persönlich, jedoch möchte ich, dass du mich richtig verstehst.</p>" +
+                "<p>Nicht viele Menschen sind so wie du, " + Game.dataForSave.protagonistName + ".</p>" +
+                "<p>Viele Menschen gehen entweder gehässig oder ignorant durch das Leben.</p>" +
+                "<p>Ich kenne das gut genug von meiner eigenen Familie.</p>" +
+                "<p>Ich weiß, ich selbst bin nicht der wärmste Mensch.</p>" +
+                "<p>Jedoch kann ich es mir nun besser vorstellen mich endlich anderen Menschen mehr zu öffnen.</p>" +
+                "<p>Menschen mit einem guten Herz wie du.</p>" +
+                "<p>Falls du deswegen nichts mehr mit mir zu tun haben willst, verstehe ich das. Sag mir einfach Bescheid.</p>" +
+                "<p>Abgesehen davon...</p>" +
+                "<p>Bleib so wie du bist, " + Game.dataForSave.protagonistName + ".</p>" +
+                "<h2>Liebe Grüße</h2>" +
+                "<h2>Louis</h2>");
+            // end
+            document.getElementsByClassName("louisLetter").item(0).removeAttribute("class");
+            Game.ƒS.Text.addClass("endScreen");
+            await Game.ƒS.Text.print("<h2>Ende 1/8:</h2>" +
+                "<p>Ende mit Louis: Zuneigung</p>");
+        }
+        else if (Game.dataForSave.louisPoints >= 50) {
+            // narration
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_000);
+            Game.ƒS.Speech.hide();
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
+            await Game.ƒS.Location.show(Game.locations.endSceneLouis);
+            await Game.ƒS.update(1);
+            // talking with louis
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_000);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_001);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_002);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_003);
+            await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_004);
+            // end
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
+            Game.ƒS.Text.addClass("endScreen");
+            await Game.ƒS.Text.print("<h2>Ende 2/8:</h2>" +
+                "<p>Ende mit Louis: Freunschaft</p>");
+        }
+        else {
+            // narration
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_000);
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_001);
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_002);
+            // end
+            Game.ƒS.Text.addClass("endScreen");
+            await Game.ƒS.Text.print("<h2>Ende 3/8:</h2>" +
+                "<p>Ende mit Louis: Unstimmigkeit</p>");
+        }
         return "end";
         // #endregion (Play)
     }
@@ -2262,18 +2362,115 @@ var Game;
         console.log("scene_7b_ending_lily started");
         // #region (Text) 
         let text = {
-            narrator: {}
+            narrator: {
+                T00_00_000: "Der Roboter-Kampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
+                T01_00_000: "Lily hat dich mit ganz roten Wangen dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T01_00_001: "Lächelnd hast du dem Treffen zugesagt.",
+                T02_00_000: "Lily hat dich dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T03_00_000: "Lily hat dich allein gelassen. Sie scheint besseres zu tun zu haben als noch etwas Zeit mit dir zu verbringen.",
+                T03_00_001: "Als du über das Campusgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
+                T03_00_002: "Nach einer Weile entscheidest du dich dazu nach Hause zu gehen."
+            },
+            lily: {
+                T01_00_000: "Hi " + Game.dataForSave.protagonistName + "! Danke, dass du gekommen bist.",
+                T01_00_001: "Ich fand die Zeit, die wir miteinander verbacht haben echt schön.",
+                T01_00_002: "Es hat mir echt Spaß gemacht, das Projekt, das Schmetterlingshaus, der Roboter-Kampf...",
+                T01_00_003: "Und du warst immer nur nett zu mir... Danke.",
+                T01_00_004: "Ich hatte echt Sorgen, dass ich das Projekt hätte alleine machen müssen. Du warst mein Retter in Not, haha!",
+                T01_00_005: "Mich würde es freuen, wenn wir... in Zukunft weiterhin Sachen unternehmen könnten.",
+                T01_00_006: "Das war alles was ich loswerden wollte. Danke fürs Zuhören. Komm gut nach Hause, ja?",
+                T02_00_000: "Hi " + Game.dataForSave.protagonistName + "! Danke, dass du gekommen bist.",
+                T02_00_001: "Du Projektarbeit mit dir hat Spaß gemacht. Wir sind gut miteinander ausgekommen.",
+                T02_00_002: "Ich denke, ich wollte einfach nur 'Danke' für alles sagen. Also, ja... Danke.",
+                T02_00_003: "Es wäre schön, wenn wir Freunde bleiben könnten...",
+                T02_00_004: "Das wars eigentlich schon von mir, haha. Hab noch einen schönen Tag! Tschüss."
+            }
         };
         // #endregion (Text)
-        // #region (Decision)
-        // #endregion (Decision)
         // #region (Play)
-        Game.ƒS.Sound.play(Game.sounds.paper, 1, false);
-        Game.ƒS.Text.addClass("lilyLetter");
-        await Game.ƒS.Text.print("<h2>Hallo " + Game.dataForSave.protagonistName + ",</h2>" +
-            "<p>Bla bla bla...</p>" +
-            "<h2>Liebe Grüße</h2>" +
-            "<h2>Lily</h2>");
+        // transition
+        Game.ƒS.Speech.hide();
+        Game.ƒS.Character.hideAll();
+        await Game.ƒS.Location.show(Game.locations.black);
+        await Game.ƒS.update(1);
+        await Game.ƒS.Location.show(Game.locations.schoolBuildingFest);
+        await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        // end of school fest
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
+        // get 1 out of 3 ends (decided by affection points)
+        if (Game.dataForSave.lilyPoints >= 100) {
+            // narration
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_000);
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_001);
+            Game.ƒS.Speech.hide();
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
+            await Game.ƒS.Location.show(Game.locations.endSceneLily);
+            await Game.ƒS.update(1);
+            // talking with lily
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_000);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_001);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_002);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_003);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_004);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_005);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_006);
+            // letter from lily
+            Game.ƒS.Speech.hide();
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
+            Game.ƒS.Sound.play(Game.sounds.paper, 1, false);
+            Game.ƒS.Text.addClass("lilyLetter");
+            await Game.ƒS.Text.print("<h2>Liebe/r " + Game.dataForSave.protagonistName + ",</h2>" +
+                "<p>ich wollte dir nochmal schreiben, weil ich noch gerne etwas erwähnen möchte.</p>" +
+                "<p>Es ist etwas persönlich, aber ich möchte gerne, dass du es weißt.</p>" +
+                "<p>Nicht viele Kommilitonen behandeln mich so wie du es tust.</p>" +
+                "<p>Viele kommilitonen ignorieren oder belächeln mich, weil ich nicht wie die anderen Robotik-Studenten bin.</p>" +
+                "<p>Und es sind nicht nur unsere Kommilitonen, sondern Menschen allgemein.</p>" +
+                "<p>Darum schätze ich es umso mehr, dass du immer so nett zu mir warst und mich nicht ignoriert hast.</p>" +
+                "<p>Du hast ein gutes Herz, " + Game.dataForSave.protagonistName + ".</p>" +
+                "<p>Das war jetzt schon ungeheuer persönlich, also falls du deswegen nichts mehr mit mir zu tun haben willst, verstehe ich das.</p>" +
+                "<p>Ansonsten...</p>" +
+                "<p>Danke nochmal für alles, " + Game.dataForSave.protagonistName + ".</p>" +
+                "<h2>Liebe Grüße</h2>" +
+                "<h2>Lily</h2>");
+            // end
+            document.getElementsByClassName("lilyLetter").item(0).removeAttribute("class");
+            Game.ƒS.Text.addClass("endScreen");
+            await Game.ƒS.Text.print("<h2>Ende 4/8:</h2>" +
+                "<p>Ende mit Lily: Zuneigung</p>");
+        }
+        else if (Game.dataForSave.lilyPoints >= 50) {
+            // narration
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_000);
+            Game.ƒS.Speech.hide();
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
+            await Game.ƒS.Location.show(Game.locations.endSceneLily);
+            await Game.ƒS.update(1);
+            // talking with lily
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_000);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_001);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_002);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_003);
+            await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_004);
+            // end
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
+            Game.ƒS.Text.addClass("endScreen");
+            await Game.ƒS.Text.print("<h2>Ende 5/8:</h2>" +
+                "<p>Ende mit Lily: Freunschaft</p>");
+        }
+        else {
+            // narration
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_000);
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_001);
+            await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_002);
+            // end
+            Game.ƒS.Text.addClass("endScreen");
+            await Game.ƒS.Text.print("<h2>Ende 6/8:</h2>" +
+                "<p>Ende mit Lily: Unstimmigkeit</p>");
+        }
         return "end";
         // #endregion (Play)
     }

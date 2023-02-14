@@ -52,6 +52,9 @@ namespace Game {
         // #endregion (Decision)
 
         // #region (Play)
+
+        // TODO: insert scene of school building fest first
+
         // text
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
@@ -300,6 +303,9 @@ namespace Game {
             await ƒS.Speech.tell(characters.narrator, text.narrator.YouWin);
             document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
         }
+
+        // TODO: insert the teacher saying "Everyone did such a great job. You'll all get a good grade."
+        // TODO: insert sound effect of students cheering
 
         switch (dataForSave.partnerChosen) {
             case "Louis":
