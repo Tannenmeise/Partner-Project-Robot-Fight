@@ -301,6 +301,7 @@ dialog[type=inventory] ul li description {
 .louisLetter {
     font-family: 'Shadows Into Light';
     font-weight: bold;
+    font-size: large;
     color: rgb(47, 50, 135);
     border-color: rgba(255, 0, 0, 0);
     border-radius: 1%;
@@ -310,6 +311,7 @@ dialog[type=inventory] ul li description {
 .lilyLetter {
     font-family: 'Caveat';
     font-weight: bold;
+    font-size: large;
     color: rgb(22, 120, 137);
     border-color: rgba(255, 0, 0, 0);
     border-radius: 1%;

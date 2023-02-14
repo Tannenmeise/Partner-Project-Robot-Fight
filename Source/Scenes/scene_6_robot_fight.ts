@@ -79,6 +79,7 @@ namespace Game {
         // #region (Play)
         // transition
         ƒS.Speech.hide();
+        ƒS.Character.hideAll();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);
         await ƒS.Location.show(locations.schoolBuildingFest);

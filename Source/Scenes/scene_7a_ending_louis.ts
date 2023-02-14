@@ -81,7 +81,7 @@ namespace Game {
                 "<p>Ich weiß, ich selbst bin nicht der wärmste Mensch.</p>" +
                 "<p>Jedoch kann ich es mir nun besser vorstellen mich endlich anderen Menschen mehr zu öffnen.</p>" +
                 "<p>Menschen mit einem guten Herz wie du.</p>" +
-                "<p>Falls du deswegen nichts mehr mit mir zu tun haben willst, verstehe ich das. Sag mir einfach Bescheid.</p>" +
+                "<p>Falls du aber nichts mehr mit mir zu tun haben willst, verstehe ich das.</p>" +
                 "<p>Abgesehen davon...</p>" +
                 "<p>Bleib so wie du bist, " + dataForSave.protagonistName + ".</p>" +
                 "<h2>Liebe Grüße</h2>" +

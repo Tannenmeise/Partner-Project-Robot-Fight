@@ -23,7 +23,7 @@ namespace Game {
                 T01_00_003: "Und du warst immer nur nett zu mir... Danke.",
                 T01_00_004: "Ich hatte echt Sorgen, dass ich das Projekt hätte alleine machen müssen. Du warst mein Retter in Not, haha!",
                 T01_00_005: "Mich würde es freuen, wenn wir... in Zukunft weiterhin Sachen unternehmen könnten.",
-                T01_00_006: "Das war alles was ich loswerden wollte. Danke fürs Zuhören. Komm gut nach Hause, ja?",
+                T01_00_006: "Das war alles, was ich loswerden wollte. Danke fürs Zuhören. Komm gut nach Hause, ja?",
 
                 T02_00_000: "Hi " + dataForSave.protagonistName + "! Danke, dass du gekommen bist.",
                 T02_00_001: "Du Projektarbeit mit dir hat Spaß gemacht. Wir sind gut miteinander ausgekommen.",
@@ -77,7 +77,7 @@ namespace Game {
                 "<p>Es ist etwas persönlich, aber ich möchte gerne, dass du es weißt.</p>" +
                 "<p>Nicht viele Kommilitonen behandeln mich so wie du es tust.</p>" +
                 "<p>Viele kommilitonen ignorieren oder belächeln mich, weil ich nicht wie die anderen Robotik-Studenten bin.</p>" +
-                "<p>Und es sind nicht nur unsere Kommilitonen, sondern Menschen allgemein.</p>" +
+                "<p>In der Schule war das auch schon so.</p>" +
                 "<p>Darum schätze ich es umso mehr, dass du immer so nett zu mir warst und mich nicht ignoriert hast.</p>" +
                 "<p>Du hast ein gutes Herz, " + dataForSave.protagonistName + ".</p>" +
                 "<p>Das war jetzt schon ungeheuer persönlich, also falls du deswegen nichts mehr mit mir zu tun haben willst, verstehe ich das.</p>" +

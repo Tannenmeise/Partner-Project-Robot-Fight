@@ -20,7 +20,7 @@ namespace Game {
                 T00_00_000: dataForSave.protagonistName + ". Ich bin hier!",
                 T00_00_001: "Hallo. Schön, dass du da bist.",
                 T00_00_002: "Ich kann es kaum abwarten 'Evolution: The End Of Evolution' zu sehen!",
-                T00_00_003: "Oh... Ist das alles überhaupt interessamt für dich?",
+                T00_00_003: "Oh... Ist das alles überhaupt interessant für dich?",
                 T00_00_004: "Ich habe es erledigt. Hier, nimm das bitte. Ich hoffe es gefällt dir.",
                 T00_00_005: "Es ist ein Anhänger von dem Mecha 'Lancebot' aus dem Anime 'Code Gas'. Wenn du ihn nicht willst, kannst du ihn auch gerne verschenken.",
                 T00_00_006: "Ich denke, es ist Zeit zu gehen. Vielen Dank, dass du mich begleitet hast. Es war schön jemanden da zu haben.",
@@ -41,7 +41,7 @@ namespace Game {
                 T00_00_000: "Hi, Louis!",
                 T00_00_001: "Dankeschön. Das ist lieb von dir.",
                 T00_00_002: "Kein Problem. Wir sehen uns dann an der Uni wieder.",
-                T00_00_003: "Ciao",
+                T00_00_003: "Ciao.",
 
                 T01_00_000: "Ja! Ich wusste garnicht, dass es eine Mecha-Con hier in der Nähe gibt. Das ist alles echt interessant.",
                 T01_00_001: "Klar!",
@@ -53,7 +53,7 @@ namespace Game {
                 T03_00_001: "OK.",
 
                 T04_00_000: "Schau, ich habe dir auch einen Anhänger gekauft, solange du weg warst.",
-                T04_00_001: "Gerne doch. Freut mich, dass er dir gefällt und du ihn noch nicht hast. Haha."
+                T04_00_001: "Gerne doch. Freut mich, dass er dir gefällt und du ihn noch nicht hattest. Sonst hättest du jetzt zwei, haha."
             }
         };
         // #endregion (Text)
@@ -148,6 +148,8 @@ namespace Game {
         }
 
         // get your gift from louis
+        await ƒS.Character.show(characters.louis, characters.louis.pose.neutral1, ƒS.positionPercent(50, 100));
+        await ƒS.update();
         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_004);
         ƒS.Inventory.add(items.keychainLancebot);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_005);
@@ -160,6 +162,9 @@ namespace Game {
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T04_00_000);
                 dataForSave.louisPoints += 10;
                 document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
+                ƒS.Character.hideAll();
+                await ƒS.Character.show(characters.louis, characters.louis.pose.happy1, ƒS.positionPercent(50, 100));
+                await ƒS.update();
                 await ƒS.Speech.tell(characters.louis, text.louis.T04_00_000);
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T04_00_001);
                 break;

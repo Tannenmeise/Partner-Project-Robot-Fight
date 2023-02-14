@@ -110,7 +110,7 @@ namespace Game {
 
                 T10_01_000: "Cool! Danke, dass du mich begleitest. Ich schreibe dir wann und wo wir uns treffen werden.",
 
-                T10_02_000: "Ok. Das verstehe ich. Dann sehen wir uns spätestens zum Roboter-Kampf wieder. Bis dahin!"
+                T10_02_000: "Ok. Das verstehe ich."
             },
             roboticsTeacher: {
                 T00_00_000: "Ach, gut, dass sich das nächste Team hier bereits eingefunden hat. Kommen Sie kurz mit mir mit? Ich will Ihnen die Bauteile und Materialien zeigen, die Sie für Ihr Projekt benutzen dürfen.",

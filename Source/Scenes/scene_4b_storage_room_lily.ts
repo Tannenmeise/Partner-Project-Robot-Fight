@@ -66,7 +66,7 @@ namespace Game {
                 T00_00_004: "Der Roboter ist praktisch ein Auto mit Boxhandschuhen. Ich dachte, es sei eine nette Idee.",
                 T00_00_005: "Die Räder macht unser Roboter schnell und agil. Mit den Armen kann er dann andere Roboter auch umstoßen.",
                 T00_00_006: "J-Ja. Ich hatte echt Spaß dabei. Ich hoffe, dir gefällt er auch so sehr wie mir.",
-                T00_00_007: "Ich möchte die Lehrerin fragen wie wir die Boxhandschuhe am besten umsetzen. Kannst du währenddessen vielleicht im Lagerraum nach passende Teile suchen?",
+                T00_00_007: "Ich möchte die Lehrerin fragen wie wir die Boxhandschuhe am besten umsetzen. Kannst du währenddessen vielleicht im Lagerraum nach passenden Teilen suchen?",
                 T00_00_008: "Die Lehrerin hat gesagt, es gab einen Kurzschluss. Die Sicherung in der gesamten Etage muss rausgefolgen sein.",
                 T00_00_009: "Lass uns an unserem Roboter weiterarbeiten.",
                 T00_00_010: "Der Roboter ist fertig! Yay!",
@@ -109,7 +109,7 @@ namespace Game {
 
                 T10_01_000: "Yay! Danke, dass du mich begleitest. Ich schreibe dir dann wann und wo wir uns treffen werden. Ich hoffe mich schon voll drauf!",
 
-                T10_02_000: "Kein Problem, das verstehe ich! Dann sehen wir uns spätestens zum Roboter-Kampf wieder, ja? Bis dann!"
+                T10_02_000: "Kein Problem, das verstehe ich!"
             },
             roboticsTeacher: {
                 T00_00_000: "Ach, gut, dass sich das nächste Team hier bereits eingefunden hat. Kommen Sie kurz mit mir mit? Ich will Ihnen die Bauteile und Materialien zeigen, die Sie für Ihr Projekt benutzen dürfen.",
@@ -244,7 +244,7 @@ namespace Game {
         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_003);
         ƒS.Character.hideAll();
         ƒS.Sound.play(sounds.paper, 1, false);
-        await ƒS.Character.show(characters.tankBot, characters.tankBot.pose.sketch, ƒS.positionPercent(50, 70));
+        await ƒS.Character.show(characters.carBot, characters.carBot.pose.sketch, ƒS.positionPercent(50, 70));
         await ƒS.update();
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_001);
 
