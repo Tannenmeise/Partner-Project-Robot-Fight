@@ -18,17 +18,6 @@ namespace Game {
         // #endregion (Text)
 
         // #region (Play)
-
-        // TODO: DELETE
-        /*
-        ƒS.Inventory.add(items.keychainEvo);
-        ƒS.Inventory.add(items.keychainLancebot);
-        ƒS.Inventory.add(items.pinBlue);
-        ƒS.Inventory.add(items.pinOrange);
-        ƒS.Inventory.add(items.medal);
-        await ƒS.Inventory.open();
-        */
-
         // show controls
         await ƒS.Text.print("<h2>Steuerung</h2>" +
             "<table>" +

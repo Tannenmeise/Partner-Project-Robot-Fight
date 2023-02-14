@@ -155,6 +155,7 @@ var Game;
         bump: "Assets/Audio/Sounds/bump.wav",
         chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav",
         charge: "Assets/Audio/Sounds/charge.wav",
+        cheer: "Assets/Audio/Sounds/cheer.wav",
         cloth: "Assets/Audio/Sounds/cloth.wav",
         damage: "Assets/Audio/Sounds/damage.wav",
         enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
@@ -430,15 +431,6 @@ var Game;
         };
         // #endregion (Text)
         // #region (Play)
-        // TODO: DELETE
-        /*
-        ƒS.Inventory.add(items.keychainEvo);
-        ƒS.Inventory.add(items.keychainLancebot);
-        ƒS.Inventory.add(items.pinBlue);
-        ƒS.Inventory.add(items.pinOrange);
-        ƒS.Inventory.add(items.medal);
-        await ƒS.Inventory.open();
-        */
         // show controls
         await Game.ƒS.Text.print("<h2>Steuerung</h2>" +
             "<table>" +
@@ -1869,18 +1861,155 @@ var Game;
         console.log("scene_5a_date_louis started");
         // #region (Text) 
         let text = {
-            narrator: {}
+            narrator: {
+                T00_00_000: "Am nächsten Tag triffst du dich wie abgemacht mit Louis in der Mecha-Convention.",
+                T00_00_001: "Du schaust nach links und dort ist Louis, der mit einem Lächeln auf dich zugeht.",
+                T00_00_002: "Du verbringst eine schöne Zeit gemeinsam mit Louis auf der Con.",
+                T00_00_003: "Ihr redet über Mechas und Anime während ihr euch die Ausstellungen und Stände anschschaut. Louis scheint ein richtiger Fan zu sein.",
+                T00_00_004: "Jetzt wäre die Gelegenheit ihm ebenso ein Geschenk zu kaufen.",
+                T00_00_005: "Ein Anhänger wurde in dein Inventar hinzugefügt.",
+                T04_00_000: "Du gehst an einen Stand der Merchandise für den neuen Anime 'Evolution: The End Of Evolution' verkauft.",
+                T04_00_001: "Du erinnerst dich, dass Louis sehr enthusiastisch darüber war und entscheidest dich dafür einen kleinen Anhänger für ihn zu kaufen.",
+                T04_00_002: "Sobald du fertig bist, gehst du wieder zurück an euren Treffpunkt."
+            },
+            louis: {
+                T00_00_000: Game.dataForSave.protagonistName + ". Ich bin hier!",
+                T00_00_001: "Hallo. Schön, dass du da bist.",
+                T00_00_002: "Ich kann es kaum abwarten 'Evolution: The End Of Evolution' zu sehen!",
+                T00_00_003: "Oh... Ist das alles überhaupt interessamt für dich?",
+                T00_00_004: "Ich habe es erledigt. Hier, nimm das bitte. Ich hoffe es gefällt dir.",
+                T00_00_005: "Es ist ein Anhänger von dem Mecha 'Lancebot' aus dem Anime 'Code Gas'. Wenn du ihn nicht willst, kannst du ihn auch gerne verschenken.",
+                T00_00_006: "Ich denke, es ist Zeit zu gehen. Vielen Dank, dass du mich begleitet hast. Es war schön jemanden da zu haben.",
+                T00_00_007: "Ciao.",
+                T01_00_000: "Das freut mich! Es ist schon seit langem ein Hobby von mir.",
+                T01_00_001: "Ich würde dir gerne ein Andenken mitgeben. Wartest du kurz hier auf mich?",
+                T02_00_000: "Das ist nett von dir, dass du das sagst. Und danke, dass du ehrlich bist.",
+                T02_00_001: "Nun... Ich würde dir trotzdem gerne ein Andenken mitgeben. Ich hoffe, das ist OK. Wartest du kurz hier auf mich?",
+                T03_00_000: "D-Das tut mir leid. Ich hätte früher bemerken sollen, dass du dich langweilst.",
+                T03_00_001: "Ich würde dir gerne eine kleine Entschädigung schenken, wenn das OK ist. Wartest du kurz hier auf mich?",
+                T04_00_000: "Das hast du für mich getan? ... Das habe ich nicht erwartet. Danke! Der ist ja sogar vom neuen 'Evolution' Anime! Dankeschön."
+            },
+            protagonist: {
+                T00_00_000: "Hi, Louis!",
+                T00_00_001: "Dankeschön. Das ist lieb von dir.",
+                T00_00_002: "Kein Problem. Wir sehen uns dann an der Uni wieder.",
+                T00_00_003: "Ciao",
+                T01_00_000: "Ja! Ich wusste garnicht, dass es eine Mecha-Con hier in der Nähe gibt. Das ist alles echt interessant.",
+                T01_00_001: "Klar!",
+                T02_00_000: "Hm... Nicht allzu sehr, aber ich finde es toll wie viel Leidenschaft du dafür hast. Das ist doch alles was zählt.",
+                T02_00_001: "Klar.",
+                T03_00_000: "Nein. Das ist alles ziemlich langweilig für mich. Können wir bald gehen?",
+                T03_00_001: "OK.",
+                T04_00_000: "Schau, ich habe dir auch einen Anhänger gekauft, solange du weg warst.",
+                T04_00_001: "Gerne doch. Freut mich, dass er dir gefällt und du ihn noch nicht hast. Haha."
+            }
         };
         // #endregion (Text)
         // #region (Decision)
+        let interest;
+        let interestAnswer = {
+            yes: "Ja",
+            noPolite: "Höfliches Nein",
+            noImpolite: "Unhöfliches Nein"
+        };
+        let gift;
+        let giftAnswer = {
+            buy: "Geschenk kaufen",
+            dontBuy: "Kein Geschenk kaufen"
+        };
         // #endregion (Decision)
         // #region (Play)
+        // transition
         Game.ƒS.Speech.hide();
         Game.ƒS.Character.hideAll();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.mechaCon);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        // talking with louis
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
+        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy1, Game.ƒS.positionPercent(50, 100));
+        await Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_001);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_002);
+        Game.ƒS.Character.hideAll();
+        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.sad1, Game.ƒS.positionPercent(50, 100));
+        await Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_003);
+        // tell louis if you find the con interesting
+        interest = await Game.ƒS.Menu.getInput(interestAnswer, "decisionClass");
+        switch (interest) {
+            case interestAnswer.yes:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
+                Game.dataForSave.louisPoints += 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                Game.ƒS.Character.hideAll();
+                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.joyful1, Game.ƒS.positionPercent(50, 100));
+                await Game.ƒS.update();
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_001);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_001);
+                break;
+            case interestAnswer.noPolite:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
+                Game.dataForSave.louisPoints += 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                Game.ƒS.Character.hideAll();
+                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy1, Game.ƒS.positionPercent(50, 100));
+                await Game.ƒS.update();
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_001);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_001);
+                break;
+            case interestAnswer.noImpolite:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T03_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_001);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T03_00_001);
+                break;
+        }
+        // decide to buy a gift for louis or not
+        Game.ƒS.Character.hideAll();
+        await Game.ƒS.update(1);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
+        gift = await Game.ƒS.Menu.getInput(giftAnswer, "decisionClass");
+        switch (gift) {
+            case giftAnswer.buy:
+                await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_001);
+                await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_002);
+                break;
+            case giftAnswer.dontBuy:
+                break;
+        }
+        // get your gift from louis
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_004);
+        Game.ƒS.Inventory.add(Game.items.keychainLancebot);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_005);
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_005);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_001);
+        // give louis the gift if you bought one
+        switch (gift) {
+            case giftAnswer.buy:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_000);
+                Game.dataForSave.louisPoints += 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T04_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_001);
+                break;
+            case giftAnswer.dontBuy:
+                break;
+        }
+        // saying goodbye
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_006);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_002);
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_007);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_003);
         return "robotFight";
         // #endregion (Play)
     }
@@ -1892,20 +2021,163 @@ var Game;
         console.log("scene_5b_date_lily started");
         // #region (Text) 
         let text = {
-            narrator: {}
+            narrator: {
+                T00_00_000: "Am nächsten Tag triffst du dich wie abgemacht mit Louis in der Mecha-Convention.",
+                T00_00_001: "Du schaust nach links und dort ist Louis, der mit einem Lächeln auf dich zugeht.",
+                T00_00_002: "Du verbringst eine schöne Zeit gemeinsam mit Louis auf der Con.",
+                T00_00_003: "Ihr redet über Mechas und Anime während ihr euch die Ausstellungen und Stände anschschaut. Louis scheint ein richtiger Fan zu sein.",
+                T00_00_004: "Jetzt wäre die Gelegenheit ihm ebenso ein Geschenk zu kaufen.",
+                T00_00_005: "Ein Anhänger wurde in dein Inventar hinzugefügt.",
+                T04_00_000: "Du gehst an einen Stand der Merchandise für den neuen Anime 'Evolution: The End Of Evolution' verkauft.",
+                T04_00_001: "Du erinnerst dich, dass Louis sehr enthusiastisch darüber war und entscheidest dich dafür einen kleinen Anhänger für ihn zu kaufen.",
+                T04_00_002: "Sobald du fertig bist, gehst du wieder zurück an euren Treffpunkt."
+            },
+            louis: {
+                T00_00_000: Game.dataForSave.protagonistName + ". Ich bin hier!",
+                T00_00_001: "Hallo. Schön, dass du da bist.",
+                T00_00_002: "Ich kann es kaum abwarten 'Evolution: The End Of Evolution' zu sehen!",
+                T00_00_003: "Oh... Ist das alles überhaupt interessamt für dich?",
+                T00_00_004: "Ich habe es erledigt. Hier, nimm das bitte. Ich hoffe es gefällt dir.",
+                T00_00_005: "Es ist ein Anhänger von dem Mecha 'Lancebot' aus dem Anime 'Code Gas'. Wenn du ihn nicht willst, kannst du ihn auch gerne verschenken.",
+                T00_00_006: "Ich denke, es ist Zeit zu gehen. Vielen Dank, dass du mich begleitet hast. Es war schön jemanden da zu haben.",
+                T00_00_007: "Ciao.",
+                T01_00_000: "Das freut mich! Es ist schon seit langem ein Hobby von mir.",
+                T01_00_001: "Ich würde dir gerne ein Andenken mitgeben. Wartest du kurz hier auf mich?",
+                T02_00_000: "Das ist nett von dir, dass du das sagst. Und danke, dass du ehrlich bist.",
+                T02_00_001: "Nun... Ich würde dir trotzdem gerne ein Andenken mitgeben. Ich hoffe, das ist OK. Wartest du kurz hier auf mich?",
+                T03_00_000: "D-Das tut mir leid. Ich hätte früher bemerken sollen, dass du dich langweilst.",
+                T03_00_001: "Ich würde dir gerne eine kleine Entschädigung schenken, wenn das OK ist. Wartest du kurz hier auf mich?",
+                T04_00_000: "Das hast du für mich getan? ... Das habe ich nicht erwartet. Danke! Der ist ja sogar vom neuen 'Evolution' Anime! Dankeschön."
+            },
+            protagonist: {
+                T00_00_000: "Hi, Louis!",
+                T00_00_001: "Dankeschön. Das ist lieb von dir.",
+                T00_00_002: "Kein Problem. Wir sehen uns dann an der Uni wieder.",
+                T00_00_003: "Ciao",
+                T01_00_000: "Ja! Ich wusste garnicht, dass es eine Mecha-Con hier in der Nähe gibt. Das ist alles echt interessant.",
+                T01_00_001: "Klar!",
+                T02_00_000: "Hm... Nicht allzu sehr, aber ich finde es toll wie viel Leidenschaft du dafür hast. Das ist doch alles was zählt.",
+                T02_00_001: "Klar.",
+                T03_00_000: "Nein. Das ist alles ziemlich langweilig für mich. Können wir bald gehen?",
+                T03_00_001: "OK.",
+                T04_00_000: "Schau, ich habe dir auch einen Anhänger gekauft, solange du weg warst.",
+                T04_00_001: "Gerne doch. Freut mich, dass er dir gefällt und du ihn noch nicht hast. Haha."
+            }
         };
         // #endregion (Text)
         // #region (Decision)
+        let interest;
+        let interestAnswer = {
+            yes: "Ja",
+            noPolite: "Höfliches Nein",
+            noImpolite: "Unhöfliches Nein"
+        };
+        let gift;
+        let giftAnswer = {
+            buy: "Geschenk kaufen",
+            dontBuy: "Kein Geschenk kaufen"
+        };
         // #endregion (Decision)
         // #region (Play)
+        // transition
         Game.ƒS.Speech.hide();
         Game.ƒS.Character.hideAll();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.butterflyHouse);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        // talking with louis
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
+        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy1, Game.ƒS.positionPercent(50, 100));
+        await Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_001);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_002);
+        Game.ƒS.Character.hideAll();
+        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.sad1, Game.ƒS.positionPercent(50, 100));
+        await Game.ƒS.update();
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_003);
+        // tell louis if you find the con interesting
+        interest = await Game.ƒS.Menu.getInput(interestAnswer, "decisionClass");
+        switch (interest) {
+            case interestAnswer.yes:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
+                Game.dataForSave.louisPoints += 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                Game.ƒS.Character.hideAll();
+                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.joyful1, Game.ƒS.positionPercent(50, 100));
+                await Game.ƒS.update();
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_001);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_001);
+                break;
+            case interestAnswer.noPolite:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
+                Game.dataForSave.louisPoints += 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                Game.ƒS.Character.hideAll();
+                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy1, Game.ƒS.positionPercent(50, 100));
+                await Game.ƒS.update();
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_001);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_001);
+                break;
+            case interestAnswer.noImpolite:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T03_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_001);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T03_00_001);
+                break;
+        }
+        // decide to buy a gift for louis or not
+        Game.ƒS.Character.hideAll();
+        await Game.ƒS.update(1);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
+        gift = await Game.ƒS.Menu.getInput(giftAnswer, "decisionClass");
+        switch (gift) {
+            case giftAnswer.buy:
+                await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_001);
+                await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_002);
+                break;
+            case giftAnswer.dontBuy:
+                break;
+        }
+        // get your gift from louis
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_004);
+        Game.ƒS.Inventory.add(Game.items.keychainLancebot);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_005);
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_005);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_001);
+        // give louis the gift if you bought one
+        switch (gift) {
+            case giftAnswer.buy:
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_000);
+                Game.dataForSave.louisPoints += 10;
+                document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T04_00_000);
+                await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_001);
+                break;
+            case giftAnswer.dontBuy:
+                break;
+        }
+        // saying goodbye
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_006);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_002);
+        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_007);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_003);
         return "robotFight";
         // #endregion (Play)
+        // TODO: DELETE
+        /*
+        ƒS.Inventory.add(items.pinBlue);
+        ƒS.Inventory.add(items.pinOrange);
+        await ƒS.Inventory.open();
+        */
     }
     Game.scene_5b_date_lily = scene_5b_date_lily;
 })(Game || (Game = {}));
@@ -1915,12 +2187,20 @@ var Game;
         console.log("scene_5c_date_none started");
         // #region (Text) 
         let text = {
-            narrator: {}
+            narrator: {
+                T00_00_000: "Du verbringst das Wochenende allein und gehst zum Roboter-Kampf wieder zur Uni."
+            }
         };
         // #endregion (Text)
-        // #region (Decision)
-        // #endregion (Decision)
         // #region (Play)
+        // transition
+        Game.ƒS.Speech.hide();
+        Game.ƒS.Character.hideAll();
+        await Game.ƒS.Location.show(Game.locations.black);
+        await Game.ƒS.update(1);
+        // narration
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
+        return "robotFight";
         // #endregion (Play)
     }
     Game.scene_5c_date_none = scene_5c_date_none;
@@ -1932,6 +2212,9 @@ var Game;
         // #region (Text) 
         let text = {
             narrator: {
+                T00_00_000: "Heute ist endlich der Tag. Der Tag des Roboter-Kampfs.",
+                T00_00_001: "Wie wirst du dich im Kammpf mit einem gegnerischen Roboter schlagen? Es wird Zeit es herauszufinden.",
+                T00_00_002: "Gespannt begibst du dich zum Klassenzimmer, wo der Kampf auch schon augenblicklich anfangen wird...",
                 ChooseYourAction: "Wähle eine Aktion aus.",
                 TankAttack0: "Panzer-bot setzt Stoßen ein.",
                 TankAttack1: "Panzer-bot setzt Umstoßen ein.",
@@ -1942,14 +2225,35 @@ var Game;
                 CarAttack2: "Auto-bot setzt Aufladen ein.",
                 CarAttack3: "Auto-bot setzt Ausweichen ein.",
                 AttackFailed: "Attacke ist fehlgeschlagen.",
+                ItemUsed: "Du erhältst Tipps von deinem Projektpartner.",
                 NoSecondBot: "Du hast keinen zweiten Roboter.",
                 AreYouSure: "Bist du dir sicher?",
-                YouWin: "Du hast gewonnen!",
+                YouWin: "Du hast gewonnen! Eine Medaille wurde in dein Inventar hinzugefügt.",
                 YouLose: "Du hast verloren."
             },
             roboticsTeacher: {
                 T00_00_000: "Auf die Plätze... fertig... los!",
-                T00_00_001: "Das war es mit dem Roboter-Kampf. Danke an alle Studierenden, die teilgenommen haben."
+                T00_00_001: "Das war es mit dem Roboter-Kampf. Danke an alle Studierenden, die teilgenommen haben.",
+                T00_00_002: "Da alle Gruppen so eine tolle Leistung vollbracht haben, habe ich entschieden, dass es doch keine Klausur geben wird. Ihr habt euch schließlich alle schon sehr gute Noten erkämpft."
+            },
+            protagonist: {
+                T00_00_000: "Nice!"
+            },
+            louis: {
+                T00_00_000: "Stoßen fügt dem Gegner 10 Punkte Schaden zu.",
+                T00_00_001: "Umstoßen fügt dem Gegner 50 Punkte Schaden zu. Die Wahrscheinlichkeit, dass das aber wirklich funktioniert beträgt ungefähr 33%.",
+                T00_00_002: "Aufladen verdoppelt den Schaden, de du dem Gegner hinzufügst.",
+                T00_00_003: "Ausweichen weicht jeder gegnerischen Attacke aus.",
+                T00_00_004: "Viel Glück!",
+                T00_00_005: "Gute Arbeit, " + Game.dataForSave.protagonistName + "."
+            },
+            lily: {
+                T00_00_000: "Stoßen fügt dem Gegner 10 Punkte Schaden zu.",
+                T00_00_001: "Umstoßen fügt dem Gegner 50 Punkte Schaden zu. Die Wahrscheinlichkeit, dass das aber wirklich funktioniert beträgt ungefähr 33%.",
+                T00_00_002: "Aufladen verdoppelt den Schaden, dem du den Gegner hinzufügst.",
+                T00_00_003: "Ausweichen weicht jeder gegnerischen Attacke aus.",
+                T00_00_004: "Viel Glück!",
+                T00_00_005: "Gute Arbeit, " + Game.dataForSave.protagonistName + "!"
             }
         };
         // #endregion (Text)
@@ -1975,13 +2279,26 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
-        // TODO: insert scene of school building fest first
-        // text
+        // transition
+        Game.ƒS.Speech.hide();
+        await Game.ƒS.Location.show(Game.locations.black);
+        await Game.ƒS.update(1);
+        await Game.ƒS.Location.show(Game.locations.schoolBuildingFest);
+        await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        // front of campus
+        Game.ƒS.Sound.play(Game.sounds.sparrows, 1, true);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
+        Game.ƒS.Sound.play(Game.sounds.enterSchoolBuilding, 1, false);
+        await Game.ƒS.Sound.fade(Game.sounds.sparrows, 0, 1, true);
+        // transition
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomFest);
-        await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        await Game.ƒS.update(1);
+        // robot fight start
         Game.ƒS.Sound.play(Game.sounds.robotFight, 1, true);
         let health = 100;
         let enemyHealth = 100;
@@ -2038,14 +2355,18 @@ var Game;
                     break;
                 case chooseActionAnswer.items:
                     if (Game.dataForSave.partnerChosen == "Louis") {
-                        await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
-                        // TODO: insert louis giving a hint here
-                        await Game.ƒS.Character.hide(Game.characters.louis);
+                        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
+                        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_001);
+                        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_002);
+                        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_003);
+                        await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_004);
                     }
                     else {
-                        await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(50, 100));
-                        // TODO: insert lily giving a hint here
-                        await Game.ƒS.Character.hide(Game.characters.lily);
+                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_001);
+                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_002);
+                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_003);
+                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_004);
+                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_005);
                     }
                     break;
                 case chooseActionAnswer.flee:
@@ -2220,15 +2541,20 @@ var Game;
         }
         else {
             Game.ƒS.Sound.play(Game.sounds.success, 1, false);
+            Game.ƒS.Inventory.add(Game.items.medal);
             await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.YouWin);
             document.getElementById("fightBars").setAttribute("style", "visibility: hidden");
         }
-        // TODO: insert the teacher saying "Everyone did such a great job. You'll all get a good grade."
-        // TODO: insert sound effect of students cheering
+        await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_001);
+        await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_002);
+        Game.ƒS.Sound.play(Game.sounds.cheer, 1, false);
+        await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_000);
         switch (Game.dataForSave.partnerChosen) {
             case "Louis":
+                await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_005);
                 return "endLouis";
             case "Lily":
+                await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_005);
                 return "endLily";
         }
         // #endregion (Play)
@@ -2335,6 +2661,7 @@ var Game;
             await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_003);
             await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_004);
             // end
+            Game.ƒS.Speech.hide();
             await Game.ƒS.Location.show(Game.locations.black);
             await Game.ƒS.update(1);
             Game.ƒS.Text.addClass("endScreen");
@@ -2347,6 +2674,7 @@ var Game;
             await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_001);
             await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_002);
             // end
+            Game.ƒS.Speech.hide();
             Game.ƒS.Text.addClass("endScreen");
             await Game.ƒS.Text.print("<h2>Ende 3/8:</h2>" +
                 "<p>Ende mit Louis: Unstimmigkeit</p>");
@@ -2455,6 +2783,7 @@ var Game;
             await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_003);
             await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_004);
             // end
+            Game.ƒS.Speech.hide();
             await Game.ƒS.Location.show(Game.locations.black);
             await Game.ƒS.update(1);
             Game.ƒS.Text.addClass("endScreen");
@@ -2467,6 +2796,7 @@ var Game;
             await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_001);
             await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_002);
             // end
+            Game.ƒS.Speech.hide();
             Game.ƒS.Text.addClass("endScreen");
             await Game.ƒS.Text.print("<h2>Ende 6/8:</h2>" +
                 "<p>Ende mit Lily: Unstimmigkeit</p>");

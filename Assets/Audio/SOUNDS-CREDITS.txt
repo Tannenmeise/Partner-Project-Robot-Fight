@@ -38,6 +38,10 @@ charge.wav
 - "Power Up Regeneration SFX.wav", Romeo_Kaleikau, September 25th, 2021
 - https://freesound.org/people/Romeo_Kaleikau/sounds/588251/
 
+cheet.wav
+- "Short Crowd Cheer.flac", qubodup, March 31st, 2013
+- https://freesound.org/people/qubodup/sounds/182571/
+
 cloth.wav
 - "cloth flaps 2", exe2be, April 11th, 2020
 - https://freesound.org/people/exe2be/sounds/512739/

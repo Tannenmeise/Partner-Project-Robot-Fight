@@ -164,6 +164,7 @@ namespace Game {
         bump: "Assets/Audio/Sounds/bump.wav",
         chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav",
         charge: "Assets/Audio/Sounds/charge.wav",
+        cheer: "Assets/Audio/Sounds/cheer.wav",
         cloth: "Assets/Audio/Sounds/cloth.wav", // TODO: delete if not used. it's very quiet compared to crowd
         damage: "Assets/Audio/Sounds/damage.wav",
         enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",

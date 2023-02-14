@@ -111,6 +111,7 @@ namespace Game {
             await ƒS.Speech.tell(characters.louis, text.louis.T02_00_004);
 
             // end
+            ƒS.Speech.hide();
             await ƒS.Location.show(locations.black);
             await ƒS.update(1);
             ƒS.Text.addClass("endScreen");
@@ -124,6 +125,7 @@ namespace Game {
             await ƒS.Speech.tell(characters.narrator, text.narrator.T03_00_002);
 
             // end
+            ƒS.Speech.hide();
             ƒS.Text.addClass("endScreen");
             await ƒS.Text.print("<h2>Ende 3/8:</h2>" +
                 "<p>Ende mit Louis: Unstimmigkeit</p>"

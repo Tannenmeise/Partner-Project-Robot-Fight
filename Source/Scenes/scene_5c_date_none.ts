@@ -5,16 +5,22 @@ namespace Game {
         // #region (Text) 
         let text = {
             narrator: {
+                T00_00_000: "Du verbringst das Wochenende allein und gehst zum Roboter-Kampf wieder zur Uni."
             }
         };
         // #endregion (Text)
 
-        // #region (Decision)
-        // #endregion (Decision)
-
-
         // #region (Play)
+        // transition
+        ƒS.Speech.hide();
+        ƒS.Character.hideAll();
+        await ƒS.Location.show(locations.black);
+        await ƒS.update(1);
 
+        // narration
+        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_000);
+
+        return "robotFight";
         // #endregion (Play)
     }
 }
