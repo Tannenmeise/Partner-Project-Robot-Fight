@@ -2420,11 +2420,11 @@ var Game;
                         await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_004);
                     }
                     else {
+                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_000);
                         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_001);
                         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_002);
                         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_003);
                         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_004);
-                        await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_005);
                     }
                     break;
                 case chooseActionAnswer.flee:

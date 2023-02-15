@@ -166,11 +166,11 @@ namespace Game {
                         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_003);
                         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_004);
                     } else {
+                        await ƒS.Speech.tell(characters.lily, text.lily.T00_00_000);
                         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_001);
                         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_002);
                         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_003);
                         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_004);
-                        await ƒS.Speech.tell(characters.lily, text.lily.T00_00_005);
                     }
                     break;
                 case chooseActionAnswer.flee:
