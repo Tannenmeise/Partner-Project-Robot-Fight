@@ -67,7 +67,9 @@ namespace Game {
                 T03_00_000: "... Ok.",
 
                 T04_00_000: "Das ist gut. Ich werde sicherstellen, dass unser Projekt ein Erfolg wird.",
+
                 T05_00_000: "Hm. ... Ich werde mich darum kümmern, dass unser Projekt trotzdem ein Erfolg wird.",
+                
                 T06_00_000: "Das ist ok. Ich werde sicherstellen, dass unser Projekt ein Erfolg wird."
             },
             lily: {
