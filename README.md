@@ -21,8 +21,8 @@ ___
 |    | Titel                 | Partner Project: Robot Fight |
 |    | Name                  | Tamara Hezel |
 |    | Matrikelnummer        | 263157 |
-|  1 | Konzeption            | Siehe [Konzept](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/tree/main/Documents). |
-|  2 | Charaktersteckbriefe  | Es gibt neben dem Spieler zwei fundamentale Charaktere und einen erwähnenswerten Nebencharakter. Deren Steckbriefe befinden sich im [Konzept](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/tree/main/Documents). |
+|  1 | Konzeption            | Siehe [Konzept](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/blob/main/Documents/Konzept_Partner_Project_Robot_Fight.pdf). |
+|  2 | Charaktersteckbriefe  | Es gibt neben dem Spieler zwei fundamentale Charaktere und einen erwähnenswerten Nebencharakter. Deren Steckbriefe befinden sich im [Konzept](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/blob/main/Documents/Konzept_Partner_Project_Robot_Fight.pdf). |
 |  3 | Auswahlmöglichkeiten  | Entscheidungen sind vorhanden und der Dialog unterscheidet sich nach getätigter Auswahl. Das Drehbuch oder das Decision-Tree-Diagram, die die Entscheidungen dokumentieren, befinden sich unter [Documents](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/tree/main/Documents). |
 |  4 | Branching paths       | Branching paths sind vorhanden und im [Decision-Tree-Diagram](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/tree/main/Documents/Decision-Tree-Diagram.png) ersichtlich. Variablen und Strukturierung sind im Code ersichtlich. |
 |  5 | Transitions           | Es gibt eine selbst erstellte Transition (["binary_code.png"](https://github.com/Tannenmeise/Partner-Project-Robot-Fight/blob/main/Assets/Graphics/Transitions/binary_code.png)), die hauptsächlich zur Überblendung zwischen Szenen verwendet wird. Für kleine Zeitsprünge wird ein einfaches "fade-to-black" benutzt. |

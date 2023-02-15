@@ -28,7 +28,7 @@ canvas {
 /* SPLASH SCREEN */
 
 dialog[type=splash] {
-    background-image: url("Assets/Graphics/Splash/splash.PNG");
+    background-image: url("./Assets/Graphics/Splash/splash.PNG");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -305,7 +305,7 @@ dialog[type=inventory] ul li description {
     color: rgb(47, 50, 135);
     border-color: rgba(255, 0, 0, 0);
     border-radius: 1%;
-    background-image: url("Assets/Graphics/Letter/paper.png");
+    background-image: url("./Assets/Graphics/Letter/paper.png");
 }
 
 .lilyLetter {
@@ -315,7 +315,7 @@ dialog[type=inventory] ul li description {
     color: rgb(22, 120, 137);
     border-color: rgba(255, 0, 0, 0);
     border-radius: 1%;
-    background-image: url("Assets/Graphics/Letter/paper.png");
+    background-image: url("./Assets/Graphics/Letter/paper.png");
 }
 
 .endScreen {
