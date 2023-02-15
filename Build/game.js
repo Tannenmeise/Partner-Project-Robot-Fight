@@ -13,7 +13,7 @@ var Game;
         tormentedSomeoneInClass: false
     };
     function credits() {
-        Game.ƒS.Text.print("");
+        window.open("./credits.md", "_blank");
     }
     // #region LOVEBAR
     function showLovebar() {
@@ -393,19 +393,17 @@ var Game;
         buttonFunctionalities("Close");
         // scenes
         let scenes = [
-            /*
-            { scene: scene_0_intro, name: "Scene 0: Intro" },
-            { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
-            { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
-            { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
-            { scene: scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis", id: "eventLouis" },
-            { scene: scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily", id: "eventLily" },
-            { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
-            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
-            { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
-            { scene: scene_6_robot_fight, name: "Scene 6: Robot Fight", id: "robotFight" },
-            { scene: scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis" },
-            */
+            { scene: Game.scene_0_intro, name: "Scene 0: Intro" },
+            { scene: Game.scene_1_pinboards, name: "Scene 1: Pinboards" },
+            { scene: Game.scene_2_history_lesson, name: "Scene 2: History Lesson" },
+            { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
+            { scene: Game.scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis", id: "eventLouis" },
+            { scene: Game.scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily", id: "eventLily" },
+            { scene: Game.scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
+            { scene: Game.scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
+            { scene: Game.scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
+            { scene: Game.scene_6_robot_fight, name: "Scene 6: Robot Fight", id: "robotFight" },
+            { scene: Game.scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis" },
             { scene: Game.scene_7b_ending_lily, name: "Scene 7b: Ending Lily", id: "endLily" },
             { scene: Game.scene_7c_ending_robot, name: "Scene 7c: Ending Robot", id: "endRobot" },
             { scene: Game.scene_7d_ending_flee, name: "Scene 7d: Ending Flee", id: "endFlee" },

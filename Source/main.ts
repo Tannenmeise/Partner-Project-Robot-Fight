@@ -13,7 +13,7 @@ namespace Game {
     };
 
     function credits(): void {
-        ƒS.Text.print("");
+        window.open("./credits.md", "_blank");
     }
 
     // #region LOVEBAR
@@ -411,7 +411,6 @@ namespace Game {
 
         // scenes
         let scenes: ƒS.Scenes = [
-            /*
             { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
@@ -423,7 +422,6 @@ namespace Game {
             { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
             { scene: scene_6_robot_fight, name: "Scene 6: Robot Fight", id: "robotFight" },
             { scene: scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis" },
-            */
             { scene: scene_7b_ending_lily, name: "Scene 7b: Ending Lily", id: "endLily" },
             { scene: scene_7c_ending_robot, name: "Scene 7c: Ending Robot", id: "endRobot" },
             { scene: scene_7d_ending_flee, name: "Scene 7d: Ending Flee", id: "endFlee" },
