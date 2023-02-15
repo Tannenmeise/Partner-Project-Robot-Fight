@@ -1,11 +1,10 @@
 namespace Game {
     export async function scene_5c_date_none(): ƒS.SceneReturn {
-        console.log("scene_5c_date_none started");
 
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Du verbringst das Wochenende allein und gehst zum Roboter-Kampf wieder zur Uni."
+                T00_00_000: "Du verbringst das Wochenende allein und gehst zum Roboterkampf wieder zur Uni."
             }
         };
         // #endregion (Text)

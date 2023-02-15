@@ -59,7 +59,6 @@ declare namespace Game {
         chairScreeching: string;
         charge: string;
         cheer: string;
-        cloth: string;
         damage: string;
         enterSchoolBuilding: string;
         failure: string;

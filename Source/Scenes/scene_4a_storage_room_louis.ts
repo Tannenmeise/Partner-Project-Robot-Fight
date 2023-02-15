@@ -1,6 +1,5 @@
 namespace Game {
     export async function scene_4a_storage_room_louis(): ƒS.SceneReturn {
-        console.log("scene_4a_storage_room_louis started");
 
         // #region (Text) 
         let text = {
@@ -65,12 +64,12 @@ namespace Game {
                 T00_00_003: "Ich habe mir bereits Gedanken über unseren Roboter gemacht. Hier ist eine Skizze, die ich angefertigt habe.",
                 T00_00_004: "Der Roboter soll offensichtlich an einen Panzer erinnern. Dadurch soll es dem Gegner fast unmöglich sein unseren Roboter umzustoßen. Das wäre unsere Defensive.",
                 T00_00_005: "Zur Offensive habe ich mir überlegt eine Schaufel vorne zu installieren. Damit sollte es einfach möglich sein, den Gegner in eine Seiten- oder Rückenlage zu versetzen und somit außer Gefecht zu setzen.",
-                T00_00_006: "Klar. Was ist eine Skizze ohne eine gute Erklärung? Ich will den Roboter-Kampf schließlich gewinnen. Du hoffentlich auch.",
-                T00_00_007: "Ich möchte die Lehrerin nach einem Akku fragen, den ich vorher nicht im Lagerraum gesehen habe. Könntest du währenddessen ein paar Bauteile besorgen, die wir für den Bau der Hülle brauchen könnten?",
-                T00_00_008: "Die Lehrerin hat gesagt, es gab einen Kurzschluss bei einer der Gruppen. Deswegen muss die Sicherung in der gesamten Etage rausgefolgen sein.",
+                T00_00_006: "Klar. Was ist eine Skizze ohne eine gute Erklärung? Ich will den Roboterkampf schließlich gewinnen. Du hoffentlich auch.",
+                T00_00_007: "Ich möchte die Professorin nach einem Akku fragen, den ich vorher nicht im Lagerraum gesehen habe. Könntest du währenddessen ein paar Bauteile besorgen, die wir für den Bau der Hülle brauchen könnten?",
+                T00_00_008: "Die Professorin hat gesagt, es gab einen Kurzschluss bei einer der Gruppen. Deswegen muss die Sicherung in der gesamten Etage rausgefolgen sein.",
                 T00_00_009: "Lass uns an unserem Roboter weiterarbeiten.",
                 T00_00_010: "Der Roboter ist fertig!",
-                T00_00_011: "Wir werden uns spätestens wieder zum Roboter-Kampf sehen. Bis dahin!",
+                T00_00_011: "Wir werden uns spätestens wieder zum Roboterkampf sehen. Bis dahin!",
 
                 T01_00_000: "Gerne doch.",
 
@@ -94,7 +93,7 @@ namespace Game {
 
                 T09_00_000: "Wow, Moment mal-",
 
-                T09_01_000: "Haha, ich will garnicht wissen, was du gesagt hättest, wenn ich die Lehrerin gewesen wäre.",
+                T09_01_000: "Haha, ich will garnicht wissen, was du gesagt hättest, wenn ich die Professorin gewesen wäre.",
                 T09_01_001: "Mann, das hat mich jetzt echt überrascht...",
                 T09_01_002: "Komm. Lass uns zurück zum Klassenzimmer gehen.",
 
@@ -149,23 +148,21 @@ namespace Game {
         // #endregion (Decision)
 
         // #region (Play)
+        // transition
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);
         await ƒS.Location.show(locations.classroomRobotics);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
-
-
-        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_000);
-        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_001);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
 
         // talking with louis
+        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_000);
+        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_001);
         await ƒS.Character.show(characters.louis, characters.louis.pose.neutral1, ƒS.positionPercent(50, 100));
         await ƒS.update();
         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_000);
-
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_000);
-
         await ƒS.Character.hide(characters.louis);
         await ƒS.Character.show(characters.louis, characters.louis.pose.happy2, ƒS.positionPercent(50, 100));
         await ƒS.update();
@@ -175,8 +172,8 @@ namespace Game {
         await ƒS.update();
         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_002);
 
+        // responding to louis' explanation
         explanation = await ƒS.Menu.getInput(explanationAnswer, "decisionClass");
-
         switch (explanation) {
             case explanationAnswer.thank:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T01_00_000);
@@ -206,38 +203,40 @@ namespace Game {
                 break;
         }
 
+        // teacher shows up
         await ƒS.Character.hide(characters.louis);
         await ƒS.update();
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_002);
-        ƒS.Sound.play(sounds.automaticDoor, 1, false);
-
-        // teacher shows up
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         await ƒS.Character.show(characters.roboticsTeacher, characters.roboticsTeacher.pose.neutral, ƒS.positionPercent(50, 100));
         ƒS.update();
         await ƒS.Speech.tell(characters.roboticsTeacher, text.roboticsTeacher.T00_00_000);
         await ƒS.Character.hide(characters.roboticsTeacher);
         ƒS.update();
-
-        // going to the storage room, TODO: DELETE  THIS, IT'S UNNECESSARY, REWRITE EVERYTHING SO IT'S SHORTER AND IT COMES TO THE STORAGE SCENE !UICKLY
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_003);
+
+        // going to the storage room
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);
         await ƒS.Location.show(locations.storageRoom);
         await ƒS.update(1);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
 
+        // storage room
         await ƒS.Character.show(characters.roboticsTeacher, characters.roboticsTeacher.pose.neutral, ƒS.positionPercent(50, 100));
         ƒS.update();
         await ƒS.Speech.tell(characters.roboticsTeacher, text.roboticsTeacher.T00_00_001);
         ƒS.Character.hideAll();
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_004);
 
-        // back to robotics classroom
+        // going to robotics classroom
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);
         await ƒS.Location.show(locations.classroomRobotics);
         await ƒS.update(1);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
 
         // talking with louis, presenting the robot idea
         await ƒS.Character.show(characters.louis, characters.louis.pose.neutral2, ƒS.positionPercent(50, 100));
@@ -248,10 +247,10 @@ namespace Game {
         await ƒS.Character.show(characters.tankBot, characters.tankBot.pose.sketch, ƒS.positionPercent(50, 70));
         await ƒS.update();
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_001);
-
+        
+        // responding to louis' sketch
         sketch = await ƒS.Menu.getInput(sketchAnswer, "decisionClass");
         ƒS.Character.hideAll();
-
         switch (sketch) {
             case sketchAnswer.compliment:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T04_00_000);
@@ -280,6 +279,8 @@ namespace Game {
                 await ƒS.Speech.tell(characters.louis, text.louis.T06_00_001);
                 break;
         }
+
+        // talking with louis
         ƒS.Character.hideAll();
         await ƒS.Character.show(characters.louis, characters.louis.pose.neutral1, ƒS.positionPercent(50, 100));
         await ƒS.update();
@@ -297,6 +298,7 @@ namespace Game {
         await ƒS.update(1);
         await ƒS.Location.show(locations.storageRoom);
         await ƒS.update(1);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
 
         // looking for parts
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_004);
@@ -311,8 +313,8 @@ namespace Game {
         await ƒS.Character.show(characters.student, characters.student.pose.louis, ƒS.positionPercent(50, 100));
         await ƒS.update(0);
 
+        // responding to shadow
         shadow = await ƒS.Menu.getInput(shadowAnswer, "decisionClass");
-
         switch (shadow) {
             case shadowAnswer.speakTo:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T07_00_000);
@@ -329,11 +331,10 @@ namespace Game {
             case shadowAnswer.tackle:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T09_00_000);
                 await ƒS.Speech.tell(characters.louis, text.louis.T09_00_000);
-                // tackle
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T09_00_000);
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T09_00_001);
 
-                // louis reaction based on points
+                // louis' reaction based on affection points
                 if (dataForSave.louisPoints >= 80) {
                     await ƒS.Speech.tell(characters.louis, text.louis.T09_01_000);
                     await ƒS.Speech.tell(characters.louis, text.louis.T09_01_001);
@@ -358,6 +359,7 @@ namespace Game {
         await ƒS.update(1);
         await ƒS.Location.show(locations.classroomRobotics);
         await ƒS.update(1);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_008);
 
         // talking with louis
@@ -375,7 +377,6 @@ namespace Game {
         await ƒS.Location.show(locations.classroomRobotics);
         await ƒS.update(1);
         ƒS.Sound.play(sounds.schoolBell, 1, false);
-
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_009);
         ƒS.Character.hideAll();
         await ƒS.Character.show(characters.louis, characters.louis.pose.happy1, ƒS.positionPercent(50, 100));
@@ -394,7 +395,6 @@ namespace Game {
 
             // decide to go on date or not
             date = await ƒS.Menu.getInput(dateAnswer, "decisionClass");
-
             switch (date) {
                 case dateAnswer.yes:
                     await ƒS.Speech.tell(characters.protagonist, text.protagonist.T10_01_000);
@@ -412,6 +412,8 @@ namespace Game {
                     break;
             }
         }
+
+        // go home
         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_011);
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_009);
         return "dateNone";

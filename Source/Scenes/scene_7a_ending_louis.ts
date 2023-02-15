@@ -1,19 +1,18 @@
 namespace Game {
     export async function scene_7a_ending_louis(): ƒS.SceneReturn {
-        console.log("scene_7a_ending_louis started");
 
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Der Roboter-Kampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
+                T00_00_000: "Der Roboterkampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
 
-                T01_00_000: "Louis hat dich mit einer ihm unüblichen Röte im Gesicht dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T01_00_000: "Louis hat dich mit einer ihm unüblichen Röte im Gesicht dazu eingeladen sich am Hügel hinter dem Hochschulgebäude zu treffen.",
                 T01_00_001: "Lächelnd hast du dem Treffen zugesagt.",
 
-                T02_00_000: "Louis hat dich dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T02_00_000: "Louis hat dich dazu eingeladen sich am Hügel hinter dem Hochschulgebäude zu treffen.",
 
                 T03_00_000: "Louis hat dich allein gelassen. Er scheint besseres zu tun zu haben als noch etwas Zeit mit dir zu verbringen.",
-                T03_00_001: "Als du über das Campusgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
+                T03_00_001: "Als du über das Hochschulgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
                 T03_00_002: "Nach einer Weile entscheidest du dich dazu nach Hause zu gehen."
             },
             louis: {
@@ -56,6 +55,7 @@ namespace Game {
             await ƒS.update(1);
             await ƒS.Location.show(locations.endSceneLouis);
             await ƒS.update(1);
+            await ƒS.Sound.fade(sounds.endTheme, 1, 1, true);
 
             // talking with louis
             await ƒS.Speech.tell(characters.louis, text.louis.T01_00_000);
@@ -81,14 +81,13 @@ namespace Game {
                 "<p>Ich weiß, ich selbst bin nicht der wärmste Mensch.</p>" +
                 "<p>Jedoch kann ich es mir nun besser vorstellen mich endlich anderen Menschen mehr zu öffnen.</p>" +
                 "<p>Menschen mit einem guten Herz wie du.</p>" +
-                "<p>Falls du aber nichts mehr mit mir zu tun haben willst, verstehe ich das.</p>" +
-                "<p>Abgesehen davon...</p>" +
                 "<p>Bleib so wie du bist, " + dataForSave.protagonistName + ".</p>" +
                 "<h2>Liebe Grüße</h2>" +
                 "<h2>Louis</h2>"
             );
 
             // end
+            await ƒS.Sound.fade(sounds.endTheme, 0, 1, true);
             document.getElementsByClassName("louisLetter").item(0).removeAttribute("class");
             ƒS.Text.addClass("endScreen");
             await ƒS.Text.print("<h2>Ende 1/8:</h2>" +
@@ -102,6 +101,7 @@ namespace Game {
             await ƒS.update(1);
             await ƒS.Location.show(locations.endSceneLouis);
             await ƒS.update(1);
+            await ƒS.Sound.fade(sounds.endTheme, 1, 1, true);
 
             // talking with louis
             await ƒS.Speech.tell(characters.louis, text.louis.T02_00_000);
@@ -111,6 +111,7 @@ namespace Game {
             await ƒS.Speech.tell(characters.louis, text.louis.T02_00_004);
 
             // end
+            await ƒS.Sound.fade(sounds.endTheme, 0, 1, true);
             ƒS.Speech.hide();
             await ƒS.Location.show(locations.black);
             await ƒS.update(1);
@@ -126,6 +127,8 @@ namespace Game {
 
             // end
             ƒS.Speech.hide();
+            await ƒS.Location.show(locations.black);
+            await ƒS.update(1);
             ƒS.Text.addClass("endScreen");
             await ƒS.Text.print("<h2>Ende 3/8:</h2>" +
                 "<p>Ende mit Louis: Unstimmigkeit</p>"

@@ -1,6 +1,5 @@
 namespace Game {
     export async function scene_4b_storage_room_lily(): ƒS.SceneReturn {
-        console.log("scene_4b_storage_room_lily started");
 
         // #region (Text) 
         let text = {
@@ -66,11 +65,11 @@ namespace Game {
                 T00_00_004: "Der Roboter ist praktisch ein Auto mit Boxhandschuhen. Ich dachte, es sei eine nette Idee.",
                 T00_00_005: "Die Räder macht unser Roboter schnell und agil. Mit den Armen kann er dann andere Roboter auch umstoßen.",
                 T00_00_006: "J-Ja. Ich hatte echt Spaß dabei. Ich hoffe, dir gefällt er auch so sehr wie mir.",
-                T00_00_007: "Ich möchte die Lehrerin fragen wie wir die Boxhandschuhe am besten umsetzen. Kannst du währenddessen vielleicht im Lagerraum nach passenden Teilen suchen?",
-                T00_00_008: "Die Lehrerin hat gesagt, es gab einen Kurzschluss. Die Sicherung in der gesamten Etage muss rausgefolgen sein.",
+                T00_00_007: "Ich möchte die Professorin fragen wie wir die Boxhandschuhe am besten umsetzen. Kannst du währenddessen vielleicht im Lagerraum nach passenden Teilen suchen?",
+                T00_00_008: "Die Professorin hat gesagt, es gab einen Kurzschluss. Die Sicherung in der gesamten Etage muss rausgefolgen sein.",
                 T00_00_009: "Lass uns an unserem Roboter weiterarbeiten.",
                 T00_00_010: "Der Roboter ist fertig! Yay!",
-                T00_00_011: "Wir sehen uns dann zum Roboter-Kampf wieder. Ich wünsche dir ein schönes Wochenende!",
+                T00_00_011: "Wir sehen uns dann zum Roboterkampf wieder. Ich wünsche dir ein schönes Wochenende!",
 
                 T01_00_000: "Kein Problem!",
 
@@ -148,23 +147,21 @@ namespace Game {
         // #endregion (Decision)
 
         // #region (Play)
+        // transition
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);
         await ƒS.Location.show(locations.classroomRobotics);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
-
-
-        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_000);
-        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_001);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
 
         // talking with lily
+        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_000);
+        await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_001);
         await ƒS.Character.show(characters.lily, characters.lily.pose.neutral1, ƒS.positionPercent(50, 100));
         await ƒS.update();
         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_000);
-
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_000);
-
         await ƒS.Character.hide(characters.lily);
         await ƒS.Character.show(characters.lily, characters.lily.pose.happy2, ƒS.positionPercent(50, 100));
         await ƒS.update();
@@ -174,8 +171,8 @@ namespace Game {
         await ƒS.update();
         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_002);
 
+        // responding to lilys explanation
         explanation = await ƒS.Menu.getInput(explanationAnswer, "decisionClass");
-
         switch (explanation) {
             case explanationAnswer.thank:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T01_00_000);
@@ -205,38 +202,40 @@ namespace Game {
                 break;
         }
 
+        // teacher shows up
         await ƒS.Character.hide(characters.lily);
         await ƒS.update();
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_002);
-        ƒS.Sound.play(sounds.automaticDoor, 1, false);
-
-        // teacher shows up
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         await ƒS.Character.show(characters.roboticsTeacher, characters.roboticsTeacher.pose.neutral, ƒS.positionPercent(50, 100));
         ƒS.update();
         await ƒS.Speech.tell(characters.roboticsTeacher, text.roboticsTeacher.T00_00_000);
         await ƒS.Character.hide(characters.roboticsTeacher);
         ƒS.update();
-
-        // going to the storage room, TODO: DELETE  THIS, IT'S UNNECESSARY, REWRITE EVERYTHING SO IT'S SHORTER AND IT COMES TO THE STORAGE SCENE !UICKLY
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_003);
+
+        // going to the storage room
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);
         await ƒS.Location.show(locations.storageRoom);
         await ƒS.update(1);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
 
+        // storage room
         await ƒS.Character.show(characters.roboticsTeacher, characters.roboticsTeacher.pose.neutral, ƒS.positionPercent(50, 100));
         ƒS.update();
         await ƒS.Speech.tell(characters.roboticsTeacher, text.roboticsTeacher.T00_00_001);
         ƒS.Character.hideAll();
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_004);
 
-        // back to robotics classroom
+        // going to robotics classroom
         ƒS.Speech.hide();
         await ƒS.Location.show(locations.black);
         await ƒS.update(1);
         await ƒS.Location.show(locations.classroomRobotics);
         await ƒS.update(1);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
 
         // talking with lily, presenting the robot idea
         await ƒS.Character.show(characters.lily, characters.lily.pose.neutral2, ƒS.positionPercent(50, 100));
@@ -248,9 +247,9 @@ namespace Game {
         await ƒS.update();
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_001);
 
+        // responding to lilys sketch
         sketch = await ƒS.Menu.getInput(sketchAnswer, "decisionClass");
         ƒS.Character.hideAll();
-
         switch (sketch) {
             case sketchAnswer.compliment:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T04_00_000);
@@ -278,6 +277,8 @@ namespace Game {
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T06_00_001);
                 break;
         }
+
+        // talking with lily
         ƒS.Character.hideAll();
         await ƒS.Character.show(characters.lily, characters.lily.pose.neutral1, ƒS.positionPercent(50, 100));
         await ƒS.update();
@@ -295,6 +296,7 @@ namespace Game {
         await ƒS.update(1);
         await ƒS.Location.show(locations.storageRoom);
         await ƒS.update(1);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
 
         // looking for parts
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_004);
@@ -309,8 +311,8 @@ namespace Game {
         await ƒS.Character.show(characters.student, characters.student.pose.lily, ƒS.positionPercent(50, 100));
         await ƒS.update(0);
 
+        // responding to shadow
         shadow = await ƒS.Menu.getInput(shadowAnswer, "decisionClass");
-
         switch (shadow) {
             case shadowAnswer.speakTo:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T07_00_000);
@@ -327,11 +329,10 @@ namespace Game {
             case shadowAnswer.tackle:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T09_00_000);
                 await ƒS.Speech.tell(characters.lily, text.lily.T09_00_000);
-                // tackle
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T09_00_000);
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T09_00_001);
 
-                // lily reaction based on points
+                // lilys reaction based on affection points
                 if (dataForSave.lilyPoints >= 80) {
                     await ƒS.Speech.tell(characters.lily, text.lily.T09_01_000);
                     await ƒS.Speech.tell(characters.lily, text.lily.T09_01_001);
@@ -356,6 +357,7 @@ namespace Game {
         await ƒS.update(1);
         await ƒS.Location.show(locations.classroomRobotics);
         await ƒS.update(1);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_008);
 
         // talking with lily
@@ -373,7 +375,6 @@ namespace Game {
         await ƒS.Location.show(locations.classroomRobotics);
         await ƒS.update(1);
         ƒS.Sound.play(sounds.schoolBell, 1, false);
-
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_009);
         ƒS.Character.hideAll();
         await ƒS.Character.show(characters.lily, characters.lily.pose.happy1, ƒS.positionPercent(50, 100));
@@ -392,7 +393,6 @@ namespace Game {
 
             // decide to go on date or not
             date = await ƒS.Menu.getInput(dateAnswer, "decisionClass");
-
             switch (date) {
                 case dateAnswer.yes:
                     await ƒS.Speech.tell(characters.protagonist, text.protagonist.T10_01_000);
@@ -410,6 +410,8 @@ namespace Game {
                     break;
             }
         }
+
+        // go home
         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_011);
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_009);
         return "dateNone";

@@ -1,6 +1,5 @@
 namespace Game {
     export async function scene_5a_date_louis(): ƒS.SceneReturn {
-        console.log("scene_5a_date_louis started");
 
         // #region (Text) 
         let text = {
@@ -81,11 +80,14 @@ namespace Game {
         await ƒS.update(1);
         await ƒS.Location.show(locations.mechaCon);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
+        await ƒS.Sound.fade(sounds.bigCrowd, 1, 2, true);
 
         // talking with louis
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_000);
         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_000);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_001);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         await ƒS.Character.show(characters.louis, characters.louis.pose.happy1, ƒS.positionPercent(50, 100));
         await ƒS.update();
         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_001);
@@ -100,7 +102,6 @@ namespace Game {
 
         // tell louis if you find the con interesting
         interest = await ƒS.Menu.getInput(interestAnswer, "decisionClass");
-
         switch (interest) {
             case interestAnswer.yes:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T01_00_000);
@@ -133,12 +134,14 @@ namespace Game {
         }
 
         // decide to buy a gift for louis or not
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         ƒS.Character.hideAll();
         await ƒS.update(1);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_004);
         gift = await ƒS.Menu.getInput(giftAnswer, "decisionClass");
         switch (gift) {
             case giftAnswer.buy:
+                ƒS.Sound.play(sounds.footstepsTiles, 1, false);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T04_00_000);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T04_00_001);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T04_00_002);
@@ -148,6 +151,7 @@ namespace Game {
         }
 
         // get your gift from louis
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         await ƒS.Character.show(characters.louis, characters.louis.pose.neutral1, ƒS.positionPercent(50, 100));
         await ƒS.update();
         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_004);
@@ -163,7 +167,7 @@ namespace Game {
                 dataForSave.louisPoints += 10;
                 document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
                 ƒS.Character.hideAll();
-                await ƒS.Character.show(characters.louis, characters.louis.pose.happy1, ƒS.positionPercent(50, 100));
+                await ƒS.Character.show(characters.louis, characters.louis.pose.joyful1, ƒS.positionPercent(50, 100));
                 await ƒS.update();
                 await ƒS.Speech.tell(characters.louis, text.louis.T04_00_000);
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T04_00_001);
@@ -177,6 +181,7 @@ namespace Game {
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_002);
         await ƒS.Speech.tell(characters.louis, text.louis.T00_00_007);
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_003);
+        await ƒS.Sound.fade(sounds.bigCrowd, 0, 1, true);
 
         return "robotFight";
         // #endregion (Play)

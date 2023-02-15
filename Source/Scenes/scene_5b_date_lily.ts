@@ -1,6 +1,5 @@
 namespace Game {
     export async function scene_5b_date_lily(): ƒS.SceneReturn {
-        console.log("scene_5b_date_lily started");
 
         // #region (Text) 
         let text = {
@@ -81,11 +80,14 @@ namespace Game {
         await ƒS.update(1);
         await ƒS.Location.show(locations.butterflyHouse);
         await ƒS.update(transitions.binaryCode.duration, transitions.binaryCode.alpha, transitions.binaryCode.edge);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
+        ƒS.Sound.play(sounds.sparrows, 1, true);
 
         // talking with lily
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_000);
         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_000);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_001);
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         await ƒS.Character.show(characters.lily, characters.lily.pose.happy1, ƒS.positionPercent(50, 100));
         await ƒS.update();
         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_001);
@@ -98,9 +100,8 @@ namespace Game {
         await ƒS.update();
         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_003);
 
-        // tell lily if you find the con interesting
+        // tell lily if you find the butterfly house interesting
         interest = await ƒS.Menu.getInput(interestAnswer, "decisionClass");
-
         switch (interest) {
             case interestAnswer.yes:
                 await ƒS.Speech.tell(characters.protagonist, text.protagonist.T01_00_000);
@@ -135,12 +136,14 @@ namespace Game {
         }
 
         // decide to buy a gift for lily or not
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         ƒS.Character.hideAll();
         await ƒS.update(1);
         await ƒS.Speech.tell(characters.narrator, text.narrator.T00_00_004);
         gift = await ƒS.Menu.getInput(giftAnswer, "decisionClass");
         switch (gift) {
             case giftAnswer.buy:
+                ƒS.Sound.play(sounds.footstepsTiles, 1, false);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T04_00_000);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T04_00_001);
                 await ƒS.Speech.tell(characters.narrator, text.narrator.T04_00_002);
@@ -150,6 +153,7 @@ namespace Game {
         }
 
         // get your gift from lily
+        ƒS.Sound.play(sounds.footstepsTiles, 1, false);
         await ƒS.Character.show(characters.lily, characters.lily.pose.neutral1, ƒS.positionPercent(50, 100));
         await ƒS.update();
         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_004);
@@ -182,6 +186,7 @@ namespace Game {
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_002);
         await ƒS.Speech.tell(characters.lily, text.lily.T00_00_007);
         await ƒS.Speech.tell(characters.protagonist, text.protagonist.T00_00_003);
+        await ƒS.Sound.fade(sounds.sparrows, 0, 1, true);
 
         return "robotFight";
         // #endregion (Play)

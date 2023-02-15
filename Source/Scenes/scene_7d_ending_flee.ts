@@ -1,13 +1,12 @@
 namespace Game {
     export async function scene_7d_ending_flee(): ƒS.SceneReturn {
-        console.log("scene_7d_ending_flee started");
 
         // #region (Text) 
         let text = {
             narrator: {
                 T00_00_000: "Du fühlst wie Perlen aus Schweiß dir über das Gesicht laufen.",
                 T00_00_001: "Der Stress ist dir zu viel. Du überlässt deinem Projektpartner die Fernbedienung. Dann stürmst du aus dem Raum und pflügst dabei zwei Studenten um.",
-                T00_00_002: "Die Robotiklehrerin bringt kein Wort heraus. Dein Projektpartner ruft dir hinterher."
+                T00_00_002: "Die Robotik Professorin bringt kein Wort heraus. Dein Projektpartner ruft dir hinterher."
             },
             protagonist: {
                 T00_00_000: "..."

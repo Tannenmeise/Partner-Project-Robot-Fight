@@ -2,9 +2,6 @@ namespace Game {
     export import ƒ = FudgeCore;
     export import ƒS = FudgeStory;
 
-    console.log("'main.ts' started");
-    // TODO: UPDATE THE LOVE-POINT-BAR FOR THE PARTNERS AT THE BEGINNING OF EVERY SCENE (IN-CASE OF LOADING A SAVE)
-
     export let dataForSave = {
         protagonistName: "Protagonist",
         partnerChosen: "",
@@ -19,6 +16,7 @@ namespace Game {
         ƒS.Text.print("");
     }
 
+    // #region LOVEBAR
     function showLovebar(): void {
         document.getElementById("lilyBar").setAttribute("value", String(dataForSave.lilyPoints));
         document.getElementById("louisBar").setAttribute("value", String(dataForSave.louisPoints));
@@ -29,8 +27,10 @@ namespace Game {
         document.getElementById("loveBars").setAttribute("style", "visibility: hidden");
     }
 
-    // #region (MENU)
-    // menu shortcuts
+    let lovebarIsVisible: boolean = false;
+    // #endregion LOVEBAR
+
+    // #region MENU
     let inGameMenuButtons = {
         save: "Save",
         load: "Load",
@@ -40,15 +40,12 @@ namespace Game {
     };
 
     let gameMenu: ƒS.Menu;
-
     let menuIsOpen: boolean = false;
-    let lovebarIsVisible: boolean = false;
 
     async function buttonFunctionalities(_option: string): Promise<void> {
-        console.log(_option);
         switch (_option) {
             case inGameMenuButtons.save:
-                await ƒS.Progress.save(); // always saves, so that you start at the beginning of the scene you saved in
+                await ƒS.Progress.save();
                 break;
             case inGameMenuButtons.load:
                 await ƒS.Progress.load();
@@ -65,53 +62,47 @@ namespace Game {
                 break;
         }
     }
+    // #endregion MENU
 
-    // menu shortcuts
+    // #region MENU SHORTCUTS
     document.addEventListener("keydown", handleKeyPress);
     async function handleKeyPress(_event: KeyboardEvent): Promise<void> {
         switch (_event.code) {
             case ƒ.KEYBOARD_CODE.F8:
-                console.log("Save");
                 await ƒS.Progress.save();
                 break;
             case ƒ.KEYBOARD_CODE.F9:
-                console.log("Load");
                 await ƒS.Progress.load();
                 break;
             case ƒ.KEYBOARD_CODE.I:
-                console.log("Inventory");
                 await ƒS.Inventory.open();
                 break;
             case ƒ.KEYBOARD_CODE.C:
-                console.log("Credits");
                 credits();
                 break;
             case ƒ.KEYBOARD_CODE.L:
                 if (lovebarIsVisible) {
-                    console.log("Hide Lovebar");
                     hideLovebar();
                     lovebarIsVisible = false;
                 } else {
-                    console.log("Show Lovebar");
                     showLovebar();
                     lovebarIsVisible = true;
                 }
                 break;
             case ƒ.KEYBOARD_CODE.M:
                 if (menuIsOpen) {
-                    console.log("Close");
                     gameMenu.close();
                     menuIsOpen = false;
                 } else {
-                    console.log("Open");
                     gameMenu.open();
                     menuIsOpen = true;
                 }
                 break;
         }
     }
-    // #endregion (MENU)
+    // #endregion MENU SHORTCUTS
 
+    // #region ITEMS
     export let items = {
         keychainEvo: {
             name: "EVO 01 Anhänger",
@@ -144,7 +135,9 @@ namespace Game {
             static: true
         }
     };
+    // #endregion ITEMS
 
+    // #region TRANSITIONS
     export let transitions = {
         binaryCode: {
             duration: 3,
@@ -152,7 +145,9 @@ namespace Game {
             edge: 0.5
         }
     };
+    // #endregion TRANSITIONS
 
+    // #region AUDIO
     export let sounds = {
         // music
         alternativeEnd: "Assets/Audio/Music/alternative_end.wav",
@@ -160,25 +155,26 @@ namespace Game {
         robotFight: "Assets/Audio/Music/robot_fight.wav",
         // sounds
         automaticDoor: "Assets/Audio/Sounds/automatic_door.wav",
-        bigCrowd: "Assets/Audio/Sounds/big_crowd.wav", // TODO: check if I can freely use it!!!
+        bigCrowd: "Assets/Audio/Sounds/big_crowd.wav",
         bump: "Assets/Audio/Sounds/bump.wav",
         chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav",
         charge: "Assets/Audio/Sounds/charge.wav",
         cheer: "Assets/Audio/Sounds/cheer.wav",
-        cloth: "Assets/Audio/Sounds/cloth.wav", // TODO: delete if not used. it's very quiet compared to crowd
         damage: "Assets/Audio/Sounds/damage.wav",
         enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
         failure: "Assets/Audio/Sounds/failure.wav",
         footstepsTiles: "Assets/Audio/Sounds/footsteps_tiles.wav",
         paper: "Assets/Audio/Sounds/paper.wav",
         schoolBell: "Assets/Audio/Sounds/school_bell.wav",
-        smallCrowd: "Assets/Audio/Sounds/small_crowd.wav", // TODO: check if I can freely use it!!!
-        sparrows: "Assets/Audio/Sounds/sparrows.wav", // TODO: make ambient sound instead (mix of sparrows, wind and students)
+        smallCrowd: "Assets/Audio/Sounds/small_crowd.wav",
+        sparrows: "Assets/Audio/Sounds/sparrows.wav",
         success: "Assets/Audio/Sounds/success.wav",
         switch: "Assets/Audio/Sounds/switch.wav",
         zipper: "Assets/Audio/Sounds/zipper.wav"
     };
+    // #endregion AUDIO
 
+    // #region BACKGROUNDS
     export let locations = {
         black: {
             name: "Black",
@@ -237,7 +233,9 @@ namespace Game {
             background: "Assets/Graphics/Backgrounds/storage_room.png"
         }
     };
+    // #endregion BACKGROUNDS
 
+    // #region CHARACTERS
     export let characters = {
         narrator: {
             name: ""
@@ -246,7 +244,7 @@ namespace Game {
             name: "Du"
         },
         student: {
-            name: "Student",
+            name: "Student*in",
             origin: ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
                 lily: "Assets/Graphics/Characters/Lily/lily_silhouette.png",
@@ -286,10 +284,10 @@ namespace Game {
             }
         },
         historyTeacher: {
-            name: "Geschichtslehrer"
+            name: "Geschichtsprofessor"
         },
         roboticsTeacher: {
-            name: "Robotiklehrerin",
+            name: "Robotik Professorin",
             origin: ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
                 neutral: "Assets/Graphics/Characters/Teacher/teacher.png"
@@ -314,9 +312,9 @@ namespace Game {
             }
         }
     };
+    // #endregion CHARACTERS
 
-    // TODO: Idee: jumpy (excited) animation for character
-
+    // #region ANIMATIONS
     export function slideFromLeftToMiddleAnimation(): ƒS.AnimationDefinition {
         return {
             start: { translation: ƒS.positionPercent(20, 100) },
@@ -402,16 +400,18 @@ namespace Game {
 
         };
     }
-
+    // #endregion ANIMATIONS
 
     window.addEventListener("load", start);
 
     function start(_event: Event): void {
-        // menu
+        // menu buttons
         gameMenu = ƒS.Menu.create(inGameMenuButtons, buttonFunctionalities, "gameMenuCSSClass");
         buttonFunctionalities("Close");
 
+        // scenes
         let scenes: ƒS.Scenes = [
+            /*
             { scene: scene_0_intro, name: "Scene 0: Intro" },
             { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
             { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
@@ -422,14 +422,18 @@ namespace Game {
             { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
             { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
             { scene: scene_6_robot_fight, name: "Scene 6: Robot Fight", id: "robotFight" },
-            { scene: scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis"},
+            { scene: scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis" },
+            */
             { scene: scene_7b_ending_lily, name: "Scene 7b: Ending Lily", id: "endLily" },
             { scene: scene_7c_ending_robot, name: "Scene 7c: Ending Robot", id: "endRobot" },
             { scene: scene_7d_ending_flee, name: "Scene 7d: Ending Flee", id: "endFlee" },
             { scene: scene_8_end, name: "Scene 8: End", id: "end" }
         ];
 
+        // ui
         let uiElement: HTMLElement = document.querySelector("[type=interface]");
+
+        // data for save
         dataForSave = ƒS.Progress.setData(dataForSave, uiElement);
 
         ƒS.Progress.go(scenes);

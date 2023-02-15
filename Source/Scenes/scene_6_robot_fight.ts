@@ -1,11 +1,10 @@
 namespace Game {
     export async function scene_6_robot_fight(): ƒS.SceneReturn {
-        console.log("scene_6_robot_fight started");
 
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Heute ist endlich der Tag. Der Tag des Roboter-Kampfs.",
+                T00_00_000: "Heute ist endlich der Tag. Der Tag des Roboterkampfs.",
                 T00_00_001: "Wie wirst du dich im Kammpf mit einem gegnerischen Roboter schlagen? Es wird Zeit es herauszufinden.",
                 T00_00_002: "Gespannt begibst du dich zum Klassenzimmer, wo der Kampf auch schon augenblicklich anfangen wird...",
 
@@ -27,7 +26,7 @@ namespace Game {
             },
             roboticsTeacher: {
                 T00_00_000: "Auf die Plätze... fertig... los!",
-                T00_00_001: "Das war es mit dem Roboter-Kampf. Danke an alle Studierenden, die teilgenommen haben.",
+                T00_00_001: "Das war es mit dem Roboterkampf. Danke an alle Studenten, die teilgenommen haben.",
                 T00_00_002: "Da alle Gruppen so eine tolle Leistung vollbracht haben, habe ich entschieden, dass es doch keine Klausur geben wird. Ihr habt euch schließlich alle schon sehr gute Noten erkämpft."
             },
             protagonist: {

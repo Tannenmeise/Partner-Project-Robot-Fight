@@ -3,8 +3,6 @@ var Game;
 (function (Game) {
     Game.ƒ = FudgeCore;
     Game.ƒS = FudgeStory;
-    console.log("'main.ts' started");
-    // TODO: UPDATE THE LOVE-POINT-BAR FOR THE PARTNERS AT THE BEGINNING OF EVERY SCENE (IN-CASE OF LOADING A SAVE)
     Game.dataForSave = {
         protagonistName: "Protagonist",
         partnerChosen: "",
@@ -17,6 +15,7 @@ var Game;
     function credits() {
         Game.ƒS.Text.print("");
     }
+    // #region LOVEBAR
     function showLovebar() {
         document.getElementById("lilyBar").setAttribute("value", String(Game.dataForSave.lilyPoints));
         document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
@@ -25,8 +24,9 @@ var Game;
     function hideLovebar() {
         document.getElementById("loveBars").setAttribute("style", "visibility: hidden");
     }
-    // #region (MENU)
-    // menu shortcuts
+    let lovebarIsVisible = false;
+    // #endregion LOVEBAR
+    // #region MENU
     let inGameMenuButtons = {
         save: "Save",
         load: "Load",
@@ -36,12 +36,10 @@ var Game;
     };
     let gameMenu;
     let menuIsOpen = false;
-    let lovebarIsVisible = false;
     async function buttonFunctionalities(_option) {
-        console.log(_option);
         switch (_option) {
             case inGameMenuButtons.save:
-                await Game.ƒS.Progress.save(); // always saves, so that you start at the beginning of the scene you saved in
+                await Game.ƒS.Progress.save();
                 break;
             case inGameMenuButtons.load:
                 await Game.ƒS.Progress.load();
@@ -58,53 +56,47 @@ var Game;
                 break;
         }
     }
-    // menu shortcuts
+    // #endregion MENU
+    // #region MENU SHORTCUTS
     document.addEventListener("keydown", handleKeyPress);
     async function handleKeyPress(_event) {
         switch (_event.code) {
             case Game.ƒ.KEYBOARD_CODE.F8:
-                console.log("Save");
                 await Game.ƒS.Progress.save();
                 break;
             case Game.ƒ.KEYBOARD_CODE.F9:
-                console.log("Load");
                 await Game.ƒS.Progress.load();
                 break;
             case Game.ƒ.KEYBOARD_CODE.I:
-                console.log("Inventory");
                 await Game.ƒS.Inventory.open();
                 break;
             case Game.ƒ.KEYBOARD_CODE.C:
-                console.log("Credits");
                 credits();
                 break;
             case Game.ƒ.KEYBOARD_CODE.L:
                 if (lovebarIsVisible) {
-                    console.log("Hide Lovebar");
                     hideLovebar();
                     lovebarIsVisible = false;
                 }
                 else {
-                    console.log("Show Lovebar");
                     showLovebar();
                     lovebarIsVisible = true;
                 }
                 break;
             case Game.ƒ.KEYBOARD_CODE.M:
                 if (menuIsOpen) {
-                    console.log("Close");
                     gameMenu.close();
                     menuIsOpen = false;
                 }
                 else {
-                    console.log("Open");
                     gameMenu.open();
                     menuIsOpen = true;
                 }
                 break;
         }
     }
-    // #endregion (MENU)
+    // #endregion MENU SHORTCUTS
+    // #region ITEMS
     Game.items = {
         keychainEvo: {
             name: "EVO 01 Anhänger",
@@ -137,6 +129,8 @@ var Game;
             static: true
         }
     };
+    // #endregion ITEMS
+    // #region TRANSITIONS
     Game.transitions = {
         binaryCode: {
             duration: 3,
@@ -144,6 +138,8 @@ var Game;
             edge: 0.5
         }
     };
+    // #endregion TRANSITIONS
+    // #region AUDIO
     Game.sounds = {
         // music
         alternativeEnd: "Assets/Audio/Music/alternative_end.wav",
@@ -156,7 +152,6 @@ var Game;
         chairScreeching: "Assets/Audio/Sounds/chair_screeching.wav",
         charge: "Assets/Audio/Sounds/charge.wav",
         cheer: "Assets/Audio/Sounds/cheer.wav",
-        cloth: "Assets/Audio/Sounds/cloth.wav",
         damage: "Assets/Audio/Sounds/damage.wav",
         enterSchoolBuilding: "Assets/Audio/Sounds/enter_school_building.wav",
         failure: "Assets/Audio/Sounds/failure.wav",
@@ -169,6 +164,8 @@ var Game;
         switch: "Assets/Audio/Sounds/switch.wav",
         zipper: "Assets/Audio/Sounds/zipper.wav"
     };
+    // #endregion AUDIO
+    // #region BACKGROUNDS
     Game.locations = {
         black: {
             name: "Black",
@@ -227,6 +224,8 @@ var Game;
             background: "Assets/Graphics/Backgrounds/storage_room.png"
         }
     };
+    // #endregion BACKGROUNDS
+    // #region CHARACTERS
     Game.characters = {
         narrator: {
             name: ""
@@ -235,7 +234,7 @@ var Game;
             name: "Du"
         },
         student: {
-            name: "Student",
+            name: "Student*in",
             origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
                 lily: "Assets/Graphics/Characters/Lily/lily_silhouette.png",
@@ -275,10 +274,10 @@ var Game;
             }
         },
         historyTeacher: {
-            name: "Geschichtslehrer"
+            name: "Geschichtsprofessor"
         },
         roboticsTeacher: {
-            name: "Robotiklehrerin",
+            name: "Robotik Professorin",
             origin: Game.ƒS.ORIGIN.BOTTOMCENTER,
             pose: {
                 neutral: "Assets/Graphics/Characters/Teacher/teacher.png"
@@ -303,7 +302,8 @@ var Game;
             }
         }
     };
-    // TODO: Idee: jumpy (excited) animation for character
+    // #endregion CHARACTERS
+    // #region ANIMATIONS
     function slideFromLeftToMiddleAnimation() {
         return {
             start: { translation: Game.ƒS.positionPercent(20, 100) },
@@ -385,29 +385,35 @@ var Game;
         };
     }
     Game.robotEnemyDodge = robotEnemyDodge;
+    // #endregion ANIMATIONS
     window.addEventListener("load", start);
     function start(_event) {
-        // menu
+        // menu buttons
         gameMenu = Game.ƒS.Menu.create(inGameMenuButtons, buttonFunctionalities, "gameMenuCSSClass");
         buttonFunctionalities("Close");
+        // scenes
         let scenes = [
-            { scene: Game.scene_0_intro, name: "Scene 0: Intro" },
-            { scene: Game.scene_1_pinboards, name: "Scene 1: Pinboards" },
-            { scene: Game.scene_2_history_lesson, name: "Scene 2: History Lesson" },
-            { scene: Game.scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
-            { scene: Game.scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis", id: "eventLouis" },
-            { scene: Game.scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily", id: "eventLily" },
-            { scene: Game.scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
-            { scene: Game.scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
-            { scene: Game.scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
-            { scene: Game.scene_6_robot_fight, name: "Scene 6: Robot Fight", id: "robotFight" },
-            { scene: Game.scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis" },
+            /*
+            { scene: scene_0_intro, name: "Scene 0: Intro" },
+            { scene: scene_1_pinboards, name: "Scene 1: Pinboards" },
+            { scene: scene_2_history_lesson, name: "Scene 2: History Lesson" },
+            { scene: scene_3_robotics_lesson, name: "Scene 3: Robotics Lesson" },
+            { scene: scene_4a_storage_room_louis, name: "Scene 4a: Storage Room Louis", id: "eventLouis" },
+            { scene: scene_4b_storage_room_lily, name: "Scene 4b: Storage Room Lily", id: "eventLily" },
+            { scene: scene_5a_date_louis, name: "Scene 5a: Date Louis", id: "dateLouis" },
+            { scene: scene_5b_date_lily, name: "Scene 5b: Date Lily", id: "dateLily" },
+            { scene: scene_5c_date_none, name: "Scene 5c: Date None", id: "dateNone" },
+            { scene: scene_6_robot_fight, name: "Scene 6: Robot Fight", id: "robotFight" },
+            { scene: scene_7a_ending_louis, name: "Scene 7a: Ending Louis", id: "endLouis" },
+            */
             { scene: Game.scene_7b_ending_lily, name: "Scene 7b: Ending Lily", id: "endLily" },
             { scene: Game.scene_7c_ending_robot, name: "Scene 7c: Ending Robot", id: "endRobot" },
             { scene: Game.scene_7d_ending_flee, name: "Scene 7d: Ending Flee", id: "endFlee" },
             { scene: Game.scene_8_end, name: "Scene 8: End", id: "end" }
         ];
+        // ui
         let uiElement = document.querySelector("[type=interface]");
+        // data for save
         Game.dataForSave = Game.ƒS.Progress.setData(Game.dataForSave, uiElement);
         Game.ƒS.Progress.go(scenes);
     }
@@ -415,18 +421,17 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_0_intro() {
-        console.log("scene_0_intro started");
         // #region (Text) 
         let text = {
             narrator: {
-                YourName: "Wie heißt du?",
+                YourName: "Wie heißt du? ",
                 T00_00_000: "Ein neuer Tag an der Robert Robotik Hochschule.",
-                T00_00_001: "Nach 4 Semestern hat sich das Gefühl von Gewohnheit endgültig eingenistet. Nun bist du bereits Nahe des Endes des 5. Semesters angelangt.",
+                T00_00_001: "Nach 4 Semestern hat sich das Gefühl von Gewohnheit endgültig eingenistet. Inzwischen ist auch schon das Ende des 5. Semesters in Sicht.",
                 T00_00_002: "Das Laufen zur Hochschule gleicht immer mehr einer gedankenlosen Trance. Es ist immer der gleiche gewohnte Ablauf. Beruhigend, aber auch etwas langweilig.",
                 T00_00_003: "Das Zwitschern der Singvögel füllt die Luft. Der Wind bläst sanft durch Gestrüpp und Bäume. Flora und Fauna in der Vormittagssonne erwachend.",
-                T00_00_004: "An guten Tagen schiebt der Wind einen auch mal vorwärts statt rückwärts. Als wäre es manchmal nicht schwer genug seine Beine zum Unterricht zu bringen.",
+                T00_00_004: "An guten Tagen schiebt der Wind dich auch mal vorwärts statt rückwärts. Als wäre es manchmal nicht schwer genug seine Beine zu den Vorlesungen zu bringen.",
                 T00_00_005: "Aber heute ist ein guter Tag. Der Wind ist dir wohl gesonnen.",
-                T00_00_006: "Du trittst in das Eingangsgebäude ein."
+                T00_00_006: "Du trittst in das Hochschulgebäude ein."
             }
         };
         // #endregion (Text)
@@ -459,6 +464,7 @@ var Game;
             "<td>= Menü</td>" +
             "</tr>" +
             "</table>");
+        // protagonist name input
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.YourName);
         Game.dataForSave.protagonistName = await Game.ƒS.Speech.getInput();
         // transition
@@ -466,7 +472,6 @@ var Game;
         await Game.ƒS.Location.show(Game.locations.schoolBuilding);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         await Game.ƒS.update();
-        // sound
         Game.ƒS.Sound.play(Game.sounds.sparrows, 1, true);
         // narration
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
@@ -476,7 +481,6 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_005);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_006);
-        // sound
         Game.ƒS.Sound.play(Game.sounds.enterSchoolBuilding, 1, false);
         // #endregion (Play)
     }
@@ -485,48 +489,47 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_1_pinboards() {
-        console.log("scene_1_pinboards started");
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Kühle erfrischende Luft umhüllt dich.",
-                T00_00_001: "Es drängt sich eine junge Frau an dir vorbei.",
-                T00_00_002: "Schnellen Schrittes geht sie auf die Pinnwände zu.",
+                T00_00_000: "Kühle Luft empfängt dich bei deinem Eintritt in das Gebäude.",
+                T00_00_001: "Da drängt sich jemand mit Eile an dir vorbei.",
+                T00_00_002: "Schnellen Schrittes geht die Person auf die Pinnwände zu.",
                 T00_00_003: "Nun fällt dir die ungewöhnlich große Menschenmenge auf, die sich um die Pinnwände versammelt hat.",
                 T00_00_004: "Neugierig bahnst du dir deinen Weg durch den Trubel, um einen besseren Blick erhaschen zu können.",
                 T00_00_005: "Das größte und auffälligste Poster verkündet feierlich: 'Das diesjährige Robotik-Fest der Robert Robotik Hochschule findet am Freitag, den 22.07. statt.'",
-                T00_00_006: "Deine Augen überfliegen das Poster nach weiteren wichtigen Informationen",
-                T00_00_007: "'Von 10:00 bis 18:00 Uhr', steht geschrieben.",
+                T00_00_006: "Deine Augen überfliegen das Poster nach weiteren wichtigen Informationen.",
+                T00_00_007: "'Von 10:00 bis 18:00 Uhr.', steht geschrieben.",
                 T00_00_008: "Gequetscht von links und rechts, versuchst du so schnell wie möglich hier fertig zu werden.",
-                T00_00_009: "'Teilnehmer bestimmter Kurse haben am Schulfest teilzunehmen. Die betroffenen Kurse sind ersichtbar an allen großen Pinnwänden samt Matrikelnumern der Teilnehmer. Für mehr Informationen oder bei Problemen wenden Sie Sich an Ihre Dozenten.', steht es schwarz auf weiß.",
+                T00_00_009: "'Teilnehmer bestimmter Kurse haben am Schulfest teilzunehmen. Die betroffenen Kurse sind an allen großen Pinnwänden ersichtlich samt Matrikelnummern der Teilnehmer. Für mehr Informationen wenden Sie Sich an Ihre Dozent*innen.', steht es schwarz auf weiß.",
                 T00_00_010: "Du kannst dich noch daran erinnern, wie du letztes Jahr mit Glück diesem Schicksal entkommen bist.",
-                T00_00_011: "Es soll schonmal Studierende gegeben haben, die es ganz schlimm erwischt hat: Sie sollten zwei Projekte innerhalb von zwei Wochen fertigstellen.",
+                T00_00_011: "Es soll schonmal Student*innen gegeben haben, die es ganz schlimm erwischt hat: Sie sollten zwei Projekte innerhalb von zwei Wochen fertigstellen.",
                 T00_00_012: "Viel Kopfschmerzen und Burnout waren die Folge.",
                 T00_00_013: "Diese wiederum gefolgt von einer Besauf-Party der Superlative. Aber das sei mal so dahingestellt.",
-                T00_00_014: "Nach genügend Beschwerden über seelisches und körperliches Leid, wurde diese Art der Folterung zum Glück verboten.",
+                T00_00_014: "Nach genügend Beschwerden über seelisches und körperliches Leid, wurde diese Art von Tortur zum Glück verboten.",
                 T00_00_015: "Jetzt darf nur noch ein Projekt als Qual genügen.",
                 T00_00_016: "Letztendlich gleitet dein Blick über den letzten Absatz des Posters.",
                 T00_00_017: "'Betroffene Veranstaltungen: Installation von Licht und Sound, Fortgeschrittene Sprachsimulation und Fernbedienbare Robotik.'",
                 T00_00_018: "Und da war es. Ein Kurs, den du besuchst.",
-                T00_00_019: "Da erklingt ein verärgerte Murmeln eines jungen Mannes.",
-                T00_00_020: "Das darauffolgende stoßartige Ausatmen von ihm klang als müsste er erstmal durch das Ärgernis Dampf ablassen, das du in ihm erzeugt hast.",
+                T00_00_019: "Da erklingt ein verärgertes Murmeln hinter dir.",
+                T00_00_020: "Das darauffolgende stoßartige Ausatmen klang als müsste der*die Student*in erstmal dem Ärgernis Dampf ablassen, den du in ihm*ihr erzeugt hast.",
                 T00_00_021: "Du lenkst deine Aufmerksamkeit auf die an dem Kurs angeheftete Teilnehmerliste.",
-                T00_00_022: "Jap, da steht auch deine Matrikelnummer. Es steht fest. Nun gibt es kein Entkommen.",
+                T00_00_022: "Ja, da steht auch deine Matrikelnummer. Es steht fest. Nun gibt es kein Entkommen.",
                 T00_00_023: "Aber vorerst geht es zu deiner ersten Vorlesung für den Tag: 'Geschichte der Robotik'. Die perfekte Vorlesung, um die Gedanken schweifen zu lassen oder etwas Schlaf nachzuholen."
             },
             protagonist: {
                 T00_00_000: "Huch!",
+                T00_00_001: "Oh. Ich hatte völlig vergessen, dass es das gibt.",
+                T00_00_002: "Fernbedienbare Robotik? Da bin ich ja drin. So ein Pech...",
                 T01_00_000: "Hey! Pass doch auf!",
                 T02_00_000: "Nichts passiert.",
                 T03_00_000: "...",
-                T00_00_001: "Oh. Ich hatte völlig vergessen, dass es das gibt.",
-                T00_00_002: "Fernbedienbare Robotik? Da bin ich ja drin. So ein Pech...",
-                T04_00_000: "Ah, vielen Dank, Mister Besserwisser. Wie konnte ich nur so dumm sein!",
+                T04_00_000: "Ah, vielen Dank, sehr geehrter Besserwisser. Wie konnte ich nur so dumm sein!",
                 T05_00_000: "Sorry...",
                 T06_00_000: "..."
             },
             student: {
-                T0000: "Sorry!",
+                T0000: "'Tschuldigung!",
                 T0001: "Dieser Kurs steht doch jedes Mal auf dem Plan. Kein Grund sich zu wundern."
             }
         };
@@ -547,19 +550,17 @@ var Game;
         // #endregion (Decision)
         // #region (Play)
         // transition
-        Game.ƒS.Speech.clear();
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.pinboards1);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
-        // sound
         await Game.ƒS.Sound.fade(Game.sounds.sparrows, 0, 1, true);
         // narration
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
-        // sound
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
         Game.ƒS.Sound.play(Game.sounds.bump, 1, false);
-        // #region (screen shake)
+        // bump into student
         let graph = Game.ƒS.Base.getGraph();
         graph.addComponent(new Game.ƒ.ComponentTransform());
         let t = 0;
@@ -572,24 +573,16 @@ var Game;
                 Game.ƒS.update();
             }
         }
-        // start jitter
         Game.ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, jitter);
         await Game.ƒS.Progress.delay(2);
-        // stop jitter
         Game.ƒ.Loop.removeEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, jitter);
-        // reset graph to original location
         graph.mtxLocal.translateX(-1 * (graph.mtxLocal.translation.x));
         await Game.ƒS.update();
-        // #endregion (screen shake)
-        // narration
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
-        // show character
         await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.lily, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
-        // text
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.student, text.student.T0000);
-        // decision
+        // decide how to respond
         bumpIntoStudent = await Game.ƒS.Menu.getInput(bumpIntoStudentAnswer, "decisionClass");
         switch (bumpIntoStudent) {
             case bumpIntoStudentAnswer.complain:
@@ -601,30 +594,22 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T02_00_000);
                 Game.dataForSave.lilyPoints += 10;
                 document.getElementById("lilyBar").setAttribute("value", String(Game.dataForSave.lilyPoints));
-                // positive
                 break;
             case bumpIntoStudentAnswer.ignore:
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T03_00_000);
-                // neutral
                 break;
         }
         // narration
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
-        // hide character
         await Game.ƒS.Character.hide(Game.characters.student);
-        await Game.ƒS.update();
-        // sound
+        await Game.ƒS.update(1);
         await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 1, 1, true);
-        // show crowd
         await Game.ƒS.Location.show(Game.locations.pinboards2);
         await Game.ƒS.update(2);
-        // narration
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_005);
-        // text
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_001);
-        // narration
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_006);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_007);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_008);
@@ -638,18 +623,14 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_016);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_017);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_018);
-        // text
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_002);
-        // narration
+        // student remark
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_019);
-        // show character
         await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.louis, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
-        // text
         await Game.ƒS.Speech.tell(Game.characters.student, text.student.T0001);
-        // narration
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_020);
-        // decision
+        // decide how to respond
         studentRemark = await Game.ƒS.Menu.getInput(studentRemarkAnswer, "decisionClass");
         switch (studentRemark) {
             case studentRemarkAnswer.argue:
@@ -664,14 +645,12 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T06_00_000);
                 break;
         }
-        // hide character
         await Game.ƒS.Character.hide(Game.characters.student);
         await Game.ƒS.update();
         // narration
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_021);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_022);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_023);
-        // sound fade
         await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 0, 1, true);
         // #endregion (Play)
     }
@@ -680,7 +659,6 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_2_history_lesson() {
-        console.log("scene_2_history_lesson started");
         // #region (Text) 
         let text = {
             narrator: {
@@ -689,21 +667,21 @@ var Game;
                 T00_00_002: "Ein Platz in der vorletzten Reihe und direkt neben dem Fenster.",
                 T00_00_003: "Du setzt dich auf deinen Stuhl.",
                 T00_00_004: "Pünktlich zum Gong, betritt der Geschichtsprofessor den Raum.",
-                T00_00_005: "Die Studierenden setzen sich.",
+                T00_00_005: "Die Student*innen setzen sich.",
                 T00_00_006: "Die Aufregung durch das baldige Schulfest senkt sich hingegen nicht so schnell.",
                 T00_00_007: "Es kehrt Ruhe ein.",
                 T00_00_008: "Die Vorlesung beginnt.",
                 T01_00_000: "Das typische Läuten kündigt das Ende der Stunde ein.",
                 T01_00_001: "Zufrieden streckst du dich etwas, während andere ihre Sachen schnellstmöglich in ihre Rucksäcke packen als würden ihre Leben davon abhängen.",
-                T01_00_002: "Der Geschichtslehrer seufzt kapitulierend.",
+                T01_00_002: "Der Geschichtsprofessor seufzt kapitulierend.",
                 T01_00_003: "Du packst deine Sachen und verlässt den Raum.",
                 T02_00_000: "Du ergibst dich deiner Morgenmüdigkeit.",
                 T02_00_001: "Deine Augenlieder werden schwer.",
                 T02_00_002: "Das monotone Vortragen von längst vergangenen Geschehnissen wiegt dich rekordverdächtig schnell in den Schlaf.",
                 T02_00_003: "Ein Läuten reist dich erbarmungslos aus dem Schlaf.",
                 T02_00_004: "Du öffnest deine Augen.",
-                T02_00_005: "Vereinzelt packen Studierende ihre Sachen bereits in ihre Rucksäcke.",
-                T02_00_006: "Der Geschichtslehrer seufzt kapitulierend.",
+                T02_00_005: "Vereinzelt packen Student*innen ihre Sachen bereits in ihre Rucksäcke.",
+                T02_00_006: "Der Geschichtsprofessor seufzt kapitulierend.",
                 T02_00_007: "Noch etwas schlaftrunken packst du deine Sachen und verlässt den Raum.",
                 T03_00_000: "Du schaust zu der Person, die vor dir sitzt.",
                 T03_00_001: "Du zerknüllst ein Stückchen Papier, zielst auf den Kopf der nichtsahnenden Person und wirfst.",
@@ -713,9 +691,9 @@ var Game;
                 T03_00_005: "Ein giftiger Blick trifft dich.",
                 T03_00_006: "Sie dreht sich wieder der Vorlesung zu.",
                 T03_00_007: "Das typische Läuten kündigt das Ende der Stunde ein.",
-                T03_00_008: "Vereinzelt packen Studierende ihre Sachen bereits in ihre Rucksäcke.",
+                T03_00_008: "Vereinzelt packen Student*innen ihre Sachen bereits in ihre Rucksäcke.",
                 T03_00_009: "Du fängst auch an zu packen.",
-                T03_00_010: "Der Geschichtslehrer seufzt kapitulierend.",
+                T03_00_010: "Der Geschichtsprofessor seufzt kapitulierend.",
                 T03_00_011: "So ist das also. Warum für etwas bleiben, das nicht einmal klausurrelevant ist?",
                 T03_00_012: "Du stehst auf und verlässt den Raum."
             },
@@ -727,11 +705,11 @@ var Game;
                 T00_00_001: "...",
                 T00_00_002: "Ich bitte Sie. Sparen Sie Sich Ihre Gespräche für nach der Vorlesung.",
                 T01_00_000: "Nun, wie Sie wissen, werden wir uns heute mit den letzten Seiten des neunten Kapitels beschäftigen. Ich hoffe Sie haben…",
-                T01_00_001: "Nun haben Sie noch etwas Geduld bitte.",
+                T01_00_001: "Nun haben Sie noch etwas Geduld, bitte.",
                 T01_00_002: "Wir werden uns nächste Stunde mit dem letzten Kapitel, und zwar dem Kapitels 10 beschäftigen. Der Stoff hierzu wird zwar nicht in der Klausur drankommen, jedoch ist er trotzdem sehr wichtig. Lesen Sie gerne hierfür bis zur nächsten Stunde die Seiten 99-101.",
-                T02_00_000: "Nun haben Sie noch etwas Geduld bitte.",
+                T02_00_000: "Nun haben Sie noch etwas Geduld, bitte.",
                 T02_00_001: "Wir werden uns nächste Stunde mit dem letzten Kapitel, und zwar dem Kapitels 10 beschäftigen. Der Stoff hierzu wird zwar nicht in der Klausur drankommen, jedoch ist er trotzdem sehr wichtig. Lesen Sie gerne hierfür bis zur nächsten Stunde die Seiten 99-101.",
-                T03_00_000: "Nun haben Sie noch etwas Geduld bitte.",
+                T03_00_000: "Nun haben Sie noch etwas Geduld, bitte.",
                 T03_00_001: "Wir werden uns nächste Stunde mit dem letzten Kapitel, und zwar dem Kapitels 10 beschäftigen. Der Stoff hierzu wird zwar nicht in der Klausur drankommen-"
             }
         };
@@ -741,10 +719,11 @@ var Game;
         let lectureStartAnswer = {
             payAttention: "Im Unterricht aufpassen",
             sleep: "Schlafen",
-            torment: "Einen zufälligen Studierenden belästigen"
+            torment: "Eine*n zufällige*n Student*in belästigen"
         };
         // #endregion (Decision)
         // #region (Play)
+        // transition
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
@@ -752,59 +731,73 @@ var Game;
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
         Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 1, 2, true);
+        // narration
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
         Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
         Game.ƒS.Sound.play(Game.sounds.chairScreeching, 1, false);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
+        // professor enters the room
         Game.ƒS.Sound.play(Game.sounds.schoolBell, 1, false);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_005);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_006);
         await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T00_00_001);
         await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T00_00_002);
-        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_007);
         await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 0, 1, true);
+        await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_007);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_008);
+        // decide what to do during lecture
         lectureStart = await Game.ƒS.Menu.getInput(lectureStartAnswer, "decisionClass");
         switch (lectureStart) {
             case lectureStartAnswer.payAttention:
                 Game.dataForSave.paidAttentionInClass = true;
                 Game.dataForSave.louisPoints += 10;
                 document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                // narration
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T01_00_000);
                 Game.ƒS.Speech.hide();
                 await Game.ƒS.Location.show(Game.locations.black);
                 await Game.ƒS.update(1);
                 await Game.ƒS.Location.show(Game.locations.classroomHistory);
                 await Game.ƒS.update(1);
+                // end of lecture
+                Game.ƒS.Sound.play(Game.sounds.schoolBell, 1, false);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_000);
+                await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 1, 2, true);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T01_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_002);
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T01_00_002);
+                Game.ƒS.Sound.play(Game.sounds.zipper, 1, false);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_003);
                 break;
             case lectureStartAnswer.sleep:
                 Game.dataForSave.sleptInClass = true;
                 Game.dataForSave.louisPoints -= 10;
                 document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
+                // narration
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_002);
                 Game.ƒS.Speech.hide();
                 await Game.ƒS.Location.show(Game.locations.black);
                 await Game.ƒS.update(1);
+                // end of lecture
+                Game.ƒS.Sound.play(Game.sounds.schoolBell, 1, false);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_003);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_004);
                 await Game.ƒS.Location.show(Game.locations.classroomHistory);
                 await Game.ƒS.update(1);
+                await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 1, 2, true);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_005);
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T02_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_006);
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T02_00_001);
+                Game.ƒS.Sound.play(Game.sounds.zipper, 1, false);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_007);
                 break;
             case lectureStartAnswer.torment:
@@ -813,7 +806,9 @@ var Game;
                 Game.dataForSave.lilyPoints -= 10;
                 document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
                 document.getElementById("lilyBar").setAttribute("value", String(Game.dataForSave.lilyPoints));
+                // narration
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_000);
+                Game.ƒS.Sound.play(Game.sounds.paper, 1, false);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_002);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_003);
@@ -825,18 +820,23 @@ var Game;
                 await Game.ƒS.update(1);
                 await Game.ƒS.Location.show(Game.locations.classroomHistory);
                 await Game.ƒS.update(1);
+                // end of lecture
+                Game.ƒS.Sound.play(Game.sounds.schoolBell, 1, false);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_007);
+                await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 1, 2, true);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_008);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_009);
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T03_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_010);
                 await Game.ƒS.Speech.tell(Game.characters.historyTeacher, text.historyTeacher.T03_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_011);
+                Game.ƒS.Sound.play(Game.sounds.zipper, 1, false);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_012);
                 break;
         }
-        Game.ƒS.Sound.play(Game.sounds.zipper, 1, false);
+        // leaving the room
         Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 0, 1, true);
         // #endregion (Play)
     }
     Game.scene_2_history_lesson = scene_2_history_lesson;
@@ -844,29 +844,28 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_3_robotics_lesson() {
-        console.log("scene_3_robotics_lesson started");
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Als nächstes ist die Remote Robotics Stunde.",
+                T00_00_000: "Als nächstes ist die Vorlesung 'Fernbedienbare Robotik' dran.",
                 T00_00_001: "In dieser Stunde sollte das Projekt besprochen werden und die Partnerzuteilung stattfinden.",
                 T00_00_002: "Du betrittst den Raum und setzt dich auf deinen gewohnten Platz.",
-                T00_00_003: "Ein Studierender, der offensichtlich mit seiner Motivation kämpfen muss, lässt ein niedergeschlagenes Stöhnen verlauten.",
-                T00_00_004: "Wildes Gemurmel und Geflüster macht sich breit.",
+                T00_00_003: "Ein Student, der offensichtlich mit seiner Motivation kämpfen muss, lässt ein niedergeschlagenes Stöhnen verlauten.",
+                T00_00_004: "Wirres Gemurmel und Geflüster macht sich breit.",
                 T00_00_005: "Angespannt schaust du durch das Zimmer.",
-                T00_00_006: "Studierende fangen an bereits Paare zu bilden.",
+                T00_00_006: "Student*innen fangen an bereits Paare zu bilden.",
                 T00_00_007: "Du scheinst richtig Pech heute zu haben.",
-                T00_00_008: "Innerhalb weniger Sekunden scheint schon jeder einen Partner gefunden zu haben, außer dir.",
-                T00_00_009: "Nur noch zwei Studierende scheinen offensichtlich allein dazustehen.",
+                T00_00_008: "Innerhalb weniger Sekunden scheint schon jeder eine*n Partner*in gefunden zu haben, außer dir.",
+                T00_00_009: "Nur noch ein Student und eine Studentin scheinen offensichtlich allein dazustehen.",
                 T00_00_010: "Du hast zwar noch nie bewusst mit ihnen geredet, kennst sie aber in etwa.",
-                T00_00_011: "Wer von den beiden würde einen guten Partner abgeben?",
-                T00_00_012: "Nicht Lebenspartner. Dafür ist es gerade etwas zu früh. Projektpartner! Projektpartner erstmal.",
+                T00_00_011: "Wer von den beiden würde eine*n gute*n Partner*in abgeben?",
+                T00_00_012: "Nur für das Projekt... So schlimm kann es ja nicht werden.",
                 T00_00_013: "Wen willst du dir zuerst anschauen?",
-                T00_00_014: "Wen willst du als Partner?",
-                T00_00_015: "Du verabschiedest dich von deinem Projektpartner, verlässt den Raum und gehst nach Hause.",
-                T01_00_000: "Ah ja, der Nerd der Klasse. Nicht der einzige. Robotik zieht so einige Leute an, die man Nerds oder Geeks nennen würde. Dieser hier hat jedoch auch einer der besten Noten und ist sehr ehrgeizig.",
-                T01_00_001: "Ihn kann man gut als Einzelgänger bezeichnen. Ob er ein guter Partner abgeben würde? Nun ja, ein Gewinn müsste bei ihm ja eigentlich schon in der Tasche sein, oder nicht? Da müsste man sich schon großartig dumm anstellen, um das ihm zu vermasseln.",
-                T01_00_002: "Aber ist Arbeit mit überhaupt aushaltbar? Sein Respekt gewinnt man meistens durch gute Manieren und Wissensschatz. Ähm… wie war sein Name nochmal überhaupt?",
+                T00_00_014: "Wen willst du als Partner*in?",
+                T00_00_015: "Du verabschiedest dich, verlässt den Raum und gehst nach Hause.",
+                T01_00_000: "Ah ja, der Nerd der Klasse. Nicht der einzige. Robotik zieht so einige Leute an, die man als Nerds oder Geeks bezeichnen würde. Dieser hier ist jedoch auch als Klassenbester bekannt und sehr ehrgeizig.",
+                T01_00_001: "Ihn kann man gut als Einzelgänger bezeichnen. Ob er ein guter Partner abgeben würde? Nun ja, eine gute Gruppennote müsste bei ihm ja eigentlich schon in der Tasche sein, oder nicht? Da müsste man sich schon großartig dumm anstellen, um das ihm zu vermasseln.",
+                T01_00_002: "Aber ist das Arbeiten mit ihm überhaupt aushaltbar? Seinen Respekt gewinnt man am besten durch gute Manieren und Wissensschatz. Ähm… wie war sein Name nochmal überhaupt?",
                 T02_00_000: "Tja, der Tollpatsch der Klasse. Kein Witz. Jeden Tag schafft sie es durch den etwas kleineren oder größeren Unfall Aufmerksamkeit zu erregen.",
                 T02_00_001: "Mit ihr zusammen das Projekt zu machen, könnte eine Herausforderung werden. Aber vielleicht ist sie ja trotzdem sehr schlau? Tatsächlich weißt du nicht was für Noten sie schreibt.",
                 T02_00_002: "Sie wirkt trotz ihrer auffälligen Haarfarbe wie ein fast unsichtbares Mauerblümchen. Menschen mit gutem Herz und Unterstützungsgeist, schätzt sie sehr."
@@ -876,8 +875,8 @@ var Game;
                 T00_00_001: "Nun reißen Sie sich bitte zusammen. Ich werde Ihre Ergebnisse jeweils benoten. Wenn Sie möchten, wäre diese Note dann auch schon die Endnote für diesen Kurs. Ob Sie die angedachte Klausur dann schreiben wollen, ist Ihnen überlassen. Sie wird freiwillig sein. Die Klausur würde dann 50% mit der Projektarbeit zählen. Ist alles soweit klar?",
                 T00_00_002: "Ach ja, genau. Das hatte ich vergessen. Manchmal muss ich es gar nicht mehr erwähnen, da es schon jeder wusste.",
                 T00_00_003: "Sie werden mithilfe des Wissens und den Materialien von diesem Semester, einen Roboter bauen, der in einem Ring einen anderen Roboter bewegungsunfähig machen soll. Alle Infos hierzu, habe ich online hochgeladen.",
-                T00_00_004: "Dann bitte ich Sie, Sich bitte einen Partner auszusuchen mit dem Sie die Projektarbeit bestreiten möchten.",
-                T00_00_005: "Wer bereits einen Partner hat, kann gehen."
+                T00_00_004: "Dann bitte ich Sie, Sich bitte einen Partner oder eine Partnerin auszusuchen mit dem oder der Sie die Projektarbeit bestreiten möchten.",
+                T00_00_005: "Wer bereits einen Partner oder eine Partnerin hat, kann gerne gehen. Bitte trefft euch am Freitag hier wieder für die Projektarbeit."
             },
             student: {
                 T00_00_000: "Was ist das Projekt denn eigentlich?"
@@ -932,17 +931,25 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
+        // transition
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomRobotics);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 1, 2, true);
+        // getting to your desk
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
+        Game.ƒS.Sound.play(Game.sounds.chairScreeching, 1, false);
+        // teacher talking
         await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
         Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_000);
+        await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 0, 1, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_001);
         await Game.ƒS.Speech.tell(Game.characters.student, text.student.T00_00_000);
@@ -951,6 +958,7 @@ var Game;
         await Game.ƒS.Character.hide(Game.characters.roboticsTeacher);
         Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
+        await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 1, 2, true);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_005);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_006);
         await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
@@ -961,17 +969,20 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_007);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_008);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_009);
+        await Game.ƒS.Sound.fade(Game.sounds.smallCrowd, 0, 1, true);
+        // looking for a partner
         await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral2, Game.ƒS.positionPercent(20, 100));
         await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(80, 100));
-        await Game.ƒS.update();
+        await Game.ƒS.update(1);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_010);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_011);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_012);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_013);
+        // deciding who to look at first
         partnerSearch = await Game.ƒS.Menu.getInput(partnerSearchAnswer, "decisionClass");
-        // TODO: maybe get a theme song for lily and louis each, which then plays in situations where you talk to them, like here while watching them
         switch (partnerSearch) {
             case partnerSearchAnswer.louis:
+                // looking at louis
                 await Game.ƒS.Character.hide(Game.characters.lily);
                 await Game.ƒS.update(0.5);
                 await Game.ƒS.Character.animate(Game.characters.louis, Game.characters.louis.pose.neutral2, Game.slideFromLeftToMiddleAnimation());
@@ -980,6 +991,7 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_002);
                 await Game.ƒS.Character.hide(Game.characters.louis);
                 await Game.ƒS.update(0.5);
+                // looking at lily
                 await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(50, 100));
                 await Game.ƒS.update(0.5);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_000);
@@ -990,6 +1002,7 @@ var Game;
                 await Game.ƒS.update(0.5);
                 break;
             case partnerSearchAnswer.lily:
+                // looking at lily
                 await Game.ƒS.Character.hide(Game.characters.louis);
                 await Game.ƒS.update(0.5);
                 await Game.ƒS.Character.animate(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.slideFromRightToMiddleAnimation());
@@ -998,6 +1011,7 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T02_00_002);
                 await Game.ƒS.Character.hide(Game.characters.lily);
                 await Game.ƒS.update(0.5);
+                // looking at louis
                 await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral2, Game.ƒS.positionPercent(50, 100));
                 await Game.ƒS.update(0.5);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T01_00_000);
@@ -1008,11 +1022,13 @@ var Game;
                 await Game.ƒS.update(0.5);
                 break;
         }
+        // choosing a partner
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_014);
         partnerChoice = await Game.ƒS.Menu.getInput(partnerChoiceAnswer, "decisionClass");
         switch (partnerChoice) {
             case partnerChoiceAnswer.louis:
                 Game.dataForSave.partnerChosen = "Louis";
+                // talking to louis
                 await Game.ƒS.Character.hide(Game.characters.lily);
                 await Game.ƒS.update(0.5);
                 await Game.ƒS.Character.animate(Game.characters.louis, Game.characters.louis.pose.neutral2, Game.slideFromLeftToMiddleAnimation());
@@ -1023,6 +1039,7 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T01_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_001);
+                // louis' reaction to your behavior in the class before
                 if (Game.dataForSave.paidAttentionInClass) {
                     await Game.ƒS.Character.hide(Game.characters.louis);
                     await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy2, Game.ƒS.positionPercent(50, 100));
@@ -1039,6 +1056,7 @@ var Game;
                     Game.ƒS.update();
                     await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_000);
                 }
+                // respond to louis' question
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_002);
                 expressEnthusiasm = await Game.ƒS.Menu.getInput(expressEnthusiasmAnswer, "decisionClass");
                 switch (expressEnthusiasm) {
@@ -1064,15 +1082,15 @@ var Game;
                         await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T06_00_000);
                         break;
                 }
-                // teacher talking
-                await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_005);
                 // going home
+                await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_005);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_015);
                 await Game.ƒS.Character.hide(Game.characters.louis);
                 Game.ƒS.update();
                 break;
             case partnerChoiceAnswer.lily:
                 Game.dataForSave.partnerChosen = "Lily";
+                // talking to lily
                 await Game.ƒS.Character.hide(Game.characters.louis);
                 await Game.ƒS.update(0.5);
                 await Game.ƒS.Character.animate(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.slideFromRightToMiddleAnimation());
@@ -1085,6 +1103,7 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_002);
                 await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_003);
+                // respond to lilys question
                 expressEnthusiasm = await Game.ƒS.Menu.getInput(expressEnthusiasmAnswer, "decisionClass");
                 switch (expressEnthusiasm) {
                     case expressEnthusiasmAnswer.yes:
@@ -1109,18 +1128,19 @@ var Game;
                         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T03_00_000);
                         break;
                 }
-                // teacher talking
-                await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_005);
                 // going home
+                await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_005);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_015);
                 await Game.ƒS.Character.hide(Game.characters.lily);
                 Game.ƒS.update();
                 break;
         }
+        // going home
         Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
+        // choosing next scene
         switch (Game.dataForSave.partnerChosen) {
             case "Louis":
                 return "eventLouis";
@@ -1134,7 +1154,6 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_4a_storage_room_louis() {
-        console.log("scene_4a_storage_room_louis started");
         // #region (Text) 
         let text = {
             narrator: {
@@ -1185,12 +1204,12 @@ var Game;
                 T00_00_003: "Ich habe mir bereits Gedanken über unseren Roboter gemacht. Hier ist eine Skizze, die ich angefertigt habe.",
                 T00_00_004: "Der Roboter soll offensichtlich an einen Panzer erinnern. Dadurch soll es dem Gegner fast unmöglich sein unseren Roboter umzustoßen. Das wäre unsere Defensive.",
                 T00_00_005: "Zur Offensive habe ich mir überlegt eine Schaufel vorne zu installieren. Damit sollte es einfach möglich sein, den Gegner in eine Seiten- oder Rückenlage zu versetzen und somit außer Gefecht zu setzen.",
-                T00_00_006: "Klar. Was ist eine Skizze ohne eine gute Erklärung? Ich will den Roboter-Kampf schließlich gewinnen. Du hoffentlich auch.",
-                T00_00_007: "Ich möchte die Lehrerin nach einem Akku fragen, den ich vorher nicht im Lagerraum gesehen habe. Könntest du währenddessen ein paar Bauteile besorgen, die wir für den Bau der Hülle brauchen könnten?",
-                T00_00_008: "Die Lehrerin hat gesagt, es gab einen Kurzschluss bei einer der Gruppen. Deswegen muss die Sicherung in der gesamten Etage rausgefolgen sein.",
+                T00_00_006: "Klar. Was ist eine Skizze ohne eine gute Erklärung? Ich will den Roboterkampf schließlich gewinnen. Du hoffentlich auch.",
+                T00_00_007: "Ich möchte die Professorin nach einem Akku fragen, den ich vorher nicht im Lagerraum gesehen habe. Könntest du währenddessen ein paar Bauteile besorgen, die wir für den Bau der Hülle brauchen könnten?",
+                T00_00_008: "Die Professorin hat gesagt, es gab einen Kurzschluss bei einer der Gruppen. Deswegen muss die Sicherung in der gesamten Etage rausgefolgen sein.",
                 T00_00_009: "Lass uns an unserem Roboter weiterarbeiten.",
                 T00_00_010: "Der Roboter ist fertig!",
-                T00_00_011: "Wir werden uns spätestens wieder zum Roboter-Kampf sehen. Bis dahin!",
+                T00_00_011: "Wir werden uns spätestens wieder zum Roboterkampf sehen. Bis dahin!",
                 T01_00_000: "Gerne doch.",
                 T02_00_000: "Ja.",
                 T03_00_000: "...",
@@ -1204,7 +1223,7 @@ var Game;
                 T08_00_000: Game.dataForSave.protagonistName + "... Bist du hier?",
                 T08_00_001: "Ok, gut. Nimm meine Hand. Ich führe dich raus.",
                 T09_00_000: "Wow, Moment mal-",
-                T09_01_000: "Haha, ich will garnicht wissen, was du gesagt hättest, wenn ich die Lehrerin gewesen wäre.",
+                T09_01_000: "Haha, ich will garnicht wissen, was du gesagt hättest, wenn ich die Professorin gewesen wäre.",
                 T09_01_001: "Mann, das hat mich jetzt echt überrascht...",
                 T09_01_002: "Komm. Lass uns zurück zum Klassenzimmer gehen.",
                 T09_02_000: "Was soll das denn?",
@@ -1249,14 +1268,16 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
+        // transition
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomRobotics);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        // talking with louis
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
-        // talking with louis
         await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
@@ -1269,6 +1290,7 @@ var Game;
         await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_002);
+        // responding to louis' explanation
         explanation = await Game.ƒS.Menu.getInput(explanationAnswer, "decisionClass");
         switch (explanation) {
             case explanationAnswer.thank:
@@ -1298,34 +1320,37 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T03_00_001);
                 break;
         }
+        // teacher shows up
         await Game.ƒS.Character.hide(Game.characters.louis);
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
-        Game.ƒS.Sound.play(Game.sounds.automaticDoor, 1, false);
-        // teacher shows up
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
         Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_000);
         await Game.ƒS.Character.hide(Game.characters.roboticsTeacher);
         Game.ƒS.update();
-        // going to the storage room, TODO: DELETE  THIS, IT'S UNNECESSARY, REWRITE EVERYTHING SO IT'S SHORTER AND IT COMES TO THE STORAGE SCENE !UICKLY
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
+        // going to the storage room
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.storageRoom);
         await Game.ƒS.update(1);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        // storage room
         await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
         Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_001);
         Game.ƒS.Character.hideAll();
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
-        // back to robotics classroom
+        // going to robotics classroom
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomRobotics);
         await Game.ƒS.update(1);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         // talking with louis, presenting the robot idea
         await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral2, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
@@ -1335,6 +1360,7 @@ var Game;
         await Game.ƒS.Character.show(Game.characters.tankBot, Game.characters.tankBot.pose.sketch, Game.ƒS.positionPercent(50, 70));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_001);
+        // responding to louis' sketch
         sketch = await Game.ƒS.Menu.getInput(sketchAnswer, "decisionClass");
         Game.ƒS.Character.hideAll();
         switch (sketch) {
@@ -1365,6 +1391,7 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T06_00_001);
                 break;
         }
+        // talking with louis
         Game.ƒS.Character.hideAll();
         await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
@@ -1381,6 +1408,7 @@ var Game;
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.storageRoom);
         await Game.ƒS.update(1);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         // looking for parts
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_004);
         Game.ƒS.Sound.play(Game.sounds.switch, 1, false);
@@ -1393,6 +1421,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_007);
         await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.louis, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update(0);
+        // responding to shadow
         shadow = await Game.ƒS.Menu.getInput(shadowAnswer, "decisionClass");
         switch (shadow) {
             case shadowAnswer.speakTo:
@@ -1410,10 +1439,9 @@ var Game;
             case shadowAnswer.tackle:
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T09_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T09_00_000);
-                // tackle
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T09_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T09_00_001);
-                // louis reaction based on points
+                // louis' reaction based on affection points
                 if (Game.dataForSave.louisPoints >= 80) {
                     await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T09_01_000);
                     await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T09_01_001);
@@ -1439,6 +1467,7 @@ var Game;
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomRobotics);
         await Game.ƒS.update(1);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_008);
         // talking with louis
         await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
@@ -1487,6 +1516,7 @@ var Game;
                     break;
             }
         }
+        // go home
         await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_011);
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_009);
         return "dateNone";
@@ -1497,7 +1527,6 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_4b_storage_room_lily() {
-        console.log("scene_4b_storage_room_lily started");
         // #region (Text) 
         let text = {
             narrator: {
@@ -1549,11 +1578,11 @@ var Game;
                 T00_00_004: "Der Roboter ist praktisch ein Auto mit Boxhandschuhen. Ich dachte, es sei eine nette Idee.",
                 T00_00_005: "Die Räder macht unser Roboter schnell und agil. Mit den Armen kann er dann andere Roboter auch umstoßen.",
                 T00_00_006: "J-Ja. Ich hatte echt Spaß dabei. Ich hoffe, dir gefällt er auch so sehr wie mir.",
-                T00_00_007: "Ich möchte die Lehrerin fragen wie wir die Boxhandschuhe am besten umsetzen. Kannst du währenddessen vielleicht im Lagerraum nach passenden Teilen suchen?",
-                T00_00_008: "Die Lehrerin hat gesagt, es gab einen Kurzschluss. Die Sicherung in der gesamten Etage muss rausgefolgen sein.",
+                T00_00_007: "Ich möchte die Professorin fragen wie wir die Boxhandschuhe am besten umsetzen. Kannst du währenddessen vielleicht im Lagerraum nach passenden Teilen suchen?",
+                T00_00_008: "Die Professorin hat gesagt, es gab einen Kurzschluss. Die Sicherung in der gesamten Etage muss rausgefolgen sein.",
                 T00_00_009: "Lass uns an unserem Roboter weiterarbeiten.",
                 T00_00_010: "Der Roboter ist fertig! Yay!",
-                T00_00_011: "Wir sehen uns dann zum Roboter-Kampf wieder. Ich wünsche dir ein schönes Wochenende!",
+                T00_00_011: "Wir sehen uns dann zum Roboterkampf wieder. Ich wünsche dir ein schönes Wochenende!",
                 T01_00_000: "Kein Problem!",
                 T02_00_000: "Mhm...",
                 T03_00_000: "...",
@@ -1611,14 +1640,16 @@ var Game;
         };
         // #endregion (Decision)
         // #region (Play)
+        // transition
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomRobotics);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        // talking with lily
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
-        // talking with lily
         await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_000);
@@ -1631,6 +1662,7 @@ var Game;
         await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_002);
+        // responding to lilys explanation
         explanation = await Game.ƒS.Menu.getInput(explanationAnswer, "decisionClass");
         switch (explanation) {
             case explanationAnswer.thank:
@@ -1660,34 +1692,37 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T03_00_001);
                 break;
         }
+        // teacher shows up
         await Game.ƒS.Character.hide(Game.characters.lily);
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_002);
-        Game.ƒS.Sound.play(Game.sounds.automaticDoor, 1, false);
-        // teacher shows up
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
         Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_000);
         await Game.ƒS.Character.hide(Game.characters.roboticsTeacher);
         Game.ƒS.update();
-        // going to the storage room, TODO: DELETE  THIS, IT'S UNNECESSARY, REWRITE EVERYTHING SO IT'S SHORTER AND IT COMES TO THE STORAGE SCENE !UICKLY
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_003);
+        // going to the storage room
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.storageRoom);
         await Game.ƒS.update(1);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        // storage room
         await Game.ƒS.Character.show(Game.characters.roboticsTeacher, Game.characters.roboticsTeacher.pose.neutral, Game.ƒS.positionPercent(50, 100));
         Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.roboticsTeacher, text.roboticsTeacher.T00_00_001);
         Game.ƒS.Character.hideAll();
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
-        // back to robotics classroom
+        // going to robotics classroom
         Game.ƒS.Speech.hide();
         await Game.ƒS.Location.show(Game.locations.black);
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomRobotics);
         await Game.ƒS.update(1);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         // talking with lily, presenting the robot idea
         await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral2, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
@@ -1697,6 +1732,7 @@ var Game;
         await Game.ƒS.Character.show(Game.characters.carBot, Game.characters.carBot.pose.sketch, Game.ƒS.positionPercent(50, 70));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_001);
+        // responding to lilys sketch
         sketch = await Game.ƒS.Menu.getInput(sketchAnswer, "decisionClass");
         Game.ƒS.Character.hideAll();
         switch (sketch) {
@@ -1726,6 +1762,7 @@ var Game;
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T06_00_001);
                 break;
         }
+        // talking with lily
         Game.ƒS.Character.hideAll();
         await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
@@ -1742,6 +1779,7 @@ var Game;
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.storageRoom);
         await Game.ƒS.update(1);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         // looking for parts
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_004);
         Game.ƒS.Sound.play(Game.sounds.switch, 1, false);
@@ -1754,6 +1792,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_007);
         await Game.ƒS.Character.show(Game.characters.student, Game.characters.student.pose.lily, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update(0);
+        // responding to shadow
         shadow = await Game.ƒS.Menu.getInput(shadowAnswer, "decisionClass");
         switch (shadow) {
             case shadowAnswer.speakTo:
@@ -1771,10 +1810,9 @@ var Game;
             case shadowAnswer.tackle:
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T09_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T09_00_000);
-                // tackle
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T09_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T09_00_001);
-                // lily reaction based on points
+                // lilys reaction based on affection points
                 if (Game.dataForSave.lilyPoints >= 80) {
                     await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T09_01_000);
                     await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T09_01_001);
@@ -1800,6 +1838,7 @@ var Game;
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.classroomRobotics);
         await Game.ƒS.update(1);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_008);
         // talking with lily
         await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(50, 100));
@@ -1848,6 +1887,7 @@ var Game;
                     break;
             }
         }
+        // go home
         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_011);
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_009);
         return "dateNone";
@@ -1858,7 +1898,6 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_5a_date_louis() {
-        console.log("scene_5a_date_louis started");
         // #region (Text) 
         let text = {
             narrator: {
@@ -1926,10 +1965,13 @@ var Game;
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.mechaCon);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 1, 2, true);
         // talking with louis
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_001);
@@ -1974,12 +2016,14 @@ var Game;
                 break;
         }
         // decide to buy a gift for louis or not
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         Game.ƒS.Character.hideAll();
         await Game.ƒS.update(1);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
         gift = await Game.ƒS.Menu.getInput(giftAnswer, "decisionClass");
         switch (gift) {
             case giftAnswer.buy:
+                Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_002);
@@ -1988,6 +2032,7 @@ var Game;
                 break;
         }
         // get your gift from louis
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.neutral1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_004);
@@ -2002,7 +2047,7 @@ var Game;
                 Game.dataForSave.louisPoints += 10;
                 document.getElementById("louisBar").setAttribute("value", String(Game.dataForSave.louisPoints));
                 Game.ƒS.Character.hideAll();
-                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.happy1, Game.ƒS.positionPercent(50, 100));
+                await Game.ƒS.Character.show(Game.characters.louis, Game.characters.louis.pose.joyful1, Game.ƒS.positionPercent(50, 100));
                 await Game.ƒS.update();
                 await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T04_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T04_00_001);
@@ -2015,6 +2060,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_002);
         await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T00_00_007);
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_003);
+        await Game.ƒS.Sound.fade(Game.sounds.bigCrowd, 0, 1, true);
         return "robotFight";
         // #endregion (Play)
     }
@@ -2023,7 +2069,6 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_5b_date_lily() {
-        console.log("scene_5b_date_lily started");
         // #region (Text) 
         let text = {
             narrator: {
@@ -2091,10 +2136,13 @@ var Game;
         await Game.ƒS.update(1);
         await Game.ƒS.Location.show(Game.locations.butterflyHouse);
         await Game.ƒS.update(Game.transitions.binaryCode.duration, Game.transitions.binaryCode.alpha, Game.transitions.binaryCode.edge);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
+        Game.ƒS.Sound.play(Game.sounds.sparrows, 1, true);
         // talking with lily
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_000);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_001);
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.happy1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_001);
@@ -2106,7 +2154,7 @@ var Game;
         await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.sad1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_003);
-        // tell lily if you find the con interesting
+        // tell lily if you find the butterfly house interesting
         interest = await Game.ƒS.Menu.getInput(interestAnswer, "decisionClass");
         switch (interest) {
             case interestAnswer.yes:
@@ -2141,12 +2189,14 @@ var Game;
                 break;
         }
         // decide to buy a gift for lily or not
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         Game.ƒS.Character.hideAll();
         await Game.ƒS.update(1);
         await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T00_00_004);
         gift = await Game.ƒS.Menu.getInput(giftAnswer, "decisionClass");
         switch (gift) {
             case giftAnswer.buy:
+                Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_000);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_001);
                 await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T04_00_002);
@@ -2155,6 +2205,7 @@ var Game;
                 break;
         }
         // get your gift from lily
+        Game.ƒS.Sound.play(Game.sounds.footstepsTiles, 1, false);
         await Game.ƒS.Character.show(Game.characters.lily, Game.characters.lily.pose.neutral1, Game.ƒS.positionPercent(50, 100));
         await Game.ƒS.update();
         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_004);
@@ -2185,6 +2236,7 @@ var Game;
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_002);
         await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T00_00_007);
         await Game.ƒS.Speech.tell(Game.characters.protagonist, text.protagonist.T00_00_003);
+        await Game.ƒS.Sound.fade(Game.sounds.sparrows, 0, 1, true);
         return "robotFight";
         // #endregion (Play)
     }
@@ -2193,11 +2245,10 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_5c_date_none() {
-        console.log("scene_5c_date_none started");
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Du verbringst das Wochenende allein und gehst zum Roboter-Kampf wieder zur Uni."
+                T00_00_000: "Du verbringst das Wochenende allein und gehst zum Roboterkampf wieder zur Uni."
             }
         };
         // #endregion (Text)
@@ -2217,11 +2268,10 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_6_robot_fight() {
-        console.log("scene_6_robot_fight started");
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Heute ist endlich der Tag. Der Tag des Roboter-Kampfs.",
+                T00_00_000: "Heute ist endlich der Tag. Der Tag des Roboterkampfs.",
                 T00_00_001: "Wie wirst du dich im Kammpf mit einem gegnerischen Roboter schlagen? Es wird Zeit es herauszufinden.",
                 T00_00_002: "Gespannt begibst du dich zum Klassenzimmer, wo der Kampf auch schon augenblicklich anfangen wird...",
                 ChooseYourAction: "Wähle eine Aktion aus.",
@@ -2242,7 +2292,7 @@ var Game;
             },
             roboticsTeacher: {
                 T00_00_000: "Auf die Plätze... fertig... los!",
-                T00_00_001: "Das war es mit dem Roboter-Kampf. Danke an alle Studierenden, die teilgenommen haben.",
+                T00_00_001: "Das war es mit dem Roboterkampf. Danke an alle Studenten, die teilgenommen haben.",
                 T00_00_002: "Da alle Gruppen so eine tolle Leistung vollbracht haben, habe ich entschieden, dass es doch keine Klausur geben wird. Ihr habt euch schließlich alle schon sehr gute Noten erkämpft."
             },
             protagonist: {
@@ -2574,16 +2624,15 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_7a_ending_louis() {
-        console.log("scene_7a_ending_louis started");
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Der Roboter-Kampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
-                T01_00_000: "Louis hat dich mit einer ihm unüblichen Röte im Gesicht dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T00_00_000: "Der Roboterkampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
+                T01_00_000: "Louis hat dich mit einer ihm unüblichen Röte im Gesicht dazu eingeladen sich am Hügel hinter dem Hochschulgebäude zu treffen.",
                 T01_00_001: "Lächelnd hast du dem Treffen zugesagt.",
-                T02_00_000: "Louis hat dich dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T02_00_000: "Louis hat dich dazu eingeladen sich am Hügel hinter dem Hochschulgebäude zu treffen.",
                 T03_00_000: "Louis hat dich allein gelassen. Er scheint besseres zu tun zu haben als noch etwas Zeit mit dir zu verbringen.",
-                T03_00_001: "Als du über das Campusgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
+                T03_00_001: "Als du über das Hochschulgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
                 T03_00_002: "Nach einer Weile entscheidest du dich dazu nach Hause zu gehen."
             },
             louis: {
@@ -2622,6 +2671,7 @@ var Game;
             await Game.ƒS.update(1);
             await Game.ƒS.Location.show(Game.locations.endSceneLouis);
             await Game.ƒS.update(1);
+            await Game.ƒS.Sound.fade(Game.sounds.endTheme, 1, 1, true);
             // talking with louis
             await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_000);
             await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T01_00_001);
@@ -2645,12 +2695,11 @@ var Game;
                 "<p>Ich weiß, ich selbst bin nicht der wärmste Mensch.</p>" +
                 "<p>Jedoch kann ich es mir nun besser vorstellen mich endlich anderen Menschen mehr zu öffnen.</p>" +
                 "<p>Menschen mit einem guten Herz wie du.</p>" +
-                "<p>Falls du aber nichts mehr mit mir zu tun haben willst, verstehe ich das.</p>" +
-                "<p>Abgesehen davon...</p>" +
                 "<p>Bleib so wie du bist, " + Game.dataForSave.protagonistName + ".</p>" +
                 "<h2>Liebe Grüße</h2>" +
                 "<h2>Louis</h2>");
             // end
+            await Game.ƒS.Sound.fade(Game.sounds.endTheme, 0, 1, true);
             document.getElementsByClassName("louisLetter").item(0).removeAttribute("class");
             Game.ƒS.Text.addClass("endScreen");
             await Game.ƒS.Text.print("<h2>Ende 1/8:</h2>" +
@@ -2664,6 +2713,7 @@ var Game;
             await Game.ƒS.update(1);
             await Game.ƒS.Location.show(Game.locations.endSceneLouis);
             await Game.ƒS.update(1);
+            await Game.ƒS.Sound.fade(Game.sounds.endTheme, 1, 1, true);
             // talking with louis
             await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_000);
             await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_001);
@@ -2671,6 +2721,7 @@ var Game;
             await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_003);
             await Game.ƒS.Speech.tell(Game.characters.louis, text.louis.T02_00_004);
             // end
+            await Game.ƒS.Sound.fade(Game.sounds.endTheme, 0, 1, true);
             Game.ƒS.Speech.hide();
             await Game.ƒS.Location.show(Game.locations.black);
             await Game.ƒS.update(1);
@@ -2685,6 +2736,8 @@ var Game;
             await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_002);
             // end
             Game.ƒS.Speech.hide();
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
             Game.ƒS.Text.addClass("endScreen");
             await Game.ƒS.Text.print("<h2>Ende 3/8:</h2>" +
                 "<p>Ende mit Louis: Unstimmigkeit</p>");
@@ -2697,22 +2750,21 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_7b_ending_lily() {
-        console.log("scene_7b_ending_lily started");
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Der Roboter-Kampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
-                T01_00_000: "Lily hat dich mit ganz roten Wangen dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T00_00_000: "Der Roboterkampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
+                T01_00_000: "Lily hat dich mit ganz roten Wangen dazu eingeladen sich am Hügel hinter dem Hochschulgebäude zu treffen.",
                 T01_00_001: "Lächelnd hast du dem Treffen zugesagt.",
-                T02_00_000: "Lily hat dich dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T02_00_000: "Lily hat dich dazu eingeladen sich am Hügel hinter dem Hochschulgebäude zu treffen.",
                 T03_00_000: "Lily hat dich allein gelassen. Sie scheint besseres zu tun zu haben als noch etwas Zeit mit dir zu verbringen.",
-                T03_00_001: "Als du über das Campusgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
+                T03_00_001: "Als du über das Hochschulgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
                 T03_00_002: "Nach einer Weile entscheidest du dich dazu nach Hause zu gehen."
             },
             lily: {
                 T01_00_000: "Hi " + Game.dataForSave.protagonistName + "! Danke, dass du gekommen bist.",
                 T01_00_001: "Ich fand die Zeit, die wir miteinander verbacht haben echt schön.",
-                T01_00_002: "Es hat mir echt Spaß gemacht, das Projekt, das Schmetterlingshaus, der Roboter-Kampf...",
+                T01_00_002: "Es hat mir echt Spaß gemacht, das Projekt, das Schmetterlingshaus, der Roboterkampf...",
                 T01_00_003: "Und du warst immer nur nett zu mir... Danke.",
                 T01_00_004: "Ich hatte echt Sorgen, dass ich das Projekt hätte alleine machen müssen. Du warst mein Retter in Not, haha!",
                 T01_00_005: "Mich würde es freuen, wenn wir... in Zukunft weiterhin Sachen unternehmen könnten.",
@@ -2745,6 +2797,7 @@ var Game;
             await Game.ƒS.update(1);
             await Game.ƒS.Location.show(Game.locations.endSceneLily);
             await Game.ƒS.update(1);
+            await Game.ƒS.Sound.fade(Game.sounds.endTheme, 1, 1, true);
             // talking with lily
             await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_000);
             await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T01_00_001);
@@ -2762,17 +2815,17 @@ var Game;
             await Game.ƒS.Text.print("<h2>Liebe/r " + Game.dataForSave.protagonistName + ",</h2>" +
                 "<p>ich wollte dir nochmal schreiben, weil ich noch gerne etwas erwähnen möchte.</p>" +
                 "<p>Es ist etwas persönlich, aber ich möchte gerne, dass du es weißt.</p>" +
-                "<p>Nicht viele Kommilitonen behandeln mich so wie du es tust.</p>" +
-                "<p>Viele kommilitonen ignorieren oder belächeln mich, weil ich nicht wie die anderen Robotik-Studenten bin.</p>" +
+                "<p>Nicht viele Leute sind so offen und freundlich zu mir wie du es bist.</p>" +
+                "<p>Viele Leute ignorieren oder belächeln mich, weil ich nicht wie die anderen Robotik Student*innen bin.</p>" +
                 "<p>In der Schule war das auch schon so.</p>" +
                 "<p>Darum schätze ich es umso mehr, dass du immer so nett zu mir warst und mich nicht ignoriert hast.</p>" +
                 "<p>Du hast ein gutes Herz, " + Game.dataForSave.protagonistName + ".</p>" +
-                "<p>Das war jetzt schon ungeheuer persönlich, also falls du deswegen nichts mehr mit mir zu tun haben willst, verstehe ich das.</p>" +
-                "<p>Ansonsten...</p>" +
-                "<p>Danke nochmal für alles, " + Game.dataForSave.protagonistName + ".</p>" +
+                "<p>Das war jetzt schon ungeheuer persönlich. Tut mir leid.</p>" +
+                "<p>Danke nochmal für alles, " + Game.dataForSave.protagonistName + "!</p>" +
                 "<h2>Liebe Grüße</h2>" +
                 "<h2>Lily</h2>");
             // end
+            await Game.ƒS.Sound.fade(Game.sounds.endTheme, 0, 1, true);
             document.getElementsByClassName("lilyLetter").item(0).removeAttribute("class");
             Game.ƒS.Text.addClass("endScreen");
             await Game.ƒS.Text.print("<h2>Ende 4/8:</h2>" +
@@ -2787,12 +2840,14 @@ var Game;
             await Game.ƒS.Location.show(Game.locations.endSceneLily);
             await Game.ƒS.update(1);
             // talking with lily
+            await Game.ƒS.Sound.fade(Game.sounds.endTheme, 1, 1, true);
             await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_000);
             await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_001);
             await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_002);
             await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_003);
             await Game.ƒS.Speech.tell(Game.characters.lily, text.lily.T02_00_004);
             // end
+            await Game.ƒS.Sound.fade(Game.sounds.endTheme, 0, 1, true);
             Game.ƒS.Speech.hide();
             await Game.ƒS.Location.show(Game.locations.black);
             await Game.ƒS.update(1);
@@ -2807,6 +2862,8 @@ var Game;
             await Game.ƒS.Speech.tell(Game.characters.narrator, text.narrator.T03_00_002);
             // end
             Game.ƒS.Speech.hide();
+            await Game.ƒS.Location.show(Game.locations.black);
+            await Game.ƒS.update(1);
             Game.ƒS.Text.addClass("endScreen");
             await Game.ƒS.Text.print("<h2>Ende 6/8:</h2>" +
                 "<p>Ende mit Lily: Unstimmigkeit</p>");
@@ -2819,7 +2876,6 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_7c_ending_robot() {
-        console.log("scene_7c_ending_robot");
         // #region (Text) 
         let text = {
             narrator: {
@@ -2827,8 +2883,8 @@ var Game;
                 T00_00_001: "Entschlossen packst du den Roboter von der Gruppe hinter dir.",
                 T00_00_002: "Der Auswechsel-Bot attackiert und... trifft!",
                 T00_00_003: "Der gegnerische Roboter wurde umgestoßen. Du hast gewonnen!",
-                T00_00_004: "Völlig außer Fassung schaut dich die Robotiklehrerin an.",
-                T00_00_005: "Die Robotiklehrerin entschließt sich dich und deinen Partner bestehen zu lassen. Dein Projektpartner schaut nur dumm aus der Wäsche.",
+                T00_00_004: "Völlig außer Fassung schaut dich die Robotik Professorin an.",
+                T00_00_005: "Die Robotik Professorin entschließt sich dich und deinen Partner bestehen zu lassen. Dein Projektpartner schaut nur dumm aus der Wäsche.",
                 T00_00_006: "Stolz über deine strategische Meisterleistung, verlässt du selbstzufrieden den Raum."
             },
             protagonist: {
@@ -2891,13 +2947,12 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_7d_ending_flee() {
-        console.log("scene_7d_ending_flee started");
         // #region (Text) 
         let text = {
             narrator: {
                 T00_00_000: "Du fühlst wie Perlen aus Schweiß dir über das Gesicht laufen.",
                 T00_00_001: "Der Stress ist dir zu viel. Du überlässt deinem Projektpartner die Fernbedienung. Dann stürmst du aus dem Raum und pflügst dabei zwei Studenten um.",
-                T00_00_002: "Die Robotiklehrerin bringt kein Wort heraus. Dein Projektpartner ruft dir hinterher."
+                T00_00_002: "Die Robotik Professorin bringt kein Wort heraus. Dein Projektpartner ruft dir hinterher."
             },
             protagonist: {
                 T00_00_000: "..."
@@ -2946,7 +3001,6 @@ var Game;
 var Game;
 (function (Game) {
     async function scene_8_end() {
-        console.log("scene_8_end started");
         console.log("The End. Thanks for playing!");
         Game.ƒS.Speech.hide();
         Game.ƒS.Text.addClass("endScreen");

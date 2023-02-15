@@ -1,6 +1,5 @@
 namespace Game {
     export async function scene_7c_ending_robot(): ƒS.SceneReturn {
-        console.log("scene_7c_ending_robot");
 
         // #region (Text) 
         let text = {
@@ -9,8 +8,8 @@ namespace Game {
                 T00_00_001: "Entschlossen packst du den Roboter von der Gruppe hinter dir.",
                 T00_00_002: "Der Auswechsel-Bot attackiert und... trifft!",
                 T00_00_003: "Der gegnerische Roboter wurde umgestoßen. Du hast gewonnen!",
-                T00_00_004: "Völlig außer Fassung schaut dich die Robotiklehrerin an.",
-                T00_00_005: "Die Robotiklehrerin entschließt sich dich und deinen Partner bestehen zu lassen. Dein Projektpartner schaut nur dumm aus der Wäsche.",
+                T00_00_004: "Völlig außer Fassung schaut dich die Robotik Professorin an.",
+                T00_00_005: "Die Robotik Professorin entschließt sich dich und deinen Partner bestehen zu lassen. Dein Projektpartner schaut nur dumm aus der Wäsche.",
                 T00_00_006: "Stolz über deine strategische Meisterleistung, verlässt du selbstzufrieden den Raum."
             },
             protagonist: {

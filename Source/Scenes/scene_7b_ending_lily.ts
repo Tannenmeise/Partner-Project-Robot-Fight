@@ -1,25 +1,24 @@
 namespace Game {
     export async function scene_7b_ending_lily(): ƒS.SceneReturn {
-        console.log("scene_7b_ending_lily started");
 
         // #region (Text) 
         let text = {
             narrator: {
-                T00_00_000: "Der Roboter-Kampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
+                T00_00_000: "Der Roboterkampf ist zu Ende und das Schulfest neigt sich dem Ende zu.",
 
-                T01_00_000: "Lily hat dich mit ganz roten Wangen dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T01_00_000: "Lily hat dich mit ganz roten Wangen dazu eingeladen sich am Hügel hinter dem Hochschulgebäude zu treffen.",
                 T01_00_001: "Lächelnd hast du dem Treffen zugesagt.",
 
-                T02_00_000: "Lily hat dich dazu eingeladen sich am Hügel hinter dem Campusgebäude zu treffen.",
+                T02_00_000: "Lily hat dich dazu eingeladen sich am Hügel hinter dem Hochschulgebäude zu treffen.",
 
                 T03_00_000: "Lily hat dich allein gelassen. Sie scheint besseres zu tun zu haben als noch etwas Zeit mit dir zu verbringen.",
-                T03_00_001: "Als du über das Campusgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
+                T03_00_001: "Als du über das Hochschulgelände läufst, beobachtest du das bunte Treiben und energetische Unterhaltungen.",
                 T03_00_002: "Nach einer Weile entscheidest du dich dazu nach Hause zu gehen."
             },
             lily: {
                 T01_00_000: "Hi " + dataForSave.protagonistName + "! Danke, dass du gekommen bist.",
                 T01_00_001: "Ich fand die Zeit, die wir miteinander verbacht haben echt schön.",
-                T01_00_002: "Es hat mir echt Spaß gemacht, das Projekt, das Schmetterlingshaus, der Roboter-Kampf...",
+                T01_00_002: "Es hat mir echt Spaß gemacht, das Projekt, das Schmetterlingshaus, der Roboterkampf...",
                 T01_00_003: "Und du warst immer nur nett zu mir... Danke.",
                 T01_00_004: "Ich hatte echt Sorgen, dass ich das Projekt hätte alleine machen müssen. Du warst mein Retter in Not, haha!",
                 T01_00_005: "Mich würde es freuen, wenn wir... in Zukunft weiterhin Sachen unternehmen könnten.",
@@ -56,6 +55,7 @@ namespace Game {
             await ƒS.update(1);
             await ƒS.Location.show(locations.endSceneLily);
             await ƒS.update(1);
+            await ƒS.Sound.fade(sounds.endTheme, 1, 1, true);
 
             // talking with lily
             await ƒS.Speech.tell(characters.lily, text.lily.T01_00_000);
@@ -75,19 +75,19 @@ namespace Game {
             await ƒS.Text.print("<h2>Liebe/r " + dataForSave.protagonistName + ",</h2>" +
                 "<p>ich wollte dir nochmal schreiben, weil ich noch gerne etwas erwähnen möchte.</p>" +
                 "<p>Es ist etwas persönlich, aber ich möchte gerne, dass du es weißt.</p>" +
-                "<p>Nicht viele Kommilitonen behandeln mich so wie du es tust.</p>" +
-                "<p>Viele kommilitonen ignorieren oder belächeln mich, weil ich nicht wie die anderen Robotik-Studenten bin.</p>" +
+                "<p>Nicht viele Leute sind so offen und freundlich zu mir wie du es bist.</p>" +
+                "<p>Viele Leute ignorieren oder belächeln mich, weil ich nicht wie die anderen Robotik Student*innen bin.</p>" +
                 "<p>In der Schule war das auch schon so.</p>" +
                 "<p>Darum schätze ich es umso mehr, dass du immer so nett zu mir warst und mich nicht ignoriert hast.</p>" +
                 "<p>Du hast ein gutes Herz, " + dataForSave.protagonistName + ".</p>" +
-                "<p>Das war jetzt schon ungeheuer persönlich, also falls du deswegen nichts mehr mit mir zu tun haben willst, verstehe ich das.</p>" +
-                "<p>Ansonsten...</p>" +
-                "<p>Danke nochmal für alles, " + dataForSave.protagonistName + ".</p>" +
+                "<p>Das war jetzt schon ungeheuer persönlich. Tut mir leid.</p>" +
+                "<p>Danke nochmal für alles, " + dataForSave.protagonistName + "!</p>" +
                 "<h2>Liebe Grüße</h2>" +
                 "<h2>Lily</h2>"
             );
 
             // end
+            await ƒS.Sound.fade(sounds.endTheme, 0, 1, true);
             document.getElementsByClassName("lilyLetter").item(0).removeAttribute("class");
             ƒS.Text.addClass("endScreen");
             await ƒS.Text.print("<h2>Ende 4/8:</h2>" +
@@ -103,6 +103,7 @@ namespace Game {
             await ƒS.update(1);
 
             // talking with lily
+            await ƒS.Sound.fade(sounds.endTheme, 1, 1, true);
             await ƒS.Speech.tell(characters.lily, text.lily.T02_00_000);
             await ƒS.Speech.tell(characters.lily, text.lily.T02_00_001);
             await ƒS.Speech.tell(characters.lily, text.lily.T02_00_002);
@@ -110,6 +111,7 @@ namespace Game {
             await ƒS.Speech.tell(characters.lily, text.lily.T02_00_004);
 
             // end
+            await ƒS.Sound.fade(sounds.endTheme, 0, 1, true);
             ƒS.Speech.hide();
             await ƒS.Location.show(locations.black);
             await ƒS.update(1);
@@ -125,6 +127,8 @@ namespace Game {
 
             // end
             ƒS.Speech.hide();
+            await ƒS.Location.show(locations.black);
+            await ƒS.update(1);
             ƒS.Text.addClass("endScreen");
             await ƒS.Text.print("<h2>Ende 6/8:</h2>" +
                 "<p>Ende mit Lily: Unstimmigkeit</p>"
